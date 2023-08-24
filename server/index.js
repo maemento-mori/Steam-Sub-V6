@@ -16,13 +16,15 @@ app.get('/search/:name', async (req, res) => {
     const userNameID = req.params['name'];
     const userNameLink = `https://steamcommunity.com/id/${userNameID}/myworkshopfiles/?p=1&numperpage=30`;
 
-    const pageLinks = [];
+  
   const modList = []
   const userData = []
   let totalStats = {}
 
   async function getProfileData() {
     console.log("Getting profile data...");
+    const pageLinks = [];
+
     const axiosResponse = await axios.request({
       method: "GET",
       url: (userNameLink),
@@ -34,25 +36,40 @@ app.get('/search/:name', async (req, res) => {
     const $ = cheerio.load(axiosResponse.data);
 
     $(".workshopBrowseItems")
-      .find(".workshopItem")
-      .find("a:first-child")
+      .find(".workshopItem .ugc")
       .each((index, element) => {
         let pageUrl = $(element).attr("href");
         //console.log("url:"+pageUrl)
         pageLinks.push(pageUrl);
+        // console.log(pageUrl)
       });
 
-    console.log(pageLinks.length)
+    //console.log("length "+pageLinks.length)
 
-    if (pageLinks.length = 30){
+    if (pageLinks.length == 30){
 
       let numPages = $(".workshopBrowsePagingInfo").text()
-      numPages = numPages.replace("Showing 1-30 of","")
-      numPages = numPages.replace(/[^0-9]/g, "");
-      numPages = numPages / 30
-      numPages = Math.ceil(numPages);
-      console.log(numPages)
-
+      // console.log(numPages)
+      // numPages = numPages.replace("Showing 1-30 of","")
+      // numPages = numPages.replace(/[^0-9]/g, "");
+      const pageNumRegex = /^Showing (\d+)-(\d+) of (\d+) entries$/;
+      const match = pageNumRegex.exec(numPages);
+      // console.log(match)
+      if (match) {
+        const firstNumber = match[1];
+        const secondNumber = match[2];
+        const totalEntries = match[3];
+        numPages = totalEntries / 30
+        numPages = Math.ceil(numPages);
+        // console.log("numpages "+numPages)
+      
+        // console.log("First Number:", firstNumber);
+        // console.log("Second Number:", secondNumber);
+        // console.log("Total Entries:", totalEntries); 
+      } else {
+        // console.log("No match found.");
+      }
+      
       let lastUrl = userNameLink
       let i = 0;
 
@@ -62,13 +79,13 @@ app.get('/search/:name', async (req, res) => {
         const found = lastUrl.match(regex)
         let foundNumber = String(found).replace(/[^0-9]/g, "");
         foundNumber = Number(foundNumber)
-        console.log(foundNumber)
+        // console.log(foundNumber)
 
         newPageNumber = foundNumber + 1;
         let newPageNumberString = "p=" + String(newPageNumber)
         newPageNumberString = lastUrl.replace(found,newPageNumberString)
         lastUrl = newPageNumberString
-        console.log(newPageNumberString)
+        // console.log("next page "+newPageNumberString)
 
         const axiosResponse = await axios.request({
           method: "GET",
@@ -81,28 +98,28 @@ app.get('/search/:name', async (req, res) => {
         const $ = cheerio.load(axiosResponse.data);
 
         $(".workshopBrowseItems")
-      .find(".workshopItem")
-      .find("a:first-child")
-      .each((index, element) => {
+        .find(".workshopItem .ugc")
+        .each((index, element) => {
         let pageUrl = $(element).attr("href");
         //console.log("url:"+pageUrl)
+        // console.log("test")
+        // console.log("second Page" + pageUrl)
         pageLinks.push(pageUrl);
       });
 
       } while (i < (numPages-1));
 
-      console.log(pageLinks.length)
+      // console.log(pageLinks.length)
     }
 
 
 
     //console.log(JSON.stringify(pageLinks))
     let userData = {};
-    let userName = $("#HeaderUserInfoName").text();
-    let profileUrl = $("#HeaderUserInfoName").find("a").attr("href");
-    let followerCount = $(".followStat").text();
-    followerCount = followerCount.replace("\\", "");
-    let workshopUrl = $(".HeaderUserInfoSection").find("a").attr("href");
+    const userName = $("#HeaderUserInfoName").text().replace(/[\t\n\r]/gm, '');
+    const profileUrl = $("#HeaderUserInfoName").find("a").attr('href');
+    const followerCount = $(".followStat").text().replace("\\", "");
+    const workshopUrl = $(".HeaderUserInfoSection").find("a").attr('href');
 
     userData = {
       username: userName,
@@ -113,17 +130,30 @@ app.get('/search/:name', async (req, res) => {
 
     console.log(userData);
 
-    return userData;
+    // for (let i = 0; i < pageLinks.length; i++) {
+    //   console.log(pageLinks[i]);
+    // }
+    //console.log("done")
+
+    return {userData, pageLinks};
   }
 
-  async function getIndividualMods() {
+  
+
+  async function getIndividualMods(pageLinks) {
     console.log("Getting individual mods...");
     let i = 0;
+    //console.log("pagelinks "+pageLinks)
+    // for (let i = 0; i < pageLinks.length; i++) {
+    //   console.log(pageLinks[i]);
+    // }
+
     const totalSubs = [];
     const totalAwards = [];
     const totalRatings = [];
     const totalComments = [];
     const totalStars = [];
+
     while (i < pageLinks.length) {
       var newMod = {};
 
@@ -319,8 +349,8 @@ app.get('/search/:name', async (req, res) => {
   }
 
   async function init() {
-    let userData = await getProfileData();
-    let totalStats = await getIndividualMods();
+    const { userData, pageLinks } = await getProfileData();
+    let totalStats = await getIndividualMods(pageLinks);
     let package = {userData, totalStats}
     console.log("Finished fetching data...");
     res.send(package);
