@@ -1,0 +1,124 @@
+/* YourComponent.module.css */
+
+.mod {
+  width: calc(5% + 200px);
+  margin: 1em 1.25em;
+  border: 1px solid rgba(27, 27, 27, 0.75);
+  display: flex;
+  justify-content: center;
+  position: relative;
+  flex-direction: column;
+}
+
+.modImage{
+  height:200px;
+  width:200px;
+}
+
+.smallTitle {
+  text-align: center;
+  margin: .5em 0;
+}
+
+.tableValue,
+.smallTableValue {
+  text-align: right;
+}
+
+.flip3D {
+  position: relative;
+  width: 100%;
+}
+
+.flip3D > .front {
+  position: absolute;
+  transform: perspective(600px) rotateY(0deg);
+  backface-visibility: hidden;
+  transition: transform 0.5s linear 0s;
+  width: 100%;
+}
+
+.flip3D > .back {
+  position: absolute;
+  transform: perspective(600px) rotateY(180deg);
+  backface-visibility: hidden;
+  transition: transform 0.5s linear 0s;
+  width: 100%;
+}
+
+.frontInvis {
+  visibility: hidden;
+}
+
+.modstars {
+  padding-top: 0.75em;
+  text-align: center;
+}
+
+.smallModStatistics {
+  width: 100%;
+  padding: 0;
+  padding-bottom: 0.5em;
+}
+
+.tags{
+  display: flex;
+  flex-wrap: wrap;
+  width:125%;
+  vertical-align: bottom;
+  padding-top:.3em;
+  overflow-x: hidden;
+}
+
+.tag{
+  font-size: .75rem;
+  margin: .25em .25em;
+  border-radius:3px;
+  padding: .1em;
+  font-weight:bold;
+  transition:.25s;
+  transition-timing-function: ease-in-out; 
+  
+}
+
+.closeButton{
+  position: absolute;
+  top:-1.25em;
+  right:1em;
+  font-size:.85em;
+  transition: .3s;
+  font-weight:bold;
+}
+
+.statsButton{
+  border-color: #2a4802;
+  border:1px solid;
+}
+
+.smallTableValue.backTable{
+  white-space: nowrap;
+}
+
+.smallTableValue{
+  padding-right:1.5em;
+}
+
+.smallTableLabel{
+  padding-left: 1.5em;
+}
+
+.modContainer{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.modImageContainer{
+  position: relative;
+  text-align: center;
+}
+
+.statsButton{
+  position: absolute;
+  bottom:.30em;
+  right:1.75em;;
+}

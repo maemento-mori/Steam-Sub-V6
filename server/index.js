@@ -128,7 +128,7 @@ app.get('/search/:name', async (req, res) => {
       workshopUrl: workshopUrl,
     };
 
-    console.log(userData);
+    //console.log(userData);
 
     // for (let i = 0; i < pageLinks.length; i++) {
     //   console.log(pageLinks[i]);
@@ -322,16 +322,16 @@ app.get('/search/:name', async (req, res) => {
 
     //console.log(modList)
 
-    console.log("Mods released:     " + totalSubs.length);
-    console.log(
-      "Total subscribers: " +
-        String(totalSubsNumber).replace(/(.)(?=(\d{3})+$)/g, "$1,")
-    );
-    console.log("Total Awards: " + String(totalAwardsNumber));
-    console.log("Total Ratings: " + String(totalRatingsNumber));
-    console.log("Average rating : " + String(starAverage));
-    console.log("Total Comments: " + String(totalCommentsNumber));
-    console.log("");
+    // >>  console.log("Mods released:     " + totalSubs.length);
+    // >>  console.log(
+    // >>    "Total subscribers: " +
+    // >>      String(totalSubsNumber).replace(/(.)(?=(\d{3})+$)/g, "$1,")
+    // >>  );
+    // >>  console.log("Total Awards: " + String(totalAwardsNumber));
+    // >>  console.log("Total Ratings: " + String(totalRatingsNumber));
+    // >>  console.log("Average rating : " + String(starAverage));
+    // >>  console.log("Total Comments: " + String(totalCommentsNumber));
+    // >>  console.log("");
 
     let featuredMod = modList[0];
     //console.log(featuredMod)
@@ -345,13 +345,14 @@ app.get('/search/:name', async (req, res) => {
       avgStar: starAverage,
     };
 
-    return totalStats
+    return {totalStats,modList}
   }
 
   async function init() {
     const { userData, pageLinks } = await getProfileData();
-    let totalStats = await getIndividualMods(pageLinks);
-    let package = {userData, totalStats}
+    let { totalStats, modList } = await getIndividualMods(pageLinks);
+
+    let package = {userData, totalStats, modList}
     console.log("Finished fetching data...");
     res.send(package);
     //console.log(userData)

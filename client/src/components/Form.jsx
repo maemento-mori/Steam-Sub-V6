@@ -65,7 +65,10 @@ class Form extends Component {
     fetch("/search/"+this.state.searchQuery)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.userData)
+        this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
+        this.props.userData(data.userData);
+        this.props.totalStats(data.totalStats);
+        //console.log(data.modList)
       });
 
   };
