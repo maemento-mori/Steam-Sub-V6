@@ -10,6 +10,7 @@
   flex-direction: column;
 }
 
+
 .modImage{
   height:200px;
   width:200px;
@@ -60,6 +61,15 @@
   padding: 0;
   padding-bottom: 0.5em;
 }
+.flip3D{
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.flip3D::-webkit-scrollbar{
+  display: none; 
+}
 
 .tags{
   display: flex;
@@ -68,6 +78,7 @@
   vertical-align: bottom;
   padding-top:.3em;
   overflow-x: hidden;
+  
 }
 
 .tag{
@@ -110,11 +121,13 @@
 .modContainer{
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .modImageContainer{
   position: relative;
   text-align: center;
+  padding-top:15px;
 }
 
 .statsButton{

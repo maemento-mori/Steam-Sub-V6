@@ -70,6 +70,7 @@ app.get('/search/:name', async (req, res) => {
         // console.log("No match found.");
       }
       
+      // xx totalStats.numMods = totalEntries;
       let lastUrl = userNameLink
       let i = 0;
 
@@ -127,6 +128,8 @@ app.get('/search/:name', async (req, res) => {
       followers: followerCount,
       workshopUrl: workshopUrl,
     };
+
+    totalStats.followers = followerCount;
 
     //console.log(userData);
 
@@ -307,7 +310,7 @@ app.get('/search/:name', async (req, res) => {
       u++;
     }
     let starAverage = Math.round(totalStarsNumber / totalStars.length);
-
+    // console.log("AVG " + starAverage)
     modList.sort(function (a, b) {
       let x = Number(a.subscribers);
       let y = Number(b.subscribers);
@@ -343,6 +346,7 @@ app.get('/search/:name', async (req, res) => {
       comments: totalCommentsNumber,
       featured: featuredMod,
       avgStar: starAverage,
+      numMods: modList.length
     };
 
     return {totalStats,modList}
@@ -353,7 +357,7 @@ app.get('/search/:name', async (req, res) => {
     let { totalStats, modList } = await getIndividualMods(pageLinks);
 
     let package = {userData, totalStats, modList}
-    console.log("Finished fetching data...");
+    console.log("Finished fetching data... \n\n");
     res.send(package);
     //console.log(userData)
     //console.log(totalStats)

@@ -4,18 +4,25 @@ import $ from "jquery";
 
 const ModContainer = ({ mods }) => {
   const handleStatsButtonClick = (event) => {
+
     let ogHeight = $(".front").outerHeight();
     let newHeight = $(".back").outerHeight();
 
     let difference = newHeight - ogHeight;
+    const closestMod = event.currentTarget.closest(".mod");
+    const flipper = closestMod.querySelector(".flip3D");
+
+    // if back is longer than front
     if (difference > 1) {
-      const closestMod = event.currentTarget.closest(".mod");
-      const flipper = closestMod.querySelector(".flip3D");
       flip(flipper, closestMod, difference);
+    }
+    else{
+      flip(flipper, closestMod, 0);
     }
   };
 
   const flip = (el, closestModAvail, difference) => {
+    console.log("flipped");
     if (el.getAttribute("flipped") === "true") {
       el.children[0].style.transform = "perspective(600px) rotateY(180deg)";
       el.children[1].style.transform = "perspective(600px) rotateY(0deg)";
@@ -30,6 +37,7 @@ const ModContainer = ({ mods }) => {
   };
 
   const flip2 = (el, closestModAvail, difference) => {
+    console.log("flipped2");
     if (el.getAttribute("flipped") === "true") {
       el.children[0].style.transform = "perspective(600px) rotateY(180deg)";
       el.children[1].style.transform = "perspective(600px) rotateY(0deg)";
@@ -47,10 +55,13 @@ const ModContainer = ({ mods }) => {
     let newHeight = $(".back").outerHeight();
 
     let difference = newHeight - ogHeight;
+    const closestMod = event.currentTarget.closest(".mod");
+    const flipper = closestMod.querySelector(".flip3D");
     if (difference > 1) {
-      const closestMod = event.currentTarget.closest(".mod");
-      const flipper = closestMod.querySelector(".flip3D");
       flip2(flipper, closestMod, difference);
+    }
+    else{
+      flip2(flipper, closestMod, 0);
     }
   };
 
@@ -63,12 +74,16 @@ const ModContainer = ({ mods }) => {
           <div className="modImageContainer">
             <a className="modImageLink"></a>
             <img className="modImage" src={mod.image}></img>
-            <button className="statsButton" onClick={handleStatsButtonClick}>
+            <button
+              onClick={handleStatsButtonClick}
+              className="statsButton"
+              key={index}
+            >
               Stats
             </button>
           </div>
           <h3 className="smallTitle">{mod.name}</h3>
-          <div className={"flip3D"}>
+          <div className={"flip3D"} flipped="false">
             <div className="back">
               <span className="closeButton" onClick={handleCloseButtonClick}>
                 X
@@ -192,14 +207,11 @@ const ModContainer = ({ mods }) => {
         </div>
       </>
     ));
-  } else {
-    arrayModItems = <li>No mods available.</li>;
   }
-
   return (
     <>
       <div>
-        <ul className="modContainer">{arrayModItems}</ul>
+        <div className="modContainer">{arrayModItems}</div>
       </div>
     </>
   );

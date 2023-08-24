@@ -61,7 +61,6 @@ class Form extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     //alert(ref.current.value);
-
     fetch("/search/"+this.state.searchQuery)
       .then((res) => res.json())
       .then((data) => {
@@ -70,6 +69,18 @@ class Form extends Component {
         this.props.totalStats(data.totalStats);
         //console.log(data.modList)
       });
+      
+    setInterval(() => {
+      fetch("/search/"+this.state.searchQuery)
+      .then((res) => res.json())
+      .then((data) => {
+        this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
+        this.props.userData(data.userData);
+        this.props.totalStats(data.totalStats);
+        //console.log(data.modList)
+      });
+    },30000)
+    
 
   };
 

@@ -5,6 +5,7 @@ import "./index.css";
 
 import Form from "./components/Form";
 import ModContainer from "./components/ModContainer";
+import TotalTable from "./components/TotalTable";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -23,6 +24,7 @@ function App() {
         userData={setUserData}
         totalStats={setTotalStats}
       />
+      <TotalTable totals={totalStats} userData={userData}/>
       <ModContainer mods={modList} />
     </>
   );

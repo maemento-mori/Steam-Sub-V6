@@ -1,0 +1,32 @@
+.totalsContainer{
+  width: 30%;
+  margin:auto;
+  margin-bottom:50px;
+}
+
+.totalsTable{
+  width: 100%;
+  border: 1px solid;
+}
+
+.totalsTable td{
+  padding: .25em;
+}
+
+.totalsTable td:first-child{
+  padding-left: 1em;
+}
+
+.totalsTable td:nth-child(2){
+  padding-right: 1em;
+}
+
+.totalsHeader{
+  padding: 1em 0;
+  border-bottom:1px solid;
+}
+
+.totalsUserName{
+  border-bottom: 1px solid;
+  padding: 15px 0;
+}
