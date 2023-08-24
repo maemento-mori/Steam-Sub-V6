@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react"; // Import useState
 import "../styles/totalTable.css";
 import starImage from "../images/star.png"
 
-const TotalTable = ({ totals, userData}) => {
+const TotalTable = ({totals, userData}) => {
 
   const [showTotals, setShowTotals] = useState(false);
+  const [showLoading, setShowLoading] = useState(false)
 
   useEffect(() => {
     // Update the visibility of totalsContainer based on the totals prop
@@ -14,6 +15,7 @@ const TotalTable = ({ totals, userData}) => {
   return (
     <>
       <div>
+        
       {showTotals && ( // Conditionally render based on showTotals state
         <div className="totalsContainer" >
           <table className="totalsTable">

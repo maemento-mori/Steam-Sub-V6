@@ -8,9 +8,11 @@ class Form extends Component {
       searchQuery: '',
       formErrors: { searchQuery: '' },
       formValid: false,
-      userName: '',
       userData: {},
-      totalStats: {}
+      totalStats: {},
+      mods: {},
+      showLoading: false,
+      loadingText: "Loading",
     };
   }
 
@@ -60,10 +62,20 @@ class Form extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.setState({
+      showLoading: true
+    })
+    this.props.mods({})
+    this.props.totalStats({})
+    this.props.userData({})
+    
     //alert(ref.current.value);
     fetch("/search/"+this.state.searchQuery)
       .then((res) => res.json())
       .then((data) => {
+        this.setState({
+          showLoading: false
+        })
         this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
         this.props.userData(data.userData);
         this.props.totalStats(data.totalStats);
@@ -83,6 +95,20 @@ class Form extends Component {
     
 
   };
+
+  componentDidMount() {
+    this.loadingTextInterval = setInterval(() => {
+      this.setState((prevState) => {
+        const loadingTextVariations = ["Loading", "Loading.", "Loading..", "Loading..."];
+        const currentIndex = (loadingTextVariations.indexOf(prevState.loadingText) + 1) % loadingTextVariations.length;
+        return { loadingText: loadingTextVariations[currentIndex] };
+      });
+    }, 500);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.loadingTextInterval);
+  }
 
   errorClass(error) {
     return error.length === 0 ? '' : 'has-error';
@@ -132,11 +158,9 @@ class Form extends Component {
                 </button>
               </form>
               {this.renderFormErrors()}
+
+              <div className='loadingText'>{this.state.showLoading ?  this.state.loadingText : ""}</div>
             </div>
-
-            <div className='profileName'><p value={this.state.userData.userName}>{this.state.userData.userName}</p></div>
-
-            {/* <p value={followers}>{followers} Followers</p> */}
           </div>
         </div>
       </>
