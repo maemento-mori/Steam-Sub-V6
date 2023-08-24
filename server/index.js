@@ -224,6 +224,7 @@ app.get('/search/:name', async (req, res) => {
         .find(".detailsStatRight:nth-child(3)")
         .html();
       updateDate = String(updateDate).split("@")[0];
+      if (updateDate == "null") { updateDate = "Never" }
 
       let workshopTags = [];
 
