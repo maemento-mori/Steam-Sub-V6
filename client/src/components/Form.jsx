@@ -13,6 +13,7 @@ class Form extends Component {
       mods: {},
       showLoading: false,
       loadingText: "Loading",
+      fetchDataIntervalId: null
     };
   }
 
@@ -62,6 +63,11 @@ class Form extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+
+    if (this.state.fetchDataIntervalId) {
+      clearInterval(this.state.fetchDataIntervalId);
+    }
+
     this.setState({
       showLoading: true
     })
@@ -82,7 +88,7 @@ class Form extends Component {
         //console.log(data.modList)
       });
       
-    setInterval(() => {
+    const fetchDataIntervalId = setInterval(() => {
       fetch("/search/"+this.state.searchQuery)
       .then((res) => res.json())
       .then((data) => {
@@ -93,7 +99,7 @@ class Form extends Component {
       });
     },30000)
     
-
+    this.setState({ fetchDataIntervalId });
   };
 
   componentDidMount() {
