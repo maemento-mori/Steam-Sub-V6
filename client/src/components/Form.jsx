@@ -140,7 +140,7 @@ class Form extends Component {
   }
 
   render() {
-    const { searchQuery, formErrors, formValid } = this.state;
+    const { searchQuery, formErrors, formValid, showLoading  } = this.state;
 
     return (
       <>
@@ -159,7 +159,7 @@ class Form extends Component {
                   className='input-text'
                   value={searchQuery}
                 />
-                <button type='submit' className='input-submit' disabled={!formValid}>
+                <button type='submit' className='input-submit' disabled={!formValid || showLoading}>
                   Search
                 </button>
               </form>
