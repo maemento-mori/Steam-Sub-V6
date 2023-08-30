@@ -28,11 +28,7 @@ app.get("/search/:name", async (req, res) => {
 
     const axiosResponse = await axios.request({
       method: "GET",
-      url: userNameLink,
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-      },
+      url: userNameLink
     });
     const $ = cheerio.load(axiosResponse.data);
 
@@ -78,11 +74,7 @@ app.get("/search/:name", async (req, res) => {
 
         const axiosResponse = await axios.request({
           method: "GET",
-          url: newPageNumberString,
-          headers: {
-            "User-Agent":
-              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-          },
+          url: newPageNumberString
         });
         const $ = cheerio.load(axiosResponse.data);
 
@@ -120,35 +112,24 @@ app.get("/search/:name", async (req, res) => {
     console.log(
       "[" + getTime(new Date()) + "]" + " : Getting individual mods..."
     );
-    let i = 0;
 
-    const totalSubs = [];
-    const totalAwards = [];
-    const totalRatings = [];
-    const totalComments = [];
-    const totalStars = [];
+    let totalStars =[]
 
-    while (i < pageLinks.length) {
-      var newMod = {};
-
+    const promises = pageLinks.map(async (pageLink) => {
       const axiosResponse = await axios.request({
         method: "GET",
-        url: pageLinks[i],
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
-        },
+        url: pageLink
       });
+
       const $$ = cheerio.load(axiosResponse.data);
 
-      var subCount = $$(".stats_table")
-        .find("tr:nth-child(2)")
-        .find("td:first-child")
-        .text();
+      const subCountElement = $$(".stats_table tr:nth-child(2) td:first-child");
+      const subCountText = subCountElement.text();
+      const subCount = Number(subCountText.replace(/[^0-9]/g, ''));
 
       var itemTitle = $$(".workshopItemTitle").text();
       let numRatings = $$(".numRatings").text();
-      let itemUrl = pageLinks[i];
+      let itemUrl = pageLink;
       numRatings = Number(numRatings.replace(/[^0-9]/g, ""));
 
       let numComments = $$(".commentthread_count_label").find("span").text();
@@ -206,78 +187,55 @@ app.get("/search/:name", async (req, res) => {
           workshopTags.push(workshopTag);
         });
 
-      let wsDescription = $$(".workshopItemDescription").html();
-
-      totalComments.push(numComments);
-      totalRatings.push(numRatings);
-      totalAwards.push(modAwards);
-      subCount = Number(subCount.replace(/[^0-9]/g, ""));
-      totalSubs.push(Number(subCount));
-
-      //!! Creating new mod objects
-      newMod = {
-        name: itemTitle,
-        subscribers: subCount,
-        awards: modAwards,
-        ratings: numRatings,
-        stars: numStars,
-        starsLink: numStarsLink,
-        image: imageLink,
-        comments: numComments,
-        link: itemUrl,
-        fileSize: fileSize,
-        uploadDate: uploadDate,
-        updateDate: updateDate,
-        workshopTags: workshopTags,
-        wsDescription: wsDescription,
+      return {
+        itemTitle,
+        subCount,
+        modAwards,
+        numRatings,
+        numStars,
+        numStarsLink,
+        imageLink,
+        numComments,
+        itemUrl,
+        fileSize,
+        uploadDate,
+        updateDate,
+        workshopTags
       };
-  
-      modList.push(newMod);
-      // printProgress(`Mods Found : ${String(modList.length)}`)
-      printProgress(`Mods Found : ${modList.length.toString().padStart(2, '0')}`)
-      i++;
-    }
+    });
 
-    let k = 0;
-    let totalSubsNumber = 0;
+    const modDataArray = await Promise.all(promises);
 
-    while (k < totalSubs.length) {
-      totalSubsNumber = totalSubsNumber + Number(totalSubs[k]);
-      k++;
-    }
+    // Process modDataArray and build modList
+    const modList = modDataArray.map((modData) => {
+      const newMod = {
+        name: modData.itemTitle,
+        subscribers: modData.subCount,
+        awards: modData.modAwards,
+        ratings: modData.numRatings,
+        stars: modData.numStars,
+        starsLink: modData.numStarsLink,
+        image: modData.imageLink,
+        comments: modData.numComments,
+        link: modData.itemUrl,
+        fileSize: modData.fileSize,
+        uploadDate: modData.uploadDate,
+        updateDate: modData.updateDate,
+        workshopTags: modData.workshopTags
+      };
+      return newMod;
+  });
 
-    let z = 0;
-    let totalAwardsNumber = 0;
+    const calculateTotal = (arr) => arr.reduce((total, currentValue) => total + Number(currentValue), 0);
 
-    while (z < totalAwards.length) {
-      totalAwardsNumber = totalAwardsNumber + Number(totalAwards[z]);
-      z++;
-    }
+    const totalSubsNumber = calculateTotal(modDataArray.map(data => data.subCount));
+    const totalAwardsNumber = calculateTotal(modDataArray.map(data => data.modAwards));
+    const totalRatingsNumber = calculateTotal(modDataArray.map(data => data.numRatings));
+    const totalCommentsNumber = calculateTotal(modDataArray.map(data => data.numComments));
+    const totalStarsNumber = calculateTotal(totalStars);
 
-    let r = 0;
-    let totalRatingsNumber = 0;
 
-    while (r < totalRatings.length) {
-      totalRatingsNumber = totalRatingsNumber + Number(totalRatings[r]);
-      r++;
-    }
-
-    let q = 0;
-    let totalCommentsNumber = 0;
-
-    while (q < totalComments.length) {
-      totalCommentsNumber = totalCommentsNumber + Number(totalComments[q]);
-      q++;
-    }
-
-    let u = 0;
-    let totalStarsNumber = 0;
-
-    while (u < totalStars.length) {
-      totalStarsNumber = totalStarsNumber + Number(totalStars[u]);
-      u++;
-    }
-    let starAverage = Math.round(totalStarsNumber / totalStars.length);
+    const starAverage = Math.round(totalStarsNumber / totalStars.length);
 
     modList.sort(function (a, b) {
       let x = Number(a.subscribers);
@@ -290,17 +248,6 @@ app.get("/search/:name", async (req, res) => {
       }
       return 0;
     });
-
-    // >>  console.log("Mods released:     " + totalSubs.length);
-    // >>  console.log(
-    // >>    "Total subscribers: " +
-    // >>      String(totalSubsNumber).replace(/(.)(?=(\d{3})+$)/g, "$1,")
-    // >>  );
-    // >>  console.log("Total Awards: " + String(totalAwardsNumber));
-    // >>  console.log("Total Ratings: " + String(totalRatingsNumber));
-    // >>  console.log("Average rating : " + String(starAverage));
-    // >>  console.log("Total Comments: " + String(totalCommentsNumber));
-    // >>  console.log("");
 
     let featuredMod = modList[0];
     //console.log(featuredMod)
@@ -316,12 +263,14 @@ app.get("/search/:name", async (req, res) => {
     };
     console.log(`\n`)
     return { totalStats, modList };
-  }
+
+  } // !! End getIndividualMods
+
+
 
   async function init() {
     const { userData, pageLinks } = await getProfileData();
     let { totalStats, modList } = await getIndividualMods(pageLinks);
-
     let package = { userData, totalStats, modList };
     console.log(
       "[" + getTime(new Date()) + "]" + " : Finished fetching data..."
@@ -334,10 +283,6 @@ app.get("/search/:name", async (req, res) => {
     // >> console.log(totalStats)
     // >> console.log(modList)
   }
-
-
-
-  
 
   init();
 });
