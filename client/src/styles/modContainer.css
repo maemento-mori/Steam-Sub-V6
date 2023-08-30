@@ -135,3 +135,12 @@
   bottom:.30em;
   right:1.75em;;
 }
+
+.sr-only {
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  }

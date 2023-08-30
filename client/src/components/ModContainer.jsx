@@ -72,8 +72,10 @@ const ModContainer = ({ mods }) => {
       <>
         <div className="mod" key={index}>
           <div className="modImageContainer">
-            <a className="modImageLink"></a>
-            <img className="modImage" src={mod.image}></img>
+            <a name="ModImageLink" className="modImageLink" href={mod.link}>
+              <span className="sr-only">Link to mod page</span> 
+            </a>
+            <img className="modImage" src={mod.image} alt="Mod preview"></img>
             <button
               onClick={handleStatsButtonClick}
               className="statsButton"
@@ -159,7 +161,7 @@ const ModContainer = ({ mods }) => {
                   </tr>
                   <tr>
                     <td colSpan={2} className="modstars">
-                      <img src={mod.starsLink}></img>
+                      <img src={mod.starsLink} alt="Mod stars rating"></img>
                     </td>
                   </tr>
                 </tbody>
@@ -197,7 +199,7 @@ const ModContainer = ({ mods }) => {
                   </tr>
                   <tr>
                     <td colSpan={2} className="modstars">
-                      <img src={mod.starsLink}></img>
+                      <img src={mod.starsLink} alt="Mod stars rating"></img>
                     </td>
                   </tr>
                 </tbody>

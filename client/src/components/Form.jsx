@@ -13,7 +13,8 @@ class Form extends Component {
       mods: {},
       showLoading: false,
       loadingText: "Loading",
-      fetchDataIntervalId: null
+      fetchDataIntervalId: null,
+      fetchingData: false
     };
   }
 
@@ -45,6 +46,8 @@ class Form extends Component {
       } else if (matchUserName) {
         userName = matchUserName[0];
       }
+
+      console.log(userName)
     }
   
     this.setState(
@@ -71,46 +74,77 @@ class Form extends Component {
     this.setState({
       showLoading: true
     })
-    this.props.mods({})
-    this.props.totalStats({})
-    this.props.userData({})
-    
-    //alert(ref.current.value);
-    fetch("/search/"+this.state.searchQuery)
+
+    this.fetchDataAndStartInterval();
+
+    this.setState({
+      fetchDataIntervalId: setInterval(() => {
+        if (!this.state.fetchingData) {
+          this.fetchDataAndStartInterval();
+        }
+      }, 30000),
+    });
+
+
+  //    >>    this.props.mods({})
+  //    >>    this.props.totalStats({})
+  //    >>    this.props.userData({})
+
+  //    >>    //alert(ref.current.value);
+  //    >>    fetch("/search/"+this.state.userName)
+  //    >>      .then((res) => res.json())
+  //    >>      .then((data) => {
+  //    >>        this.setState({
+  //    >>          showLoading: false
+  //    >>        })
+  //    >>        this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
+  //    >>        this.props.userData(data.userData);
+  //    >>        this.props.totalStats(data.totalStats);
+  //    >>        //console.log(data.modList)
+  //    >>      });
+
+  //    >>    const fetchDataIntervalId = setInterval(() => {
+  //    >>      fetch("/search/"+this.state.searchQuery)
+  //    >>      .then((res) => res.json())
+  //    >>      .then((data) => {
+  //    >>        this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
+  //    >>        this.props.userData(data.userData);
+  //    >>        this.props.totalStats(data.totalStats);
+  //    >>        //console.log(data.modList)
+  //    >>      });
+  //    >>    },30000)
+
+  //    >>    this.setState({ fetchDataIntervalId });
+  //    >>  };
+
+  //    >>  componentDidMount() {
+  //    >>    this.loadingTextInterval = setInterval(() => {
+  //    >>      this.setState((prevState) => {
+  //    >>        const loadingTextVariations = ["Loading", "Loading.", "Loading..", "Loading..."];
+  //    >>        const currentIndex = (loadingTextVariations.indexOf(prevState.loadingText) + 1) % loadingTextVariations.length;
+  //    >>        return { loadingText: loadingTextVariations[currentIndex] };
+  //    >>      });
+  //    >>    }, 500);
+
+
+  }
+
+  fetchDataAndStartInterval = () => {
+    this.setState({ fetchingData: true });
+
+    fetch("/search/" + this.state.searchQuery)
       .then((res) => res.json())
       .then((data) => {
         this.setState({
-          showLoading: false
-        })
-        this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
+          fetchingData: false,
+          showLoading: false,
+        });
+        this.props.mods(data.modList);
         this.props.userData(data.userData);
         this.props.totalStats(data.totalStats);
-        //console.log(data.modList)
       });
-      
-    const fetchDataIntervalId = setInterval(() => {
-      fetch("/search/"+this.state.searchQuery)
-      .then((res) => res.json())
-      .then((data) => {
-        this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
-        this.props.userData(data.userData);
-        this.props.totalStats(data.totalStats);
-        //console.log(data.modList)
-      });
-    },30000)
-    
-    this.setState({ fetchDataIntervalId });
   };
 
-  componentDidMount() {
-    this.loadingTextInterval = setInterval(() => {
-      this.setState((prevState) => {
-        const loadingTextVariations = ["Loading", "Loading.", "Loading..", "Loading..."];
-        const currentIndex = (loadingTextVariations.indexOf(prevState.loadingText) + 1) % loadingTextVariations.length;
-        return { loadingText: loadingTextVariations[currentIndex] };
-      });
-    }, 500);
-  }
 
   componentWillUnmount() {
     clearInterval(this.loadingTextInterval);

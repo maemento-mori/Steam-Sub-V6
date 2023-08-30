@@ -1,33 +1,34 @@
 // server/index.js
 
+const express = require("express");
+const app = express();
 
-
-const express = require('express')
-const app = express()
-
-const cheerio = require("cheerio")
-const axios = require("axios")
+const cheerio = require("cheerio");
+const axios = require("axios");
 
 // const port = 3000
 const PORT = process.env.PORT || 3001;
 
 // Defining an Endpoint
-app.get('/search/:name', async (req, res) => {
-    const userNameID = req.params['name'];
-    const userNameLink = `https://steamcommunity.com/id/${userNameID}/myworkshopfiles/?p=1&numperpage=30`;
+app.get("/search/:name", async (req, res) => {
+  const userNameID = req.params["name"];
+  const userNameLink = `https://steamcommunity.com/id/${userNameID}/myworkshopfiles/?p=1&numperpage=30`;
+  const start = Date.now();
 
-  
-  const modList = []
-  const userData = []
-  let totalStats = {}
+  console.log(`>> Search Request : ${userNameID} <<`)
+  console.log("[" + getTime(new Date()) + "]" + " : Initializing...");
+
+  const modList = [];
+  const userData = [];
+  let totalStats = {};
 
   async function getProfileData() {
-    console.log("Getting profile data...");
+    console.log("[" + getTime(new Date()) + "]" + " : Getting profile data...");
     const pageLinks = [];
 
     const axiosResponse = await axios.request({
       method: "GET",
-      url: (userNameLink),
+      url: userNameLink,
       headers: {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
@@ -46,51 +47,38 @@ app.get('/search/:name', async (req, res) => {
 
     //console.log("length "+pageLinks.length)
 
-    if (pageLinks.length == 30){
-
-      let numPages = $(".workshopBrowsePagingInfo").text()
-      // console.log(numPages)
-      // numPages = numPages.replace("Showing 1-30 of","")
-      // numPages = numPages.replace(/[^0-9]/g, "");
+    if (pageLinks.length == 30) {
+      let numPages = $(".workshopBrowsePagingInfo").text();
       const pageNumRegex = /^Showing (\d+)-(\d+) of (\d+) entries$/;
       const match = pageNumRegex.exec(numPages);
-      // console.log(match)
       if (match) {
         const firstNumber = match[1];
         const secondNumber = match[2];
         const totalEntries = match[3];
-        numPages = totalEntries / 30
+        numPages = totalEntries / 30;
         numPages = Math.ceil(numPages);
-        // console.log("numpages "+numPages)
-      
-        // console.log("First Number:", firstNumber);
-        // console.log("Second Number:", secondNumber);
-        // console.log("Total Entries:", totalEntries); 
       } else {
         // console.log("No match found.");
       }
-      
-      // xx totalStats.numMods = totalEntries;
-      let lastUrl = userNameLink
+
+      let lastUrl = userNameLink;
       let i = 0;
 
       do {
         i++;
         var regex = /p=\d+/;
-        const found = lastUrl.match(regex)
+        const found = lastUrl.match(regex);
         let foundNumber = String(found).replace(/[^0-9]/g, "");
-        foundNumber = Number(foundNumber)
-        // console.log(foundNumber)
+        foundNumber = Number(foundNumber);
 
         newPageNumber = foundNumber + 1;
-        let newPageNumberString = "p=" + String(newPageNumber)
-        newPageNumberString = lastUrl.replace(found,newPageNumberString)
-        lastUrl = newPageNumberString
-        // console.log("next page "+newPageNumberString)
+        let newPageNumberString = "p=" + String(newPageNumber);
+        newPageNumberString = lastUrl.replace(found, newPageNumberString);
+        lastUrl = newPageNumberString;
 
         const axiosResponse = await axios.request({
           method: "GET",
-          url: (newPageNumberString),
+          url: newPageNumberString,
           headers: {
             "User-Agent":
               "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36",
@@ -99,28 +87,22 @@ app.get('/search/:name', async (req, res) => {
         const $ = cheerio.load(axiosResponse.data);
 
         $(".workshopBrowseItems")
-        .find(".workshopItem .ugc")
-        .each((index, element) => {
-        let pageUrl = $(element).attr("href");
-        //console.log("url:"+pageUrl)
-        // console.log("test")
-        // console.log("second Page" + pageUrl)
-        pageLinks.push(pageUrl);
-      });
+          .find(".workshopItem .ugc")
+          .each((index, element) => {
+            let pageUrl = $(element).attr("href");
+            pageLinks.push(pageUrl);
+          });
+      } while (i < numPages - 1);
 
-      } while (i < (numPages-1));
-
-      // console.log(pageLinks.length)
     }
 
-
-
-    //console.log(JSON.stringify(pageLinks))
     let userData = {};
-    const userName = $("#HeaderUserInfoName").text().replace(/[\t\n\r]/gm, '');
-    const profileUrl = $("#HeaderUserInfoName").find("a").attr('href');
+    const userName = $("#HeaderUserInfoName")
+      .text()
+      .replace(/[\t\n\r]/gm, "");
+    const profileUrl = $("#HeaderUserInfoName").find("a").attr("href");
     const followerCount = $(".followStat").text().replace("\\", "");
-    const workshopUrl = $(".HeaderUserInfoSection").find("a").attr('href');
+    const workshopUrl = $(".HeaderUserInfoSection").find("a").attr("href");
 
     userData = {
       username: userName,
@@ -131,25 +113,14 @@ app.get('/search/:name', async (req, res) => {
 
     totalStats.followers = followerCount;
 
-    //console.log(userData);
-
-    // for (let i = 0; i < pageLinks.length; i++) {
-    //   console.log(pageLinks[i]);
-    // }
-    //console.log("done")
-
-    return {userData, pageLinks};
+    return { userData, pageLinks };
   }
 
-  
-
   async function getIndividualMods(pageLinks) {
-    console.log("Getting individual mods...");
+    console.log(
+      "[" + getTime(new Date()) + "]" + " : Getting individual mods..."
+    );
     let i = 0;
-    //console.log("pagelinks "+pageLinks)
-    // for (let i = 0; i < pageLinks.length; i++) {
-    //   console.log(pageLinks[i]);
-    // }
 
     const totalSubs = [];
     const totalAwards = [];
@@ -174,7 +145,7 @@ app.get('/search/:name', async (req, res) => {
         .find("tr:nth-child(2)")
         .find("td:first-child")
         .text();
-      
+
       var itemTitle = $$(".workshopItemTitle").text();
       let numRatings = $$(".numRatings").text();
       let itemUrl = pageLinks[i];
@@ -185,10 +156,8 @@ app.get('/search/:name', async (req, res) => {
 
       let modAwards = 0;
       $$(".review_award").each((index, element) => {
-        // scraping logic...
         let awards = $$(element).attr("data-reactioncount");
         modAwards += Number(awards);
-        // // console.log(pageUrl)
       });
 
       let imageLink = $$("#previewImageMain").attr("src");
@@ -224,27 +193,25 @@ app.get('/search/:name', async (req, res) => {
         .find(".detailsStatRight:nth-child(3)")
         .html();
       updateDate = String(updateDate).split("@")[0];
-      if (updateDate == "null") { updateDate = "Never" }
+      if (updateDate == "null") {
+        updateDate = "Never";
+      }
 
       let workshopTags = [];
 
       $$(".workshopTags")
         .find("a")
         .each((index, element) => {
-          // scraping logic...
           let workshopTag = $$(element).text();
           workshopTags.push(workshopTag);
         });
 
-      let wsDescription = $$(".workshopItemDescription").html()
+      let wsDescription = $$(".workshopItemDescription").html();
 
       totalComments.push(numComments);
       totalRatings.push(numRatings);
       totalAwards.push(modAwards);
-      //console.log(subCount)
-      subCount= Number(subCount.replace(/[^0-9]/g, ""));
-      //subCount = subCount.replace(",", "");
-      //console.log(pageLinks[i]);
+      subCount = Number(subCount.replace(/[^0-9]/g, ""));
       totalSubs.push(Number(subCount));
 
       //!! Creating new mod objects
@@ -264,17 +231,17 @@ app.get('/search/:name', async (req, res) => {
         workshopTags: workshopTags,
         wsDescription: wsDescription,
       };
+  
       modList.push(newMod);
-      //console.log(newMod)
+      // printProgress(`Mods Found : ${String(modList.length)}`)
+      printProgress(`Mods Found : ${modList.length.toString().padStart(2, '0')}`)
       i++;
     }
-    // console.log(modList)
 
     let k = 0;
     let totalSubsNumber = 0;
 
     while (k < totalSubs.length) {
-      //console.log(totalSubs[k])
       totalSubsNumber = totalSubsNumber + Number(totalSubs[k]);
       k++;
     }
@@ -311,7 +278,7 @@ app.get('/search/:name', async (req, res) => {
       u++;
     }
     let starAverage = Math.round(totalStarsNumber / totalStars.length);
-    // console.log("AVG " + starAverage)
+
     modList.sort(function (a, b) {
       let x = Number(a.subscribers);
       let y = Number(b.subscribers);
@@ -323,8 +290,6 @@ app.get('/search/:name', async (req, res) => {
       }
       return 0;
     });
-
-    //console.log(modList)
 
     // >>  console.log("Mods released:     " + totalSubs.length);
     // >>  console.log(
@@ -347,30 +312,59 @@ app.get('/search/:name', async (req, res) => {
       comments: totalCommentsNumber,
       featured: featuredMod,
       avgStar: starAverage,
-      numMods: modList.length
+      numMods: modList.length,
     };
-
-    return {totalStats,modList}
+    console.log(`\n`)
+    return { totalStats, modList };
   }
 
   async function init() {
     const { userData, pageLinks } = await getProfileData();
     let { totalStats, modList } = await getIndividualMods(pageLinks);
 
-    let package = {userData, totalStats, modList}
-    console.log("Finished fetching data... \n\n");
+    let package = { userData, totalStats, modList };
+    console.log(
+      "[" + getTime(new Date()) + "]" + " : Finished fetching data..."
+    );
+    const millis = Date.now() - start;
+
+    console.log(`>> Seconds elapsed : ${Math.floor(millis / 1000)} <<\n\n`);
     res.send(package);
-    //console.log(userData)
-    //console.log(totalStats)
-    //console.log(modList)
+    // >> console.log(userData)
+    // >> console.log(totalStats)
+    // >> console.log(modList)
   }
 
-    init();
 
-    
+
+  
+
+  init();
 });
 
+function printProgress(progress){
+  process.stdout.clearLine(0);
+  process.stdout.cursorTo(0);
+  process.stdout.write(progress);
+}
+
+function getTime(today) {
+  const hours = today.getHours().toString().padStart(2, '0');
+  const minutes = today.getMinutes().toString().padStart(2, '0');
+  const seconds = today.getSeconds().toString().padStart(2, '0');
+
+  return hours + ':' + minutes + ':' + seconds;
+}
+
+function getDate(today) {
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to the month since it's zero-indexed
+  const day = today.getDate().toString().padStart(2, '0');
+  
+  return `${year}-${month}-${day}`;
+}
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`)
-})
+  console.log(`[${getDate(new Date())} @ ${getTime(new Date())}] \nListening on port ${PORT}\n`);
+  console.log(".................................\n\n")
+});
