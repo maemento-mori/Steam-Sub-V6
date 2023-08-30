@@ -5,6 +5,7 @@ const Featured = ({ totals }) => {
   const [showFeatured, setShowFeatured] = useState(false);
 
   useEffect(() => {
+
     // Update the visibility of totalsContainer based on the totals prop
     setShowFeatured(totals.featured !== undefined)
   }, [totals]);
@@ -29,7 +30,7 @@ const Featured = ({ totals }) => {
                 </tr>
                 <tr>
                   <td className="featuredTableValue">
-                    {totals.featured?.subscribers}
+                    {String(totals.featured?.subscribers).replace(/(.)(?=(\d{3})+$)/g,'$1,') }
                   </td>
                   <td className="featuredTableLabel">
                     Downloads
@@ -37,7 +38,7 @@ const Featured = ({ totals }) => {
                 </tr>
                 <tr>
                   <td className="featuredTableValue">
-                    {totals.featured?.ratings}
+                    {String(totals.featured?.ratings).replace(/(.)(?=(\d{3})+$)/g,'$1,') }
                   </td>
                   <td className="featuredTableLabel">
                     Ratings
@@ -45,7 +46,7 @@ const Featured = ({ totals }) => {
                 </tr>
                 <tr>
                   <td className="featuredTableValue">
-                    {totals.featured?.awards}
+                    {String(totals.featured?.awards).replace(/(.)(?=(\d{3})+$)/g,'$1,') }
                   </td>
                   <td className="featuredTableLabel">
                     Awards
@@ -53,7 +54,7 @@ const Featured = ({ totals }) => {
                 </tr>
                 <tr>
                   <td className="featuredTableValue">
-                    {totals.featured?.comments}
+                    {String(totals.featured?.comments).replace(/(.)(?=(\d{3})+$)/g,'$1,') }
                   </td>
                   <td className="featuredTableLabel">
                     Comments

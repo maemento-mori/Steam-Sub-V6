@@ -76,6 +76,6 @@
   flex-wrap: wrap;
 }
 
-.featuredModImage{
-  
+.player-info li{
+  list-style-type: none;
 }

@@ -4,7 +4,6 @@ import $ from "jquery";
 
 const ModContainer = ({ mods }) => {
   const handleStatsButtonClick = (event) => {
-
     let ogHeight = $(".front").outerHeight();
     let newHeight = $(".back").outerHeight();
 
@@ -15,8 +14,7 @@ const ModContainer = ({ mods }) => {
     // if back is longer than front
     if (difference > 1) {
       flip(flipper, closestMod, difference);
-    }
-    else{
+    } else {
       flip(flipper, closestMod, 0);
     }
   };
@@ -60,8 +58,7 @@ const ModContainer = ({ mods }) => {
     const flipper = closestMod.querySelector(".flip3D");
     if (difference > 1) {
       flip2(flipper, closestMod, difference);
-    }
-    else{
+    } else {
       flip2(flipper, closestMod, 0);
     }
   };
@@ -74,7 +71,7 @@ const ModContainer = ({ mods }) => {
         <div className="mod" key={index}>
           <div className="modImageContainer">
             <a name="ModImageLink" className="modImageLink" href={mod.link}>
-              <span className="sr-only">Link to mod page</span> 
+              <span className="sr-only">Link to mod page</span>
             </a>
             <img className="modImage" src={mod.image} alt="Mod preview"></img>
           </div>
@@ -82,9 +79,9 @@ const ModContainer = ({ mods }) => {
           <div className={"flip3D"} flipped="false">
             <div className="back">
               <div className="closeButtonContainer">
-              <span className="closeButton" onClick={handleCloseButtonClick}>
-                X
-              </span>
+                <span className="closeButton" onClick={handleCloseButtonClick}>
+                  X
+                </span>
               </div>
               <table className="smallModStatistics">
                 <tbody>
@@ -107,24 +104,75 @@ const ModContainer = ({ mods }) => {
                     <td className="smallTableValue backTable">
                       {mod.fileSize}
                     </td>
-                  </tr>                
-                  <tr className="tagsRow" colSpan={2}>
-                    <td className="tags" colSpan={2}>
-                      {mod.workshopTags ? (
-                        mod.workshopTags.map((tag, tagIndex) => (
-                          <span key={tagIndex} className="tag">
-                            {tag}
-                          </span>
-                        ))
-                      ) : (
-                        <span>No tags available.</span>
-                      )}
-                    </td>
                   </tr>
                 </tbody>
               </table>
+              <div className="tagsContainer">
+              <div className="tagsHeader">
+                <span>Tags</span>
+              </div>
+              <div className="tagsRow">
+                {mod.workshopTags ? (
+                  mod.workshopTags.map((tag, tagIndex) => (
+                    <span key={tagIndex} className="tag">
+                      {tag}
+                    </span>
+                  ))
+                ) : (
+                  <span>No tags available.</span>
+                )}
+              </div>
+              </div>
             </div>
             <div className="front">
+              <table className="smallModStatistics">
+                <tbody>
+                  <tr>
+                    <td className="smallTableLabel">Subscribers</td>
+                    <td className="smallTableValue">
+                      {String(mod.subscribers).replace(
+                        /(.)(?=(\d{3})+$)/g,
+                        "$1,"
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="smallTableLabel">Awards</td>
+                    <td className="smallTableValue">
+                      {String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="smallTableLabel">Comments</td>
+                    <td className="smallTableValue">
+                      {String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="smallTableLabel">Ratings</td>
+                    <td className="smallTableValue">
+                      {String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colSpan={2} className="modstars">
+                      <img src={mod.starsLink} alt="Mod stars rating"></img>
+                    </td>
+                  </tr>
+                  <tr></tr>
+                </tbody>
+              </table>
+              <div className="statsButtonContainer">
+                <button
+                  onClick={handleStatsButtonClick}
+                  className="statsButton"
+                  key={index}
+                >
+                  More Stats
+                </button>
+              </div>
+            </div>
+            <div className="frontInvis">
               <table className="smallModStatistics">
                 <tbody>
                   <tr>
@@ -159,67 +207,16 @@ const ModContainer = ({ mods }) => {
                       <img src={mod.starsLink} alt="Mod stars rating"></img>
                     </td>
                   </tr>
-                  <tr>
-                  </tr>
-                </tbody>
-              </table>
-              <div className="statsButtonContainer">
-              <button
-              onClick={handleStatsButtonClick}
-              className="statsButton"
-              key={index}
-            >
-              More Stats
-            </button>
-            </div>
-            </div>
-            <div className="frontInvis">
-            <table className="smallModStatistics">
-                <tbody>
-                  <tr>
-                    <td className="smallTableLabel">Subs</td>
-                    <td className="smallTableValue">
-                      {String(mod.subscribers).replace(
-                        /(.)(?=(\d{3})+$)/g,
-                        "$1,"
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="smallTableLabel">Awards</td>
-                    <td className="smallTableValue">
-                      {String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="smallTableLabel">Comments</td>
-                    <td className="smallTableValue">
-                      {String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="smallTableLabel">Ratings</td>
-                    <td className="smallTableValue">
-                      {String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan={2} className="modstars">
-                      <img src={mod.starsLink} alt="Mod stars rating"></img>
-                    </td>
-                  </tr>
-                  <tr>
-                  
-                  </tr>
+                  <tr></tr>
                 </tbody>
               </table>
               <button
-              onClick={handleStatsButtonClick}
-              className="statsButton"
-              key={index}
-            >
-              More Stats
-            </button>
+                onClick={handleStatsButtonClick}
+                className="statsButton"
+                key={index}
+              >
+                More Stats
+              </button>
             </div>
           </div>
         </div>

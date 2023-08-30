@@ -76,7 +76,7 @@
 .tags{
   display: flex;
   flex-wrap: wrap;
-  width:125%;
+  width:150%;
   /* vertical-align: bottom; */
   padding-top:.3em;
   overflow-x: hidden;
@@ -155,4 +155,14 @@
   width:1px;
   height:1px;
   overflow:hidden;
+  }
+
+  .tagsRow{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 .25em;
+  }
+
+  .tagsHeader{
+    text-align: center;
   }

@@ -1,0 +1,73 @@
+.header-info-holder{
+  display: flex;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.avatar-holder{
+  margin-right: 20px;
+  position: relative;
+  align-self: flex-start;
+}
+
+.avatar-frame{
+  transform: scale(1.23);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar{
+display: inline-block;
+overflow: hidden;
+line-height: 1;
+vertical-align: middle;
+}
+
+.player-text{
+  overflow: hidden;
+  z-index: 1;
+}
+
+.header-title{
+  display: flex;
+  align-items: center;
+  line-height: 1.7;
+  font-size: 28px;
+}
+
+
+.player-info{
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  padding: 0;
+}
+
+.player-info li{
+  flex-shrink: 0;
+}
+
+.player-info li+li{
+  border-left: 1px solid rgb(255 255 255 / 20%);
+  padding-left: 5px;
+  margin-left: 5px;
+}
+
+.friendPlayerLevel.lvl_plus_css{
+  border-radius: 16px;
+  line-height: 28px;
+  font-size:16px;
+  border: 2px solid #fff;
+  border-color: #467a3c;
+}
+
+.friendPlayerLevel{
+  display: inline-block;
+  height: 32px;
+  width: 32px;
+  text-align: center;
+}
+
+
+

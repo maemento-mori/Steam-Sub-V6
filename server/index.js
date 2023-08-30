@@ -13,12 +13,57 @@ const PORT = process.env.PORT || 3001;
 app.get("/search/:name", async (req, res) => {
   const userNameID = req.params["name"];
   const userNameLink = `https://steamcommunity.com/id/${userNameID}/myworkshopfiles/?p=1&numperpage=30`;
+  const userNameProfileLink = `https://steamcommunity.com/id/${userNameID}`;
   const start = Date.now();
 
   console.log(`>> Search Request : ${userNameID} <<`)
   console.log("[" + getTime(new Date()) + "]" + " : Initializing...");
 
   let totalStats = {};
+
+  async function getUserData() {
+    console.log("[" + getTime(new Date()) + "]" + " : Getting user page data...");
+
+    const axiosResponse = await axios.request({
+      method: "GET",
+      url: userNameProfileLink
+    });
+    const $ = cheerio.load(axiosResponse.data);
+    
+    const userName = $(".actual_persona_name").text();
+    const avatar = $(".playerAvatarAutoSizeInner img:nth-child(2)").attr('src');
+    const avatarFrame = $(".playerAvatarAutoSizeInner img:nth-child(1)").attr('src');
+    let playerLevel = $(".persona_level .friendPlayerLevelNum").text()
+    playerLevel = playerLevel.slice(0, 2);
+    const realName = $(".header_real_name ellipsis bdi").text()
+    const profileDesc = $(".profile_summary").text()
+    const favBadgeIcon = $(".favorite_badge_icon img").attr('src');
+    const favBadgeDesc = $(".favorite_badge_description")
+    const favBadgeName = $(`${favBadgeDesc} .name`).text()
+    const favBadgeXP = $(`${favBadgeDesc} .xp`).text()
+    let onlineStatus = $(".profile_in_game_header").text()
+    if (onlineStatus.indexOf("Offline") >= 0) {
+      onlineStatus = "Offline";
+    } else if (onlineStatus.indexOf("Online") >= 0) {
+      onlineStatus = "Online";
+    }
+
+    const userProfileData = {
+      userName: userName,
+      avatar: avatar,
+      avatarFrame: avatarFrame,
+      playerLevel: playerLevel,
+      realName: realName,
+      profileDesc: profileDesc,
+      favBadgeIcon: favBadgeIcon,
+      favBadgeName: favBadgeName,
+      favBadgeXP: favBadgeXP,
+      onlineStatus: onlineStatus
+
+    }
+
+    return userProfileData;
+  }
 
   async function getProfileData() {
     console.log("[" + getTime(new Date()) + "]" + " : Getting profile data...");
@@ -89,6 +134,7 @@ app.get("/search/:name", async (req, res) => {
     const profileUrl = $("#HeaderUserInfoName").find("a").attr("href");
     const followerCount = $(".followStat").text().replace("\\", "");
     const workshopUrl = $(".HeaderUserInfoSection").find("a").attr("href");
+
 
     userData = {
       username: userName,
@@ -253,7 +299,6 @@ app.get("/search/:name", async (req, res) => {
       avgStar: starAverage,
       numMods: modList.length,
     };
-    console.log(totalStats.featured.name)
     console.log(`\n`)
     return { totalStats, modList };
 
@@ -262,9 +307,10 @@ app.get("/search/:name", async (req, res) => {
 
 
   async function init() {
+    const profileData =await getUserData();
     const { userData, pageLinks } = await getProfileData();
     let { totalStats, modList } = await getIndividualMods(pageLinks);
-    let package = { userData, totalStats, modList };
+    let package = { userData, totalStats, modList, profileData };
     console.log(
       "[" + getTime(new Date()) + "]" + " : Finished fetching data..."
     );
@@ -279,12 +325,6 @@ app.get("/search/:name", async (req, res) => {
 
   init();
 });
-
-function printProgress(progress){
-  process.stdout.clearLine(0);
-  process.stdout.cursorTo(0);
-  process.stdout.write(progress);
-}
 
 function getTime(today) {
   const hours = today.getHours().toString().padStart(2, '0');

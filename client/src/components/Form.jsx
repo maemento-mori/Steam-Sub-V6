@@ -11,6 +11,7 @@ class Form extends Component {
       userData: {},
       totalStats: {},
       mods: {},
+      profileData: {},
       showLoading: false,
       loadingText: "Loading",
       fetchDataIntervalId: null
@@ -76,6 +77,7 @@ class Form extends Component {
     this.props.mods({})
     this.props.totalStats({})
     this.props.userData({})
+    this.props.profileData({})
     
     //alert(ref.current.value);
     fetch("/search/"+this.state.userName)
@@ -87,6 +89,8 @@ class Form extends Component {
         this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
         this.props.userData(data.userData);
         this.props.totalStats(data.totalStats);
+        console.log(data.profileData)
+        this.props.profileData(data.profileData);
         //console.log(data.modList)
       });
       
@@ -97,6 +101,7 @@ class Form extends Component {
         this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
         this.props.userData(data.userData);
         this.props.totalStats(data.totalStats);
+        this.props.profileData(data.profileData);
         //console.log(data.modList)
       });
     },30000)
