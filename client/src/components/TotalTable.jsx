@@ -14,8 +14,7 @@ const TotalTable = ({totals, userData}) => {
 
   return (
     <>
-      <div>
-        
+      <div className="totalsContainerOuter">
       {showTotals && ( // Conditionally render based on showTotals state
         <div className="totalsContainer" >
           <table className="totalsTable">

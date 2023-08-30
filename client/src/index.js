@@ -6,6 +6,7 @@ import "./index.css";
 import Form from "./components/Form";
 import ModContainer from "./components/ModContainer";
 import TotalTable from "./components/TotalTable";
+import Featured from "./components/Featured";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -19,12 +20,16 @@ function App() {
 
   return (
     <>
+      
       <Form
         mods={setModList}
         userData={setUserData}
         totalStats={setTotalStats}
       />
-      <TotalTable totals={totalStats} userData={userData}/>
+      <div className="topContainer">
+        <Featured totals={totalStats}/>
+        <TotalTable totals={totalStats} userData={userData}/>
+      </div>
       <ModContainer mods={modList} />
     </>
   );

@@ -253,6 +253,7 @@ app.get("/search/:name", async (req, res) => {
       avgStar: starAverage,
       numMods: modList.length,
     };
+    console.log(totalStats.featured.name)
     console.log(`\n`)
     return { totalStats, modList };
 
