@@ -60,11 +60,13 @@
   width: 100%;
   padding: 0;
   padding-bottom: 0.5em;
+  
 }
 .flip3D{
   overflow-y: scroll;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+  overflow-y: hidden;
 }
 
 .flip3D::-webkit-scrollbar{
@@ -75,10 +77,9 @@
   display: flex;
   flex-wrap: wrap;
   width:125%;
-  vertical-align: bottom;
+  /* vertical-align: bottom; */
   padding-top:.3em;
   overflow-x: hidden;
-  
 }
 
 .tag{
@@ -92,19 +93,26 @@
   
 }
 
+
+.tagsLabel{
+  text-align: center;
+}
 .closeButton{
-  position: absolute;
-  top:-1.25em;
-  right:1em;
   font-size:.85em;
   transition: .3s;
   font-weight:bold;
+  padding-right:10px;
 }
 
-.statsButton{
-  border-color: #2a4802;
-  border:1px solid;
+.closeButton:hover{
+  cursor: pointer;
 }
+
+.closeButtonContainer{
+  display:flex;
+  justify-content: flex-end;
+}
+
 
 .smallTableValue.backTable{
   white-space: nowrap;
@@ -130,10 +138,14 @@
   padding-top:15px;
 }
 
+.statsButtonContainer{
+  display: flex;
+  justify-content: center;
+  
+}
+
 .statsButton{
-  position: absolute;
-  bottom:.30em;
-  right:1.75em;;
+  margin-bottom: 10px;
 }
 
 .sr-only {

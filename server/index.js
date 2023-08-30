@@ -18,8 +18,6 @@ app.get("/search/:name", async (req, res) => {
   console.log(`>> Search Request : ${userNameID} <<`)
   console.log("[" + getTime(new Date()) + "]" + " : Initializing...");
 
-  const modList = [];
-  const userData = [];
   let totalStats = {};
 
   async function getProfileData() {
@@ -36,12 +34,8 @@ app.get("/search/:name", async (req, res) => {
       .find(".workshopItem .ugc")
       .each((index, element) => {
         let pageUrl = $(element).attr("href");
-        //console.log("url:"+pageUrl)
         pageLinks.push(pageUrl);
-        // console.log(pageUrl)
       });
-
-    //console.log("length "+pageLinks.length)
 
     if (pageLinks.length == 30) {
       let numPages = $(".workshopBrowsePagingInfo").text();
@@ -123,8 +117,7 @@ app.get("/search/:name", async (req, res) => {
 
       const $$ = cheerio.load(axiosResponse.data);
 
-      const subCountElement = $$(".stats_table tr:nth-child(2) td:first-child");
-      const subCountText = subCountElement.text();
+      const subCountText = $$(".stats_table tr:nth-child(2) td:first-child").text();
       const subCount = Number(subCountText.replace(/[^0-9]/g, ''));
 
       var itemTitle = $$(".workshopItemTitle").text();
@@ -206,7 +199,6 @@ app.get("/search/:name", async (req, res) => {
 
     const modDataArray = await Promise.all(promises);
 
-    // Process modDataArray and build modList
     const modList = modDataArray.map((modData) => {
       const newMod = {
         name: modData.itemTitle,

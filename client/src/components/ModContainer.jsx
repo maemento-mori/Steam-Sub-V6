@@ -47,6 +47,7 @@ const ModContainer = ({ mods }) => {
       el.children[0].style.transform = "perspective(600px) rotateY(0deg)";
       el.children[1].style.transform = "perspective(600px) rotateY(-180deg)";
       el.setAttribute("flipped", "true");
+      $(closestModAvail).animate({ height: "+=" + difference });
     }
   };
 
@@ -76,20 +77,15 @@ const ModContainer = ({ mods }) => {
               <span className="sr-only">Link to mod page</span> 
             </a>
             <img className="modImage" src={mod.image} alt="Mod preview"></img>
-            <button
-              onClick={handleStatsButtonClick}
-              className="statsButton"
-              key={index}
-            >
-              Stats
-            </button>
           </div>
           <h3 className="smallTitle">{mod.name}</h3>
           <div className={"flip3D"} flipped="false">
             <div className="back">
+              <div className="closeButtonContainer">
               <span className="closeButton" onClick={handleCloseButtonClick}>
                 X
               </span>
+              </div>
               <table className="smallModStatistics">
                 <tbody>
                   <tr>
@@ -111,8 +107,7 @@ const ModContainer = ({ mods }) => {
                     <td className="smallTableValue backTable">
                       {mod.fileSize}
                     </td>
-                  </tr>
-
+                  </tr>                
                   <tr className="tagsRow" colSpan={2}>
                     <td className="tags" colSpan={2}>
                       {mod.workshopTags ? (
@@ -164,11 +159,22 @@ const ModContainer = ({ mods }) => {
                       <img src={mod.starsLink} alt="Mod stars rating"></img>
                     </td>
                   </tr>
+                  <tr>
+                  </tr>
                 </tbody>
               </table>
+              <div className="statsButtonContainer">
+              <button
+              onClick={handleStatsButtonClick}
+              className="statsButton"
+              key={index}
+            >
+              More Stats
+            </button>
+            </div>
             </div>
             <div className="frontInvis">
-              <table className="smallModStatistics">
+            <table className="smallModStatistics">
                 <tbody>
                   <tr>
                     <td className="smallTableLabel">Subs</td>
@@ -202,8 +208,18 @@ const ModContainer = ({ mods }) => {
                       <img src={mod.starsLink} alt="Mod stars rating"></img>
                     </td>
                   </tr>
+                  <tr>
+                  
+                  </tr>
                 </tbody>
               </table>
+              <button
+              onClick={handleStatsButtonClick}
+              className="statsButton"
+              key={index}
+            >
+              More Stats
+            </button>
             </div>
           </div>
         </div>
