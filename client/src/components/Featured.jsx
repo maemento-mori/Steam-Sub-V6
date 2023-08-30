@@ -2,33 +2,34 @@ import React, { useState, useEffect } from "react"; // Import useState
 import "../styles/featured.css";
 
 const Featured = ({ totals }) => {
-  const [showTotals, setShowTotals] = useState(false);
+  const [showFeatured, setShowFeatured] = useState(false);
 
   useEffect(() => {
     // Update the visibility of totalsContainer based on the totals prop
-    setShowTotals(totals.numMods !== null && totals.numMods !== undefined);
+    setShowFeatured(totals.featured !== undefined)
   }, [totals]);
 
   return (
     <>
-      {showTotals && (
+    {showFeatured && (
         <div className="featuredModContainer">
           <div className="featureModInner">
             <div className="featureImageContainer">
               <img
-                src={totals.featured.image}
+                src={totals.featured?.image}
                 alt="Featured mod"
                 className="featuredModImage"
               ></img>
             </div>
             <div className="featuredStatsTableContainer">
               <table className="featuredTable">
+                <tbody>
                 <tr>
-                  <th colSpan={2} className="featuredTableHead">{totals.featured.name}</th>
+                  <th colSpan={2} className="featuredTableHead">{totals.featured?.name}</th>
                 </tr>
                 <tr>
                   <td className="featuredTableValue">
-                    {totals.featured.subscribers}
+                    {totals.featured?.subscribers}
                   </td>
                   <td className="featuredTableLabel">
                     Downloads
@@ -36,7 +37,7 @@ const Featured = ({ totals }) => {
                 </tr>
                 <tr>
                   <td className="featuredTableValue">
-                    {totals.featured.ratings}
+                    {totals.featured?.ratings}
                   </td>
                   <td className="featuredTableLabel">
                     Ratings
@@ -44,7 +45,7 @@ const Featured = ({ totals }) => {
                 </tr>
                 <tr>
                   <td className="featuredTableValue">
-                    {totals.featured.awards}
+                    {totals.featured?.awards}
                   </td>
                   <td className="featuredTableLabel">
                     Awards
@@ -52,7 +53,7 @@ const Featured = ({ totals }) => {
                 </tr>
                 <tr>
                   <td className="featuredTableValue">
-                    {totals.featured.comments}
+                    {totals.featured?.comments}
                   </td>
                   <td className="featuredTableLabel">
                     Comments
@@ -60,28 +61,29 @@ const Featured = ({ totals }) => {
                 </tr>
                 <tr>
                   <td colSpan={2} className="featuredStars">
-                    <img src={totals.featured.starsLink} alt="Featured mod number of stars" className="featuredStarsImage"></img>
+                    <img src={totals.featured?.starsLink} alt="Featured mod number of stars" className="featuredStarsImage"></img>
                   </td>
                 </tr>
-                
-                
+                </tbody>
               </table>
               <table className="featuredTableBottom">
+                <tbody>
               <tr>
               <td className="featuredTableMid">Size</td>
                   <td className="featuredTableMid">Upload</td>
                   <td className="featuredTableMid">Updated</td>
                 </tr>
                 <tr>
-                <td className="featuredTableMid">{totals.featured.fileSize}</td>
-                  <td className="featuredTableMid">{totals.featured.uploadDate}</td>
-                  <td className="featuredTableMid">{totals.featured.updateDate}</td>
+                <td className="featuredTableMid">{totals.featured?.fileSize}</td>
+                  <td className="featuredTableMid">{totals.featured?.uploadDate}</td>
+                  <td className="featuredTableMid">{totals.featured?.updateDate}</td>
                 </tr>
+                </tbody>
               </table>
             </div>
           </div>
         </div>
-      )}
+    )}
     </>
   );
 };
