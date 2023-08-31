@@ -122,4 +122,6 @@ input:-webkit-autofill:active{
 
 .loadingText{
   margin-top:30px;
+  color: var(--body-color);
+  font-weight: bold;
 }

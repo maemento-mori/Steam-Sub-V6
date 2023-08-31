@@ -113,10 +113,15 @@
   transition: .3s;
   font-weight:bold;
   padding-right:10px;
+  color:#ff4c4c;
+  text-shadow: 0.03em 0.03em #8d0000;
+  transition: .25s;
 }
+
 
 .closeButton:hover{
   cursor: pointer;
+  color:#fb2222;
 }
 
 .closeButtonContainer{
