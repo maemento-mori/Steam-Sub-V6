@@ -52,6 +52,7 @@ vertical-align: middle;
   display: flex;
   align-items: baseline;
   color: #fff;
+  text-shadow: .04em .04em #000;
 }
 
 .player-info li+li{
@@ -246,7 +247,8 @@ vertical-align: middle;
 .player-name,
 .player-name:visited{
   text-decoration: none;
-  color:#fff;
+  color:var(--body-color);
+  text-shadow: .04em .04em #000;
 }
 
 .player-name:hover,
@@ -285,7 +287,8 @@ vertical-align: middle;
 }
 
 .favorite_badge_description{
-  color: #fff;
+  color: var(--body-color);
+  text-shadow: .04em .04em #000;
 }
 
 .favorite_badge{

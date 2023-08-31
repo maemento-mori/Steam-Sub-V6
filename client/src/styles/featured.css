@@ -27,7 +27,9 @@
 }
 
 .featuredStatsTableContainer{
-  background: rgb(234, 234, 234);
+  background-color: var(--dark-back);
+  border-radius:calc(0.1 * 100px);
+  box-shadow: 3px 3px 6px rgba(0,0,0,.45);
   width:50%;
   display: flex;
   flex-direction: column;
@@ -37,12 +39,16 @@
 .featuredTableLabel{
   text-align: left;
   padding-left: 1.25em;
+  color:var(--body-color);
+  text-shadow: .04em .04em #000;
 }
 
 .featuredTableValue{
   text-align: right;
   width:40%;
   font-weight: bold;
+  color:var(--light-green);
+  text-shadow: .04em .04em #000;
 }
 
 .featuredStars{
@@ -53,6 +59,8 @@
 .featuredTableHead{
   height: 2em;
   font-size: 1.25em;
+  color: var(--body-color);
+  text-shadow: .04em .04em #000;
 }
 
 .featuredTitle{
@@ -62,8 +70,14 @@
 .featuredTableMid{
   text-align: center;
   width: 33%;
+  color:var(--body-color);
+  text-shadow: .04em .04em #000;
 }
-
+.midValue{
+  color: var(--light-green);
+  font-weight: bold;
+  text-shadow: .04em .04em #000;
+}
 .featuredTableBottom{
   margin-top:10px;
 }
@@ -78,4 +92,10 @@
 
 .player-info li{
   list-style-type: none;
+}
+
+.featureModInner{
+  background-color: var(--light-back);
+  border-radius: calc(0.1 * 100px);
+  box-shadow: 3px 3px 6px rgba(0,0,0,.4), inset 3px 3px 6px rgba(255,255,255,.1)
 }

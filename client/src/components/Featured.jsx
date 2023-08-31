@@ -75,9 +75,9 @@ const Featured = ({ totals }) => {
                   <td className="featuredTableMid">Updated</td>
                 </tr>
                 <tr>
-                <td className="featuredTableMid">{totals.featured?.fileSize}</td>
-                  <td className="featuredTableMid">{totals.featured?.uploadDate}</td>
-                  <td className="featuredTableMid">{totals.featured?.updateDate}</td>
+                <td className="featuredTableMid midValue">{totals.featured?.fileSize}</td>
+                  <td className="featuredTableMid midValue">{totals.featured?.uploadDate}</td>
+                  <td className="featuredTableMid midValue">{totals.featured?.updateDate}</td>
                 </tr>
                 </tbody>
               </table>

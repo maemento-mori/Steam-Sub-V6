@@ -8,18 +8,23 @@
   justify-content: center;
   position: relative;
   flex-direction: column;
+  background-color: var(--light-back);
+  border-radius: calc(0.1 * 100px);
+  box-shadow: 3px 3px 6px rgba(0,0,0,.4), inset 3px 3px 6px rgba(255,255,255,.1);
 }
 
 
 .modImage{
   height:200px;
   width:200px;
+  
 }
 
 .smallTitle {
   text-align: center;
   margin: .5em 0;
-  color:var(--body-color)
+  color:var(--body-color);
+  text-shadow: .04em .04em #000;
 }
 
 .tableValue,
@@ -58,9 +63,16 @@
 }
 
 .smallModStatistics {
-  width: 100%;
+  width: 90%;
   padding: 0;
   padding-bottom: 0.5em;
+  background-color: var(--dark-back);
+  padding-top: 10px;
+  margin:auto;
+  margin-bottom: 10px;
+  border-radius:calc(0.1 * 100px);
+  box-shadow: 3px 3px 6px rgba(0,0,0,.45);
+
   
 }
 .flip3D{
@@ -92,7 +104,6 @@
   transition:.25s;
   transition-timing-function: ease-in-out; 
   background: var(--light-green);
-  border-radius:3px;
   padding: .1em;
   box-shadow: inset 2px 2px 4px #a5e151, inset -2px -2px 4px #61a10c, 1px 1px 2px #2a4802;
   font-weight:bold;
@@ -135,14 +146,14 @@
 }
 
 .smallTableValue{
-  padding-right:1.5em;
+  padding-right:1em;
   color: var(--light-green);
   font-weight:bold;
   text-shadow: .04em .04em #000;
 }
 
 .smallTableLabel{
-  padding-left: 1.5em;
+  padding-left: 1em;
   color: var(--body-color);
   text-shadow: .04em .04em #000;
 }
@@ -167,6 +178,18 @@
 
 .statsButton{
   margin-bottom: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0px 10px 14px -7px #3e7327;
+  background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+  background-color: #77b55a;
+  border: 1px solid #4b8f29;
+  display: inline-block;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 6px 12px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #5b8a3c;
 }
 
 .sr-only {
@@ -188,5 +211,6 @@
   .tagsHeader{
     text-align: center;
     color: var(--body-color);
+    text-shadow: .04em .04em #000;
     margin-bottom: 5px;
   }
