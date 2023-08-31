@@ -72,10 +72,12 @@ const ModContainer = ({ mods }) => {
           <div className="modImageContainer">
             <a name="ModImageLink" className="modImageLink" href={mod.link}>
               <span className="sr-only">Link to mod page</span>
+              <img className="modImage" src={mod.image} alt="Mod preview"></img>
             </a>
-            <img className="modImage" src={mod.image} alt="Mod preview"></img>
           </div>
-          <h3 className="smallTitle">{mod.name}</h3>
+          <h3 className="smallTitle">
+            <a href={mod.link}>{mod.name}</a>
+          </h3>
           <div className={"flip3D"} flipped="false">
             <div className="back">
               <div className="closeButtonContainer">
@@ -108,17 +110,17 @@ const ModContainer = ({ mods }) => {
                 </tbody>
               </table>
               <div className="tagsContainer">
-              <div className="tagsRow">
-                {mod.workshopTags ? (
-                  mod.workshopTags.map((tag, tagIndex) => (
-                    <span key={tagIndex} className="tag">
-                      {tag}
-                    </span>
-                  ))
-                ) : (
-                  <span>No tags available.</span>
-                )}
-              </div>
+                <div className="tagsRow">
+                  {mod.workshopTags ? (
+                    mod.workshopTags.map((tag, tagIndex) => (
+                      <span key={tagIndex} className="tag">
+                        {tag}
+                      </span>
+                    ))
+                  ) : (
+                    <span>No tags available.</span>
+                  )}
+                </div>
               </div>
             </div>
             <div className="front">

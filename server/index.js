@@ -16,53 +16,67 @@ app.get("/search/:name", async (req, res) => {
   const userNameProfileLink = `https://steamcommunity.com/id/${userNameID}`;
   const start = Date.now();
 
-  console.log(`>> Search Request : ${userNameID} <<`)
+  console.log(`>> Search Request : ${userNameID} <<`);
   console.log("[" + getTime(new Date()) + "]" + " : Initializing...");
 
   let totalStats = {};
 
   async function getUserData() {
-    console.log("[" + getTime(new Date()) + "]" + " : Getting user page data...");
+    console.log(
+      "[" + getTime(new Date()) + "]" + " : Getting user page data..."
+    );
 
     const axiosResponse = await axios.request({
       method: "GET",
-      url: userNameProfileLink
+      url: userNameProfileLink,
     });
     const $ = cheerio.load(axiosResponse.data);
-    
+
     const userName = $(".actual_persona_name").text();
-    const avatar = $(".playerAvatarAutoSizeInner img:nth-child(2)").attr('src');
-    const avatarFrame = $(".playerAvatarAutoSizeInner img:nth-child(1)").attr('src');
-    const playerLevel = $(".persona_level .friendPlayerLevelNum").text().slice(0, 2)
+    const avatar = $(".playerAvatarAutoSizeInner img:nth-child(2)").attr("src");
+    const avatarFrame = $(".playerAvatarAutoSizeInner img:nth-child(1)").attr(
+      "src"
+    );
+    const playerLevel = $(".persona_level .friendPlayerLevelNum")
+      .text()
+      .slice(0, 2);
     // playerLevel = playerLevel.slice(0, 2);
 
-    const playerLevelClasses = $(".persona_level .friendPlayerLevel").attr('class');
+    const playerLevelClasses = $(".persona_level .friendPlayerLevel").attr(
+      "class"
+    );
     const matches = playerLevelClasses.match(/lvl_\d+/);
-    const  playerLevelClass = matches[0];
+    const playerLevelClass = matches[0];
 
-    const realName = $(".header_real_name ellipsis bdi").text()
-    const profileDesc = $(".profile_summary").text()
-    const favBadgeIcon = $(".favorite_badge_icon").find("img").attr('src');
-    const favBadgeDesc = $(".favorite_badge_description")
-    const favBadgeName = $(favBadgeDesc).find(".name").text()
-    const favBadgeXP = $(favBadgeDesc).find(".xp").text()
-    const onlineStatus = ( ($(".profile_in_game_header").text().indexOf("Offline") >= 0) ? "Offline" : "Online")
+    const realName = $(".header_real_name ellipsis bdi").text();
+    const profileDesc = $(".profile_summary").text();
+    const favBadgeIcon = $(".favorite_badge_icon").find("img").attr("src");
+    const favBadgeDesc = $(".favorite_badge_description");
+    const favBadgeName = $(favBadgeDesc).find(".name").text();
+    const favBadgeXP = $(favBadgeDesc).find(".xp").text();
+    const onlineStatus =
+      $(".profile_in_game_header").text().indexOf("Offline") >= 0
+        ? "Offline"
+        : "Online";
     // const favBadgeIcon = $(".favorite_badge_icon").find("img").attr('src');
     const hasProfileBG = $(".profile_page .has_profile_background");
-    let profileBG = '';
+    let profileBG = "";
 
     if (hasProfileBG.length) {
-        const animatedBG = $(".profile_animated_background").find("video").attr('poster');
-        if (animatedBG) {
-            profileBG = animatedBG;
-        } else {
-            const matches = $(hasProfileBG).attr('style').match(/'([^']+)'/);
-            if (matches && matches.length > 1) {
-                profileBG = matches[1];
-            }
+      const animatedBG = $(".profile_animated_background")
+        .find("video")
+        .attr("poster");
+      if (animatedBG) {
+        profileBG = animatedBG;
+      } else {
+        const matches = $(hasProfileBG)
+          .attr("style")
+          .match(/'([^']+)'/);
+        if (matches && matches.length > 1) {
+          profileBG = matches[1];
         }
+      }
     }
-  
 
     const userProfileData = {
       userName: userName,
@@ -76,9 +90,8 @@ app.get("/search/:name", async (req, res) => {
       favBadgeName: favBadgeName,
       favBadgeXP: favBadgeXP,
       onlineStatus: onlineStatus,
-      profileBG: profileBG
-
-    }
+      profileBG: profileBG,
+    };
 
     return userProfileData;
   }
@@ -89,7 +102,7 @@ app.get("/search/:name", async (req, res) => {
 
     const axiosResponse = await axios.request({
       method: "GET",
-      url: userNameLink
+      url: userNameLink,
     });
     const $ = cheerio.load(axiosResponse.data);
 
@@ -131,7 +144,7 @@ app.get("/search/:name", async (req, res) => {
 
         const axiosResponse = await axios.request({
           method: "GET",
-          url: newPageNumberString
+          url: newPageNumberString,
         });
         const $ = cheerio.load(axiosResponse.data);
 
@@ -142,7 +155,6 @@ app.get("/search/:name", async (req, res) => {
             pageLinks.push(pageUrl);
           });
       } while (i < numPages - 1);
-
     }
 
     let userData = {};
@@ -152,7 +164,6 @@ app.get("/search/:name", async (req, res) => {
     const profileUrl = $("#HeaderUserInfoName").find("a").attr("href");
     const followerCount = $(".followStat").text().replace("\\", "");
     const workshopUrl = $(".HeaderUserInfoSection").find("a").attr("href");
-
 
     userData = {
       username: userName,
@@ -171,18 +182,20 @@ app.get("/search/:name", async (req, res) => {
       "[" + getTime(new Date()) + "]" + " : Getting individual mods..."
     );
 
-    let totalStars =[]
+    let totalStars = [];
 
     const promises = pageLinks.map(async (pageLink) => {
       const axiosResponse = await axios.request({
         method: "GET",
-        url: pageLink
+        url: pageLink,
       });
 
       const $$ = cheerio.load(axiosResponse.data);
 
-      const subCountText = $$(".stats_table tr:nth-child(2) td:first-child").text();
-      const subCount = Number(subCountText.replace(/[^0-9]/g, ''));
+      const subCountText = $$(
+        ".stats_table tr:nth-child(2) td:first-child"
+      ).text();
+      const subCount = Number(subCountText.replace(/[^0-9]/g, ""));
 
       var itemTitle = $$(".workshopItemTitle").text();
       let numRatings = $$(".numRatings").text();
@@ -257,7 +270,7 @@ app.get("/search/:name", async (req, res) => {
         fileSize,
         uploadDate,
         updateDate,
-        workshopTags
+        workshopTags,
       };
     });
 
@@ -277,19 +290,27 @@ app.get("/search/:name", async (req, res) => {
         fileSize: modData.fileSize,
         uploadDate: modData.uploadDate,
         updateDate: modData.updateDate,
-        workshopTags: modData.workshopTags
+        workshopTags: modData.workshopTags,
       };
       return newMod;
-  });
+    });
 
-    const calculateTotal = (arr) => arr.reduce((total, currentValue) => total + Number(currentValue), 0);
+    const calculateTotal = (arr) =>
+      arr.reduce((total, currentValue) => total + Number(currentValue), 0);
 
-    const totalSubsNumber = calculateTotal(modDataArray.map(data => data.subCount));
-    const totalAwardsNumber = calculateTotal(modDataArray.map(data => data.modAwards));
-    const totalRatingsNumber = calculateTotal(modDataArray.map(data => data.numRatings));
-    const totalCommentsNumber = calculateTotal(modDataArray.map(data => data.numComments));
+    const totalSubsNumber = calculateTotal(
+      modDataArray.map((data) => data.subCount)
+    );
+    const totalAwardsNumber = calculateTotal(
+      modDataArray.map((data) => data.modAwards)
+    );
+    const totalRatingsNumber = calculateTotal(
+      modDataArray.map((data) => data.numRatings)
+    );
+    const totalCommentsNumber = calculateTotal(
+      modDataArray.map((data) => data.numComments)
+    );
     const totalStarsNumber = calculateTotal(totalStars);
-
 
     const starAverage = Math.round(totalStarsNumber / totalStars.length);
 
@@ -317,15 +338,12 @@ app.get("/search/:name", async (req, res) => {
       avgStar: starAverage,
       numMods: modList.length,
     };
-    console.log(`\n`)
+    console.log(`\n`);
     return { totalStats, modList };
-
   } // !! End getIndividualMods
 
-
-
   async function init() {
-    const profileData =await getUserData();
+    const profileData = await getUserData();
     const { userData, pageLinks } = await getProfileData();
     let { totalStats, modList } = await getIndividualMods(pageLinks);
     let package = { userData, totalStats, modList, profileData };
@@ -345,22 +363,26 @@ app.get("/search/:name", async (req, res) => {
 });
 
 function getTime(today) {
-  const hours = today.getHours().toString().padStart(2, '0');
-  const minutes = today.getMinutes().toString().padStart(2, '0');
-  const seconds = today.getSeconds().toString().padStart(2, '0');
+  const hours = today.getHours().toString().padStart(2, "0");
+  const minutes = today.getMinutes().toString().padStart(2, "0");
+  const seconds = today.getSeconds().toString().padStart(2, "0");
 
-  return hours + ':' + minutes + ':' + seconds;
+  return hours + ":" + minutes + ":" + seconds;
 }
 
 function getDate(today) {
   const year = today.getFullYear();
-  const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to the month since it's zero-indexed
-  const day = today.getDate().toString().padStart(2, '0');
-  
+  const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Adding 1 to the month since it's zero-indexed
+  const day = today.getDate().toString().padStart(2, "0");
+
   return `${year}-${month}-${day}`;
 }
 
 app.listen(PORT, () => {
-  console.log(`[${getDate(new Date())} @ ${getTime(new Date())}] \nListening on port ${PORT}\n`);
-  console.log(".................................\n\n")
+  console.log(
+    `[${getDate(new Date())} @ ${getTime(
+      new Date()
+    )}] \nListening on port ${PORT}\n`
+  );
+  console.log(".................................\n\n");
 });

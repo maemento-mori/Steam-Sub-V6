@@ -1,76 +1,106 @@
-.totalsContainerOuter{
+.totalsContainerOuter {
   width: 30%;
   min-width: 350px;
 }
 
-.totalsContainer{
+.totalsContainer {
   width: 100%;
-  margin:auto;
-  margin-bottom:50px;
+  margin: auto;
+  margin-bottom: 50px;
 }
 
-.totalsTable{
+.totalsTable {
   width: 100%;
   border: 1px solid #0f0430;
-  border-radius:calc(0.1 * 100px);
+  border-radius: calc(0.1 * 100px);
   padding-bottom: 20px;
-  box-shadow: 3px 3px 6px rgba(0,0,0,.4), inset 3px 3px 6px rgba(255,255,255,.1);
-  background-color: var(--dark-back)
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.1);
+  background-color: var(--dark-back);
 }
 
-.totalsTable td{
-  padding: .25em;
+.totalsTable td {
+  padding: 0.25em;
 }
 
-.totalsTable td:first-child{
+.totalsTable td:first-child {
   padding-left: 1.5em;
 }
 
-.totalsTable td:nth-child(2){
-  padding-right: 1.5em;
+.totalsTable td:nth-child(2) {
+  padding-right: 3em;
 }
 
-.totalsHeader{
+.totalsHeader {
   padding: 1em 0;
-  border-bottom:1px solid #000;
+  border-bottom: 1px solid #000;
   color: var(--body-color);
-  text-shadow: .04em .04em #000;
-  
-  
+  text-shadow: 0.04em 0.04em #000;
 }
 
-.totalsUserName{
+.totalsUserName {
   border-bottom: 1px solid #000;
   padding: 15px 0;
   color: #fff;
-  text-shadow: .04em .04em #000;
+  text-shadow: 0.04em 0.04em #000;
 }
 
-.tableLabel{
+.tableLabel {
   color: var(--body-color);
-  text-shadow: .04em .04em #000;
-  font-weight:bold;
-}
-
-.tableValue{
-  color: var(--light-green);
-  text-shadow: .04em .04em #000;
+  text-shadow: 0.04em 0.04em #000;
   font-weight: bold;
 }
 
+.tableValue {
+  color: var(--light-green);
+  text-shadow: 0.04em 0.04em #000;
+  font-weight: bold;
+}
 
-.totalsTable td{
+.totalsTable td {
   height: 2em;
 }
 
-.avgTd{
-  display:flex;
+.avgTd {
+  display: flex;
   align-items: center;
   justify-content: flex-end;
-  
 }
 
-.starAverage{
-  padding-right:5px;
+.starAverage {
+  padding-right: 5px;
 }
 
+/* Fade Animation */
+.fade {
+  opacity: 1;
+  transition: opacity 1s ease-in-out; /* Adjust the duration and easing as needed */
+  padding-left: 10px;
+  position: absolute;
+  letter-spacing: 0.15em;
+}
+
+/* Fade Out Animation */
+.fade-out {
+  opacity: 0;
+}
+
+/* Increase Animation */
+.increase {
+  color: green; /* Change to your desired color */
+}
+
+/* Decrease Animation */
+.decrease {
+  color: red; /* Change to your desired color */
+}
+
+.totalsUserName a,
+.totalsUserName a:visited {
+  text-decoration: none;
+  color: #fff;
+}
+.totalsUserName a:hover,
+.totalsUserName a:focus {
+  text-decoration: underline;
+}

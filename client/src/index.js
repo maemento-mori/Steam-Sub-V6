@@ -22,7 +22,6 @@ function App() {
 
   return (
     <>
-      
       <Form
         mods={setModList}
         userData={setUserData}
@@ -30,9 +29,9 @@ function App() {
         profileData={setProfileData}
       />
       <div className="topContainer">
-        <Profile userData={userData} profileData={profileData}/>
-        <Featured totals={totalStats}/>
-        <TotalTable totals={totalStats} userData={userData}/>
+        <Profile userData={userData} profileData={profileData} />
+        <Featured totals={totalStats} />
+        <TotalTable totals={totalStats} userData={userData} />
       </div>
       <ModContainer mods={modList} />
     </>
