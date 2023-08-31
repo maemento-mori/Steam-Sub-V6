@@ -8,7 +8,7 @@
 }
 
 .introText {
-  /* Add your styles for introText here if needed */
+  color: var(--body-color);
 }
 
 /* Layout */

@@ -108,9 +108,6 @@ const ModContainer = ({ mods }) => {
                 </tbody>
               </table>
               <div className="tagsContainer">
-              <div className="tagsHeader">
-                <span>Tags</span>
-              </div>
               <div className="tagsRow">
                 {mod.workshopTags ? (
                   mod.workshopTags.map((tag, tagIndex) => (

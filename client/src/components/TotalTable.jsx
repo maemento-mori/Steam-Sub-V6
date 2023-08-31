@@ -56,7 +56,7 @@ const TotalTable = ({totals, userData}) => {
               </tr>
               <tr>
                 <td className="tableLabel">Avg Rating</td>
-                <td className="tableValue">
+                <td className="tableValue avgTd">
                   <span className="starAverage">{totals.avgStar}</span>
                   <img src={starImage} className="averageStarImage"></img>
                   </td>

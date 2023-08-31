@@ -33,32 +33,50 @@ app.get("/search/:name", async (req, res) => {
     const userName = $(".actual_persona_name").text();
     const avatar = $(".playerAvatarAutoSizeInner img:nth-child(2)").attr('src');
     const avatarFrame = $(".playerAvatarAutoSizeInner img:nth-child(1)").attr('src');
-    let playerLevel = $(".persona_level .friendPlayerLevelNum").text()
-    playerLevel = playerLevel.slice(0, 2);
+    const playerLevel = $(".persona_level .friendPlayerLevelNum").text().slice(0, 2)
+    // playerLevel = playerLevel.slice(0, 2);
+
+    const playerLevelClasses = $(".persona_level .friendPlayerLevel").attr('class');
+    const matches = playerLevelClasses.match(/lvl_\d+/);
+    const  playerLevelClass = matches[0];
+
     const realName = $(".header_real_name ellipsis bdi").text()
     const profileDesc = $(".profile_summary").text()
-    const favBadgeIcon = $(".favorite_badge_icon img").attr('src');
+    const favBadgeIcon = $(".favorite_badge_icon").find("img").attr('src');
     const favBadgeDesc = $(".favorite_badge_description")
-    const favBadgeName = $(`${favBadgeDesc} .name`).text()
-    const favBadgeXP = $(`${favBadgeDesc} .xp`).text()
-    let onlineStatus = $(".profile_in_game_header").text()
-    if (onlineStatus.indexOf("Offline") >= 0) {
-      onlineStatus = "Offline";
-    } else if (onlineStatus.indexOf("Online") >= 0) {
-      onlineStatus = "Online";
+    const favBadgeName = $(favBadgeDesc).find(".name").text()
+    const favBadgeXP = $(favBadgeDesc).find(".xp").text()
+    const onlineStatus = ( ($(".profile_in_game_header").text().indexOf("Offline") >= 0) ? "Offline" : "Online")
+    // const favBadgeIcon = $(".favorite_badge_icon").find("img").attr('src');
+    const hasProfileBG = $(".profile_page .has_profile_background");
+    let profileBG = '';
+
+    if (hasProfileBG.length) {
+        const animatedBG = $(".profile_animated_background").find("video").attr('poster');
+        if (animatedBG) {
+            profileBG = animatedBG;
+        } else {
+            const matches = $(hasProfileBG).attr('style').match(/'([^']+)'/);
+            if (matches && matches.length > 1) {
+                profileBG = matches[1];
+            }
+        }
     }
+  
 
     const userProfileData = {
       userName: userName,
       avatar: avatar,
       avatarFrame: avatarFrame,
       playerLevel: playerLevel,
+      playerLevelClass: playerLevelClass,
       realName: realName,
       profileDesc: profileDesc,
       favBadgeIcon: favBadgeIcon,
       favBadgeName: favBadgeName,
       favBadgeXP: favBadgeXP,
-      onlineStatus: onlineStatus
+      onlineStatus: onlineStatus,
+      profileBG: profileBG
 
     }
 

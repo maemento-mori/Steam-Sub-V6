@@ -11,7 +11,10 @@
 
 .totalsTable{
   width: 100%;
-  border: 1px solid;
+  border: 1px solid var(--border-color);
+  border-radius:calc(0.1 * 100px);
+  padding-bottom: 20px;
+  box-shadow: 3px 3px 6px rgba(0,0,0,.4), inset 3px 3px 6px rgba(255,255,255,.1);
 }
 
 .totalsTable td{
@@ -19,19 +22,50 @@
 }
 
 .totalsTable td:first-child{
-  padding-left: 1em;
+  padding-left: 1.5em;
 }
 
 .totalsTable td:nth-child(2){
-  padding-right: 1em;
+  padding-right: 1.5em;
 }
 
 .totalsHeader{
   padding: 1em 0;
-  border-bottom:1px solid;
+  border-bottom:1px solid var(--border-color);
+  color: var(--body-color);
+  
 }
 
 .totalsUserName{
-  border-bottom: 1px solid;
+  border-bottom: 1px solid var(--border-color);
   padding: 15px 0;
+  color: #fff;
 }
+
+.tableLabel{
+  color: var(--body-color);
+  font-weight:bold;
+}
+
+.tableValue{
+  color: var(--light-green);
+  text-shadow: .04em .04em #000;
+  font-weight: bold;
+}
+
+
+.totalsTable td{
+  height: 2em;
+}
+
+.avgTd{
+  display:flex;
+  align-items: center;
+  justify-content: flex-end;
+  
+}
+
+.starAverage{
+  padding-right:5px;
+}
+

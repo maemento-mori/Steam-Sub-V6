@@ -3,7 +3,7 @@
 .mod {
   width: calc(5% + 200px);
   margin: 1em 1.25em;
-  border: 1px solid rgba(27, 27, 27, 0.75);
+  border: 1px solid var(--border-color);
   display: flex;
   justify-content: center;
   position: relative;
@@ -19,6 +19,7 @@
 .smallTitle {
   text-align: center;
   margin: .5em 0;
+  color:var(--body-color)
 }
 
 .tableValue,
@@ -90,7 +91,17 @@
   font-weight:bold;
   transition:.25s;
   transition-timing-function: ease-in-out; 
-  
+  background: var(--light-green);
+  border-radius:3px;
+  padding: .1em;
+  box-shadow: inset 2px 2px 4px #a5e151, inset -2px -2px 4px #61a10c, 1px 1px 2px #2a4802;
+  font-weight:bold;
+  transition:.25s;
+  transition-timing-function: ease-in-out; 
+}
+
+.tag:hover{
+  background: #82bb37
 }
 
 
@@ -120,10 +131,15 @@
 
 .smallTableValue{
   padding-right:1.5em;
+  color: var(--light-green);
+  font-weight:bold;
+  text-shadow: .04em .04em #000;
 }
 
 .smallTableLabel{
   padding-left: 1.5em;
+  color: var(--body-color);
+  text-shadow: .04em .04em #000;
 }
 
 .modContainer{
@@ -161,8 +177,11 @@
     display: flex;
     flex-wrap: wrap;
     padding: 0 .25em;
+    
   }
 
   .tagsHeader{
     text-align: center;
+    color: var(--body-color);
+    margin-bottom: 5px;
   }
