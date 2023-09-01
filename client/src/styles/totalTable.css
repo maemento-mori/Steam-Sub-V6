@@ -77,7 +77,6 @@
   transition: opacity 1s ease-in-out; /* Adjust the duration and easing as needed */
   padding-left: 10px;
   position: absolute;
-  letter-spacing: 0.15em;
 }
 
 /* Fade Out Animation */

@@ -58,7 +58,7 @@ const TotalTable = ({ totals, userData }) => {
                   <td className="tableLabel">Downloads</td>
                   <td className="tableValue">
                     {String(totals.total).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-                    {console.log(totalDifference)}
+                    {/* {console.log(totalDifference)} */}
                     {totalDifference !== 0 && !isReallyNaN(totalDifference) && (
                       <span
                         className={`fade ${fadeOut ? "fade-out" : ""} ${
