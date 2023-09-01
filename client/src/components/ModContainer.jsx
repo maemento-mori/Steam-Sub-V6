@@ -6,7 +6,7 @@ const ModContainer = ({ mods }) => {
   const [prevSubscribers, setPrevSubscribers] = useState({});
   const [differences, setDifferences] = useState({});
   const [fadeOut, setFadeOut] = useState(false);
-  
+  const [showMods, setShowMods] = useState(false);
 
   const updateSubscribersDifference = (modIndex, newSubscribers, modName) => {
     if (prevSubscribers[modIndex] !== undefined) {
@@ -21,10 +21,16 @@ const ModContainer = ({ mods }) => {
   useEffect(() => {
     const newSubscribers = {};
     const newDifferences = {}; // Create a new object to store differences
+    setShowMods(Object.keys(mods).length > 1);
+
+    
 
     Object.keys(mods).forEach((modIndex) => {
       newSubscribers[modIndex] = mods[modIndex].subscribers;
-      newDifferences[modIndex] = updateSubscribersDifference(modIndex, mods[modIndex].subscribers);
+      newDifferences[modIndex] = updateSubscribersDifference(
+        modIndex,
+        mods[modIndex].subscribers
+      );
     });
 
     setPrevSubscribers(newSubscribers);
@@ -37,7 +43,11 @@ const ModContainer = ({ mods }) => {
     const newDifferences = {};
     Object.keys(mods).forEach((modIndex) => {
       const mod = mods[modIndex];
-      const difference = updateSubscribersDifference(modIndex, mod.subscribers, mod.name);
+      const difference = updateSubscribersDifference(
+        modIndex,
+        mod.subscribers,
+        mod.name
+      );
       newDifferences[modIndex] = difference;
 
       if (difference !== 0) {
@@ -126,7 +136,11 @@ const ModContainer = ({ mods }) => {
             <div className="modImageContainer">
               <a name="ModImageLink" className="modImageLink" href={mod.link}>
                 <span className="sr-only">Link to mod page</span>
-                <img className="modImage" src={mod.image} alt="Mod preview"></img>
+                <img
+                  className="modImage"
+                  src={mod.image}
+                  alt="Mod preview"
+                ></img>
               </a>
             </div>
             <h3 className="smallTitle">
@@ -135,7 +149,10 @@ const ModContainer = ({ mods }) => {
             <div className={"flip3D"} flipped="false">
               <div className="back">
                 <div className="closeButtonContainer">
-                  <span className="closeButton" onClick={handleCloseButtonClick}>
+                  <span
+                    className="closeButton"
+                    onClick={handleCloseButtonClick}
+                  >
                     X
                   </span>
                 </div>
@@ -183,42 +200,62 @@ const ModContainer = ({ mods }) => {
                     <tr>
                       <td className="smallTableLabel">Subscribers</td>
                       <td className="smallTableValue">
-                        {String(mod.subscribers).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
+                        {String(mod.subscribers).replace(
+                          /(.)(?=(\d{3})+$)/g,
+                          "$1,"
+                        )}
                         {/* {console.log(prevSubscribers[modIndex])} */}
                       </td>
-                      {prevSubscribers[modIndex] !== undefined && difference !== 0 ? (
-  <div className={`subscriberDifference fade ${fadeOut ? "fade-out" : ""} ${difference > 0 ? 'increase' : difference < 0 ? 'decrease' : ''} `}>
-  {`${difference > 0 ? '+' : ''}${difference}`}
-</div>
-) : null}
+                      {prevSubscribers[modIndex] !== undefined &&
+                      difference !== 0 ? (
+                        <div
+                          className={`subscriberDifference fade ${
+                            fadeOut ? "fade-out" : ""
+                          } ${
+                            difference > 0
+                              ? "increase"
+                              : difference < 0
+                              ? "decrease"
+                              : ""
+                          } `}
+                        >
+                          {`${difference > 0 ? "+" : ""}${difference}`}
+                        </div>
+                      ) : null}
                     </tr>
-                  <tr>
-                    <td className="smallTableLabel">Awards</td>
-                    <td className="smallTableValue">
-                      {String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="smallTableLabel">Comments</td>
-                    <td className="smallTableValue">
-                      {String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="smallTableLabel">Ratings</td>
-                    <td className="smallTableValue">
-                      {String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan={2} className="modstars">
-                      <img src={mod.starsLink} alt="Mod stars rating"></img>
-                    </td>
-                  </tr>
-                  <tr></tr>
-                </tbody>
-              </table>
-              <div className="statsButtonContainer">
+                    <tr>
+                      <td className="smallTableLabel">Awards</td>
+                      <td className="smallTableValue">
+                        {String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="smallTableLabel">Comments</td>
+                      <td className="smallTableValue">
+                        {String(mod.comments).replace(
+                          /(.)(?=(\d{3})+$)/g,
+                          "$1,"
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="smallTableLabel">Ratings</td>
+                      <td className="smallTableValue">
+                        {String(mod.ratings).replace(
+                          /(.)(?=(\d{3})+$)/g,
+                          "$1,"
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2} className="modstars">
+                        <img src={mod.starsLink} alt="Mod stars rating"></img>
+                      </td>
+                    </tr>
+                    <tr></tr>
+                  </tbody>
+                </table>
+                <div className="statsButtonContainer">
                   <button
                     onClick={handleStatsButtonClick}
                     className="statsButton"
@@ -231,45 +268,63 @@ const ModContainer = ({ mods }) => {
               <div className="frontInvis">
                 <table className="smallModStatistics">
                   <tbody>
-                  <tr>
+                    <tr>
                       <td className="smallTableLabel">Subscribers</td>
                       <td className="smallTableValue">
-                        {String(mod.subscribers).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
+                        {String(mod.subscribers).replace(
+                          /(.)(?=(\d{3})+$)/g,
+                          "$1,"
+                        )}
                         {/* {console.log(prevSubscribers[modIndex])} */}
                       </td>
-                      {prevSubscribers[modIndex] !== undefined && difference !== 0 ? (
-  <div className={`subscriberDifference ${difference > 0 ? 'increase' : difference < 0 ? 'decrease' : ''}`}>
-  {`${difference > 0 ? '+' : ''}${difference}`}
-</div>
-) : null}
+                      {prevSubscribers[modIndex] !== undefined &&
+                      difference !== 0 ? (
+                        <div
+                          className={`subscriberDifference ${
+                            difference > 0
+                              ? "increase"
+                              : difference < 0
+                              ? "decrease"
+                              : ""
+                          }`}
+                        >
+                          {`${difference > 0 ? "+" : ""}${difference}`}
+                        </div>
+                      ) : null}
                     </tr>
-                  <tr>
-                    <td className="smallTableLabel">Awards</td>
-                    <td className="smallTableValue">
-                      {String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="smallTableLabel">Comments</td>
-                    <td className="smallTableValue">
-                      {String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="smallTableLabel">Ratings</td>
-                    <td className="smallTableValue">
-                      {String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colSpan={2} className="modstars">
-                      <img src={mod.starsLink} alt="Mod stars rating"></img>
-                    </td>
-                  </tr>
-                  <tr></tr>
-                </tbody>
-              </table>
-              <button
+                    <tr>
+                      <td className="smallTableLabel">Awards</td>
+                      <td className="smallTableValue">
+                        {String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="smallTableLabel">Comments</td>
+                      <td className="smallTableValue">
+                        {String(mod.comments).replace(
+                          /(.)(?=(\d{3})+$)/g,
+                          "$1,"
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="smallTableLabel">Ratings</td>
+                      <td className="smallTableValue">
+                        {String(mod.ratings).replace(
+                          /(.)(?=(\d{3})+$)/g,
+                          "$1,"
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2} className="modstars">
+                        <img src={mod.starsLink} alt="Mod stars rating"></img>
+                      </td>
+                    </tr>
+                    <tr></tr>
+                  </tbody>
+                </table>
+                <button
                   onClick={handleStatsButtonClick}
                   className="statsButton"
                   key={modIndex}
@@ -286,7 +341,9 @@ const ModContainer = ({ mods }) => {
   return (
     <>
       <div>
+      {showMods && ( // Conditionally render based on showTotals state
         <div className="modContainer">{arrayModItems}</div>
+      )}
       </div>
     </>
   );
