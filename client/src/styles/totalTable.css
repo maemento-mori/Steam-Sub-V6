@@ -14,8 +14,7 @@
   border: 1px solid #0f0430;
   border-radius: calc(0.1 * 100px);
   padding-bottom: 20px;
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4),
-    inset 3px 3px 6px rgba(255, 255, 255, 0.1);
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4), inset 3px 3px 6px rgba(255, 255, 255, 0.1);
   background-color: var(--dark-back);
 }
 
@@ -33,7 +32,7 @@
 
 .totalsTable td:nth-child(3) {
   padding-right: 0.5em;
-  color:var(--body-color)
+  color: var(--body-color);
 }
 
 .totalsHeader {
@@ -110,7 +109,6 @@
   text-decoration: underline;
 }
 
-
-.invis{
+.invis {
   visibility: hidden;
 }

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import "../styles/totalTable.css";
-import starImage from "../images/star.png";
+import React, { useState, useEffect } from 'react';
+import '../styles/totalTable.css';
+import starImage from '../images/star.png';
 
 // !! Define the TotalTable component
-const TotalTable = function({ totals, userData }) {
+const TotalTable = function ({ totals, userData }) {
   // Define state variables using the useState hook
   const [showTotals, setShowTotals] = useState(false);
   const [fade, setFade] = useState(false);
 
   // () Custom hook for tracking differences in values
-  const useDifferenceState = (initialValue, source = "totals") => {
+  const useDifferenceState = (initialValue, source = 'totals') => {
     // Initialize state variables for previous value and difference
     const [prevValue, setPrevValue] = useState(null);
     const [difference, setDifference] = useState(initialValue);
@@ -21,7 +21,7 @@ const TotalTable = function({ totals, userData }) {
         let newDifference = 0;
 
         // # Determine the source of the value (totals or userData)
-        if (source === "userData") {
+        if (source === 'userData') {
           newDifference = userData[initialValue] - prevValue;
         } else {
           newDifference = totals[initialValue] - prevValue;
@@ -41,7 +41,7 @@ const TotalTable = function({ totals, userData }) {
       }
 
       // # Set the previous value based on the source
-      if (source === "userData") {
+      if (source === 'userData') {
         setPrevValue(userData[initialValue]);
       } else {
         setPrevValue(totals[initialValue]);
@@ -53,12 +53,12 @@ const TotalTable = function({ totals, userData }) {
   };
 
   // () Use the custom hook to track differences for various statistics
-  const [totalDifferenceMods, prevTotalMods] = useDifferenceState("numMods");
-  const [totalDifference, prevTotal] = useDifferenceState("total");
-  const [totalDifferenceAwards, prevTotalAwards] = useDifferenceState("awards");
-  const [totalDifferenceRatings, prevTotalRatings] = useDifferenceState("ratings");
-  const [totalDifferenceComments, prevTotalComments] = useDifferenceState("comments");
-  const [totalDifferenceFollowers, prevTotalFollowers] = useDifferenceState("followers", "userData");
+  const [totalDifferenceMods, prevTotalMods] = useDifferenceState('numMods');
+  const [totalDifference, prevTotal] = useDifferenceState('total');
+  const [totalDifferenceAwards, prevTotalAwards] = useDifferenceState('awards');
+  const [totalDifferenceRatings, prevTotalRatings] = useDifferenceState('ratings');
+  const [totalDifferenceComments, prevTotalComments] = useDifferenceState('comments');
+  const [totalDifferenceFollowers, prevTotalFollowers] = useDifferenceState('followers', 'userData');
 
   // () useEffect hook to update the visibility of the totalsContainer
   useEffect(() => {
@@ -70,28 +70,22 @@ const TotalTable = function({ totals, userData }) {
     return (
       <tr>
         <td className="tableLabel">{label}</td>
-        <td className="tableValue">
-          {String(value).replace(/(.)(?=(\d{3})+$)/g, "$1,")}
-        </td>
+        <td className="tableValue">{String(value).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
         <td>
           {differenceValue !== 0 && !isReallyNaN(differenceValue) && (
-            <span
-              className={`fade ${fade ? "fade-out" : ""} ${
-                differenceValue > 0 ? "increase" : "decrease"
-              }`}
-            >
-              {differenceValue > 0 ? "+" : ""}
+            <span className={`fade ${fade ? 'fade-out' : ''} ${differenceValue > 0 ? 'increase' : 'decrease'}`}>
+              {differenceValue > 0 ? '+' : ''}
               {differenceValue}
             </span>
           )}
-          <span className="invis">{differenceValue ? "" : "+0"}</span>
+          <span className="invis">{differenceValue ? '' : '+0'}</span>
         </td>
       </tr>
     );
   };
 
   // () Helper function to check if a value is really NaN
-  const isReallyNaN = (value) => typeof value === "number" && isNaN(value);
+  const isReallyNaN = (value) => typeof value === 'number' && isNaN(value);
 
   // () Render the component's UI
   return (
@@ -111,10 +105,10 @@ const TotalTable = function({ totals, userData }) {
                 </th>
               </tr>
               {/* Render rows for different statistics */}
-              {renderTableRow("Mods Released", totals.numMods, totalDifferenceMods)}
-              {renderTableRow("Downloads", totals.total, totalDifference)}
-              {renderTableRow("Awards", totals.awards, totalDifferenceAwards)}
-              {renderTableRow("Ratings", totals.ratings, totalDifferenceRatings)}
+              {renderTableRow('Mods Released', totals.numMods, totalDifferenceMods)}
+              {renderTableRow('Downloads', totals.total, totalDifference)}
+              {renderTableRow('Awards', totals.awards, totalDifferenceAwards)}
+              {renderTableRow('Ratings', totals.ratings, totalDifferenceRatings)}
               <tr>
                 <td className="tableLabel">Avg Rating</td>
                 <td className="tableValue avgTd">
@@ -122,8 +116,8 @@ const TotalTable = function({ totals, userData }) {
                   <img src={starImage} className="averageStarImage" alt="Star" />
                 </td>
               </tr>
-              {renderTableRow("Comments", totals.comments, totalDifferenceComments)}
-              {renderTableRow("Followers", userData.followers, totalDifferenceFollowers)}
+              {renderTableRow('Comments', totals.comments, totalDifferenceComments)}
+              {renderTableRow('Followers', userData.followers, totalDifferenceFollowers)}
             </tbody>
           </table>
         </div>

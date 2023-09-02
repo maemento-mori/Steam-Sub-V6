@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import "../styles/form.css";
+import React, { Component } from 'react';
+import '../styles/form.css';
 
 class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchQuery: "",
-      formErrors: { searchQuery: "" },
+      searchQuery: '',
+      formErrors: { searchQuery: '' },
       formValid: false,
       userData: {},
       totalStats: {},
       mods: {},
       profileData: {},
       showLoading: false,
-      loadingText: "Loading",
+      loadingText: 'Loading',
       fetchDataIntervalId: null,
     };
   }
@@ -28,9 +28,9 @@ class Form extends Component {
   validateField(fieldName, value) {
     const { formErrors } = this.state;
     let searchValid = false;
-    let userName = "";
+    let userName = '';
 
-    if (fieldName === "searchQuery") {
+    if (fieldName === 'searchQuery') {
       const usernameRegex = /^[a-zA-Z0-9_-]+$/;
       const userLinkRegex =
         /^(https?:\/\/)?(www\.)?steamcommunity\.com\/id\/(\w+)(\/myworkshopfiles(\/\?appid=\d+)?)?\/?$/;
@@ -40,7 +40,7 @@ class Form extends Component {
 
       searchValid = userLinkRegex.test(value) || usernameRegex.test(value);
 
-      formErrors.searchQuery = searchValid || value === "" ? "" : " is invalid";
+      formErrors.searchQuery = searchValid || value === '' ? '' : ' is invalid';
 
       if (matchLink) {
         userName = matchLink[3];
@@ -81,7 +81,7 @@ class Form extends Component {
     this.props.profileData({});
 
     //alert(ref.current.value);
-    fetch("/search/" + this.state.userName)
+    fetch('/search/' + this.state.userName)
       .then((res) => res.json())
       .then((data) => {
         this.setState({
@@ -96,7 +96,7 @@ class Form extends Component {
       });
 
     const fetchDataIntervalId = setInterval(() => {
-      fetch("/search/" + this.state.searchQuery)
+      fetch('/search/' + this.state.searchQuery)
         .then((res) => res.json())
         .then((data) => {
           this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
@@ -105,7 +105,7 @@ class Form extends Component {
           this.props.profileData(data.profileData);
           //console.log(data.modList)
         });
-    }, 30000);
+    }, 10000);
 
     this.setState({ fetchDataIntervalId });
   };
@@ -113,15 +113,8 @@ class Form extends Component {
   componentDidMount() {
     this.loadingTextInterval = setInterval(() => {
       this.setState((prevState) => {
-        const loadingTextVariations = [
-          "Loading",
-          "Loading.",
-          "Loading..",
-          "Loading...",
-        ];
-        const currentIndex =
-          (loadingTextVariations.indexOf(prevState.loadingText) + 1) %
-          loadingTextVariations.length;
+        const loadingTextVariations = ['Loading', 'Loading.', 'Loading..', 'Loading...'];
+        const currentIndex = (loadingTextVariations.indexOf(prevState.loadingText) + 1) % loadingTextVariations.length;
         return { loadingText: loadingTextVariations[currentIndex] };
       });
     }, 500);
@@ -132,7 +125,7 @@ class Form extends Component {
   }
 
   errorClass(error) {
-    return error.length === 0 ? "" : "has-error";
+    return error.length === 0 ? '' : 'has-error';
   }
 
   renderFormErrors() {
@@ -143,12 +136,9 @@ class Form extends Component {
         {Object.keys(formErrors).map((fieldName, i) => {
           if (formErrors[fieldName].length > 0) {
             return (
-              <p
-                key={i}
-                className={fieldName === "searchQuery" ? "searchWarning" : ""}
-              >
-                {fieldName === "searchQuery"
-                  ? "Please enter a valid steam ID, profile link, or workshop URL"
+              <p key={i} className={fieldName === 'searchQuery' ? 'searchWarning' : ''}>
+                {fieldName === 'searchQuery'
+                  ? 'Please enter a valid steam ID, profile link, or workshop URL'
                   : `${fieldName} ${formErrors[fieldName]}`}
               </p>
             );
@@ -165,15 +155,11 @@ class Form extends Component {
     return (
       <>
         <div className="wrapper">
-          <div className="introText">
-            Enter Steam ID, profile link, or workshop link to get started...
-          </div>
+          <div className="introText">Enter Steam ID, profile link, or workshop link to get started...</div>
           <div className="searchContainer">
             <div className="searchContainer2">
               <form
-                className={`search-form form-container ${this.errorClass(
-                  formErrors.searchQuery
-                )}`}
+                className={`search-form form-container ${this.errorClass(formErrors.searchQuery)}`}
                 onSubmit={this.handleSubmit}
               >
                 <input
@@ -184,19 +170,13 @@ class Form extends Component {
                   className="input-text"
                   value={searchQuery}
                 />
-                <button
-                  type="submit"
-                  className="input-submit"
-                  disabled={!formValid || showLoading}
-                >
+                <button type="submit" className="input-submit" disabled={!formValid || showLoading}>
                   Search
                 </button>
               </form>
               {this.renderFormErrors()}
 
-              <div className="loadingText">
-                {this.state.showLoading ? this.state.loadingText : ""}
-              </div>
+              <div className="loadingText">{this.state.showLoading ? this.state.loadingText : ''}</div>
             </div>
           </div>
         </div>

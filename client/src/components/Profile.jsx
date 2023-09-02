@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react"; // Import useState
-import "../styles/profile.css";
+import React, { useState, useEffect } from 'react'; // Import useState
+import '../styles/profile.css';
 
 const Profile = ({ userData, profileData }) => {
   const [showProfile, setShowProfile] = useState(false);
   const [showBadge, setShowBadge] = useState(false);
   const [showStyle, setShowStyle] = useState(false);
   useEffect(() => {
-
     setShowProfile(Object.keys(userData).length !== 0);
     setShowStyle(Object.keys(profileData).length !== 0);
-    setShowBadge(profileData.favBadgeIcon !== undefined)
+    setShowBadge(profileData.favBadgeIcon !== undefined);
 
     // Update the visibility of totalsContainer based on the totals prop
   }, [userData, profileData]);
@@ -19,11 +18,7 @@ const Profile = ({ userData, profileData }) => {
       {showProfile && (
         <div
           className="header-info-holder"
-          style={
-            showStyle
-              ? { backgroundImage: `url("${profileData.profileBG}")` }
-              : { background: "#fff" }
-          }
+          style={showStyle ? { backgroundImage: `url("${profileData.profileBG}")` } : { background: '#fff' }}
         >
           <a href={userData.profileUrl} className="avatar-holder" title="Player avatar">
             <img src={profileData.avatarFrame} className="avatar-frame"></img>
@@ -37,34 +32,26 @@ const Profile = ({ userData, profileData }) => {
             </h1>
             <ul className="player-info">
               <li>
-                <span className="playerLevelLabel">
-                  {profileData.playerLevel ? "Level " : ""}
-                </span>
-                <div
-                  className={`friendPlayerLevel ${profileData.playerLevelClass}`}
-                >
+                <span className="playerLevelLabel">{profileData.playerLevel ? 'Level ' : ''}</span>
+                <div className={`friendPlayerLevel ${profileData.playerLevelClass}`}>
                   {profileData.playerLevel ? (
-                    <span className="friendPlayerLevelNum">
-                      {profileData?.playerLevel}{" "}
-                    </span>
+                    <span className="friendPlayerLevelNum">{profileData?.playerLevel} </span>
                   ) : (
-                    ""
+                    ''
                   )}
                 </div>
               </li>
               <li>
-                <span className="friendPlayerOnlineStatus">
-                  {profileData?.onlineStatus}
-                </span>
+                <span className="friendPlayerOnlineStatus">{profileData?.onlineStatus}</span>
               </li>
               <li>
-                <button 
-                className="friendPlayerProfileLink"
-                title="Open creator's profile (New tab)"
-                target="_blank"
-                onClick={function(){
-                  window.open(userData.profileUrl);
-                }}
+                <button
+                  className="friendPlayerProfileLink"
+                  title="Open creator's profile (New tab)"
+                  target="_blank"
+                  onClick={function () {
+                    window.open(userData.profileUrl);
+                  }}
                 >
                   Go to Profile
                 </button>
@@ -75,10 +62,7 @@ const Profile = ({ userData, profileData }) => {
             <div className="favorite_badge">
               <div className="favorite_badge_icon">
                 {console.log(profileData.favBadgeIcon)}
-                <img
-                  className="badge_icon small"
-                  src={profileData.favBadgeIcon}
-                ></img>
+                <img className="badge_icon small" src={profileData.favBadgeIcon}></img>
               </div>
               <div className="favorite_badge_description">
                 <div className="name">{profileData.favBadgeName}</div>

@@ -10,8 +10,7 @@
   flex-direction: column;
   background-color: var(--light-back);
   border-radius: calc(0.1 * 100px);
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4),
-    inset 3px 3px 6px rgba(255, 255, 255, 0.1),
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4), inset 3px 3px 6px rgba(255, 255, 255, 0.1),
     inset 0 0 22px rgba(23, 23, 23, 0.85);
 }
 
@@ -72,7 +71,7 @@
   margin: auto;
   margin-bottom: 10px;
   border-radius: calc(0.1 * 100px);
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.45),inset 0 0 52px rgba(15, 10, 52, 0.65);
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.45), inset 0 0 52px rgba(15, 10, 52, 0.65);
 }
 .flip3D {
   overflow-y: scroll;
@@ -104,8 +103,7 @@
   transition-timing-function: ease-in-out;
   background: var(--light-green);
   padding: 0.1em;
-  box-shadow: inset 2px 2px 4px #a5e151, inset -2px -2px 4px #61a10c,
-    1px 1px 2px #2a4802;
+  box-shadow: inset 2px 2px 4px #a5e151, inset -2px -2px 4px #61a10c, 1px 1px 2px #2a4802;
   font-weight: bold;
   transition: 0.25s;
   transition-timing-function: ease-in-out;
@@ -143,7 +141,7 @@
 }
 
 .smallTableValue {
-  padding-right: 2em;
+  padding-right: 1em;
   color: var(--light-green);
   font-weight: bold;
   text-shadow: 0.04em 0.04em #000;
@@ -199,28 +197,28 @@
   text-decoration: underline;
 }
 
-.subscriberDifference{
+.subscriberDifference {
   position: absolute;
   right: 1.5em;
-  font-weight:bold;
+  font-weight: bold;
 }
 
-.gameTitle{
+.gameTitle {
   text-align: center;
 }
-.gameImage{
+.gameImage {
   width: 90%;
   max-height: 120px;
-  border-radius: calc(.1 * 100px);
+  border-radius: calc(0.1 * 100px);
 }
 
-.buttonHolder{
-  display:flex;
+.buttonHolder {
+  display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
-.buttonHolder button{
+.buttonHolder button {
   margin-bottom: 10px;
   border-radius: 3px;
   cursor: pointer;
@@ -234,17 +232,15 @@
   padding: 6px 12px;
   text-decoration: none;
   text-shadow: 0px 1px 0px #5b8a3c;
-  transition: .3s;
+  transition: 0.3s;
   transition-timing-function: ease-in-out;
 }
 
-
-.buttonHolder button:hover{
+.buttonHolder button:hover {
   background: #457d2b;
   background-color: #457d2b;
-  border: none
+  border: none;
 }
-
 
 .buttonHolder button {
   font-weight: bold;
@@ -261,7 +257,7 @@
 .buttonHolder button.statsButton:hover {
   border-radius: 5px;
   padding-right: 24px;
-  padding-left:8px;
+  padding-left: 8px;
 }
 .buttonHolder button.linkButton:hover:after,
 .buttonHolder button.statsButton:hover:after {
@@ -270,7 +266,7 @@
 }
 .buttonHolder button.linkButton:after,
 .buttonHolder button.statsButton:after {
-  content: "\00BB";
+  content: '\00BB';
   position: absolute;
   opacity: 0;
   font-size: 22px;
@@ -279,4 +275,6 @@
   transition: 0.4s;
 }
 
-
+.smallModStatistics tr td:nth-child(3) {
+  min-width: 20px;
+}

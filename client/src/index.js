@@ -1,15 +1,15 @@
-import React, { useState } from "react"; // Import useState
-import ReactDOM from "react-dom/client";
+import React, { useState } from 'react'; // Import useState
+import ReactDOM from 'react-dom/client';
 
-import "./index.css";
+import './index.css';
 
-import Form from "./components/Form";
-import ModContainer from "./components/ModContainer";
-import TotalTable from "./components/TotalTable";
-import Featured from "./components/Featured";
-import Profile from "./components/Profile";
+import Form from './components/Form';
+import ModContainer from './components/ModContainer';
+import TotalTable from './components/TotalTable';
+import Featured from './components/Featured';
+import Profile from './components/Profile';
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 function App() {
   // Create a functional component
@@ -22,12 +22,7 @@ function App() {
 
   return (
     <>
-      <Form
-        mods={setModList}
-        userData={setUserData}
-        totalStats={setTotalStats}
-        profileData={setProfileData}
-      />
+      <Form mods={setModList} userData={setUserData} totalStats={setTotalStats} profileData={setProfileData} />
       <div className="topContainer">
         <Profile userData={userData} profileData={profileData} />
         <Featured totals={totalStats} />
