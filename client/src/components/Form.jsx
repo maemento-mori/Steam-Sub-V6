@@ -105,7 +105,7 @@ class Form extends Component {
           this.props.profileData(data.profileData);
           //console.log(data.modList)
         });
-    }, 10000);
+    }, 30000);
 
     this.setState({ fetchDataIntervalId });
   };

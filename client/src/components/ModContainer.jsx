@@ -5,7 +5,6 @@ import $ from 'jquery';
 const ModContainer = ({ mods }) => {
   // const [prevSubscribers, setPrevSubscribers] = useState({});
   const [differences, setDifferences] = useState({});
-  const [fadeOut, setFadeOut] = useState(false);
   const [showMods, setShowMods] = useState(false);
 
   const [prevSubscribers, setPrevSubscribers] = useState({});
@@ -19,6 +18,9 @@ const ModContainer = ({ mods }) => {
   const [ratingsDifferences, setRatingsDifferences] = useState({});
 
   const [fade, setFade] = useState(false);
+
+  const [sortOrder, setSortOrder] = useState('desc'); // State for sorting order
+  const [sortBy, setSortBy] = useState('subscribers'); // State for sorting criteria
 
   const updateDifferences = (modIndex, newValue, oldValue, valueKey) => {
     if (oldValue !== undefined) {
@@ -150,11 +152,42 @@ const ModContainer = ({ mods }) => {
     }
   };
 
+  // Function to sort mods based on the selected criteria
+  const sortMods = (criteria) => {
+    const modsArray = Object.values(mods);
+    modsArray.sort((modA, modB) => {
+      const valueA = modA[criteria];
+      const valueB = modB[criteria];
+      if (sortOrder === 'asc') {
+        return valueA - valueB;
+      } else {
+        return valueB - valueA;
+      }
+    });
+    return modsArray;
+  };
+
+  // Handle click on the sort button for different criteria
+  const handleSortButtonClick = (criteria) => {
+    // Toggle the sorting order if the same criteria is clicked again
+    if (sortBy === criteria) {
+      const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+      setSortOrder(newSortOrder);
+    } else {
+      // Set the new sorting criteria and default to ascending order
+      setSortBy(criteria);
+      setSortOrder('desc');
+    }
+  };
+
+  // Get the sorted mod items based on the selected criteria
+  const sortedMods = sortMods(sortBy);
+
   let arrayModItems;
 
   if (Object.keys(mods).length > 0) {
-    arrayModItems = Object.keys(mods).map((modIndex) => {
-      const mod = mods[modIndex];
+    arrayModItems = Object.keys(sortedMods).map((modIndex) => {
+      const mod = sortedMods[modIndex];
       // >> const difference = differences[modIndex]; // Use differences from state
 
       const subscriberDifference = subscribersDifferences[modIndex];
@@ -500,12 +533,48 @@ const ModContainer = ({ mods }) => {
       );
     });
   }
+
+  let sortButtons;
+
+  sortButtons = () => {
+    return (
+      <>
+        <div className="sortButtonsContainer">
+          <p>Sort : </p>
+          <button
+            className={`sortBy-subs ${sortBy === 'subscribers' ? 'active' : ''}`}
+            onClick={() => handleSortButtonClick('subscribers')}
+          >
+            Subscribers
+            {sortBy === 'subscribers' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+          </button>
+          <button
+            className={`sortBy-awards ${sortBy === 'awards' ? 'active' : ''}`}
+            onClick={() => handleSortButtonClick('awards')}
+          >
+            Awards {sortBy === 'awards' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+          </button>
+          <button
+            className={`sortBy-comments ${sortBy === 'comments' ? 'active' : ''}`}
+            onClick={() => handleSortButtonClick('comments')}
+          >
+            Comments {sortBy === 'comments' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+          </button>
+          <button
+            className={`sortBy-stars ${sortBy === 'stars' ? 'active' : ''}`}
+            onClick={() => handleSortButtonClick('stars')}
+          >
+            Stars {sortBy === 'stars' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+          </button>
+        </div>
+      </>
+    );
+  };
   return (
     <>
       <div>
-        {showMods && ( // Conditionally render based on showTotals state
-          <div className="modContainer">{arrayModItems}</div>
-        )}
+        {sortButtons()}
+        {showMods && <div className="modContainer">{arrayModItems}</div>}
       </div>
     </>
   );

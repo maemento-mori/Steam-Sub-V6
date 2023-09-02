@@ -21,8 +21,8 @@ const Profile = ({ userData, profileData }) => {
           style={showStyle ? { backgroundImage: `url("${profileData.profileBG}")` } : { background: '#fff' }}
         >
           <a href={userData.profileUrl} className="avatar-holder" title="Player avatar">
-            <img src={profileData.avatarFrame} className="avatar-frame"></img>
-            <img src={profileData.avatar} className="avatar"></img>
+            <img src={profileData.avatarFrame} className="avatar-frame" alt="Avatar Frame"></img>
+            <img src={profileData.avatar} className="avatar" alt="Player avatar image"></img>
           </a>
           <div className="player-text">
             <h1 className="header-title">
