@@ -59,7 +59,6 @@ const ModContainer = ({ mods }) => {
 
         setTimeout(() => {
           newDifferences[modIndex] = 0;
-          // xx setDifferences({ ...newDifferences });
           setFadeOut(true); // Trigger fade out animation
         }, 4000);
       }
@@ -124,17 +123,35 @@ const ModContainer = ({ mods }) => {
     }
   };
 
+  
+
   let arrayModItems;
 
   if (Object.keys(mods).length > 0) {
     arrayModItems = Object.keys(mods).map((modIndex) => {
       const mod = mods[modIndex];
       const difference = differences[modIndex]; // Use differences from state
+
+      const handleShareButtonClick = (event) => {
+        let buttonText = $(event.target).closest('span');
+        // $(buttonText).html('Copied Link')
+        navigator.clipboard.writeText(mod.link);
+
+        $("#shareButtonText").fadeOut(300, function() {
+          $(this).html("Link Copied").fadeIn(300);
+          setTimeout( () => {
+            $("#shareButtonText").fadeOut(400, function() {
+              $(this).html("Share").fadeIn(400);
+            })
+          },2300)
+      });
+      }
+
       return (
         <>
           <div className="mod" key={modIndex}>
             <div className="modImageContainer">
-              <a name="ModImageLink" className="modImageLink" href={mod.link}>
+              <a name="ModImageLink" className="modImageLink" href={mod.link} target="_blank">
                 <span className="sr-only">Link to mod page</span>
                 <img
                   className="modImage"
@@ -145,7 +162,7 @@ const ModContainer = ({ mods }) => {
               </a>
             </div>
             <h3 className="smallTitle">
-              <a href={mod.link}>{mod.name}</a>
+              <a href={mod.link} title={mod.name} target="_blank">{mod.name}</a>
             </h3>
             <div className={"flip3D"} flipped="false">
               <div className="back">
@@ -257,14 +274,42 @@ const ModContainer = ({ mods }) => {
                   </tbody>
                 </table>
 
-                <div className="statsButtonContainer">
-                  <button
-                    onClick={handleStatsButtonClick}
-                    className="statsButton"
-                    key={modIndex}
-                  >
-                    More Stats
-                  </button>
+                <div className="buttonHolder">
+
+                  <div className="statsButtonContainer">
+                    <button
+                      onClick={handleStatsButtonClick}
+                      className="statsButton"
+                      key={modIndex}
+                      title="Show mod statistics"
+                    >
+                      <span>Stats</span>
+                    </button>
+                  </div>
+
+                  <div className="modLinkButtonContainer">
+                      <button
+                        className="linkButton"
+                        key={modIndex}
+                        title={mod.link}
+                        onClick={function(){
+                          window.open(mod.link);
+                        }}
+                      >
+                        <span>Go to Mod</span>
+                      </button>
+                  </div>
+                          
+                  <div className="shareButtonContainer">
+                    <button
+                      onClick={handleShareButtonClick}
+                      className="shareButton"
+                      title="Copy link to clipboard"
+                      key={modIndex}
+                    >
+                      <span id="shareButtonText">Share</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div className="gameTitle">
@@ -335,18 +380,48 @@ const ModContainer = ({ mods }) => {
                   </tbody>
                 </table>
 
-                <div className="statsButtonContainer">
-                  <button
-                    onClick={handleStatsButtonClick}
-                    className="statsButton"
-                    key={modIndex}
-                  >
-                    More Stats
-                  </button>
+                <div className="buttonHolder">
+
+                  <div className="statsButtonContainer">
+                    <button
+                      onClick={handleStatsButtonClick}
+                      className="statsButton"
+                      key={modIndex}
+                      title="Show mod statistics"
+                    >
+                      <span>Stats</span>
+                    </button>
+                  </div>
+
+                  <div className="modLinkButtonContainer">
+                      <button
+                        className="linkButton"
+                        key={modIndex}
+                        title={mod.link}
+                        onClick={function(){
+                          window.open(mod.link);
+                        }}
+                      >
+                        <span>Go to Mod</span>
+                      </button>
+                  </div>
+                          
+                  <div className="shareButtonContainer">
+                    <button
+                      onClick={handleShareButtonClick}
+                      className="shareButton"
+                      title="Copy link to clipboard"
+                      key={modIndex}
+                    >
+                      <span id="shareButtonText">Share</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div className="gameTitle">
+                <a href={mod.gameHubLink}>
                   <img className="gameImage" title={mod.gameName} src={mod.gameImage} alt="Game the mod is from"></img>
+                </a>
                 </div>
 
                 

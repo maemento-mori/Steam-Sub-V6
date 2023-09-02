@@ -167,27 +167,6 @@
   padding-top: 15px;
 }
 
-.statsButtonContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.statsButton {
-  margin-bottom: 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  box-shadow: 0px 7px 7px -7px #3e7327;
-  background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
-  background-color: #77b55a;
-  border: 1px solid #4b8f29;
-  display: inline-block;
-  color: #ffffff;
-  font-size: 13px;
-  padding: 6px 12px;
-  text-decoration: none;
-  text-shadow: 0px 1px 0px #5b8a3c;
-}
-
 .sr-only {
   position: absolute;
   left: -10000px;
@@ -233,4 +212,35 @@
   width: 90%;
   max-height: 120px;
   border-radius: calc(.1 * 100px);
+}
+
+.buttonHolder{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.buttonHolder button{
+  margin-bottom: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0px 7px 7px -7px #3e7327;
+  background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+  background-color: #77b55a;
+  border: 1px solid #4b8f29;
+  display: inline-block;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 6px 12px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #5b8a3c;
+  transition: .3s;
+  transition-timing-function: ease-in-out;
+}
+
+
+.buttonHolder button:hover{
+  background: #457d2b;
+  background-color: #457d2b;
+  border: 1px solid rgb(58, 118, 28);
 }
