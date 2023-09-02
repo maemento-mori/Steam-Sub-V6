@@ -280,7 +280,7 @@ const ModContainer = ({ mods }) => {
                             {subscriberDifference}
                           </span>
                         ) : (
-                          ''
+                          <span className="invis">{subscriberDifference ? '' : '+0'}</span>
                         )}
                       </td>
                     </tr>
@@ -298,7 +298,7 @@ const ModContainer = ({ mods }) => {
                             {awardDifference}
                           </span>
                         ) : (
-                          ''
+                          <span className="invis">{awardDifference ? '' : '+0'}</span>
                         )}
                       </td>
                     </tr>
@@ -316,7 +316,7 @@ const ModContainer = ({ mods }) => {
                             {commentDifference}
                           </span>
                         ) : (
-                          ''
+                          <span className="invis">{commentDifference ? '' : '+0'}</span>
                         )}
                       </td>
                     </tr>
@@ -334,7 +334,7 @@ const ModContainer = ({ mods }) => {
                             {ratingDifference}
                           </span>
                         ) : (
-                          ''
+                          <span className="invis">{ratingDifference ? '' : '+0'}</span>
                         )}
                       </td>
                     </tr>
@@ -343,7 +343,6 @@ const ModContainer = ({ mods }) => {
                         <img src={mod.starsLink} alt="Mod stars rating"></img>
                       </td>
                     </tr>
-                    <tr></tr>
                   </tbody>
                 </table>
 
