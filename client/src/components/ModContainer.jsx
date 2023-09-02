@@ -170,8 +170,9 @@ const ModContainer = ({ mods }) => {
                   <span
                     className="closeButton"
                     onClick={handleCloseButtonClick}
+                    title="Close extra mod statistics"
                   >
-                    X
+                    &#9747;
                   </span>
                 </div>
                 <table className="smallModStatistics">
@@ -202,7 +203,11 @@ const ModContainer = ({ mods }) => {
                   <div className="tagsRow">
                     {mod.workshopTags ? (
                       mod.workshopTags.map((tag, tagIndex) => (
-                        <span key={tagIndex} className="tag">
+                        <span 
+                        key={tagIndex} 
+                        className="tag"
+                        title={tag}
+                        >
                           {tag}
                         </span>
                       ))
@@ -266,7 +271,7 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td colSpan={2} className="modstars">
+                      <td colSpan={2} className="modstars" title="Mod rating">
                         <img src={mod.starsLink} alt="Mod stars rating"></img>
                       </td>
                     </tr>
@@ -291,7 +296,7 @@ const ModContainer = ({ mods }) => {
                       <button
                         className="linkButton"
                         key={modIndex}
-                        title={mod.link}
+                        title={`${mod.link} (New tab)`}
                         onClick={function(){
                           window.open(mod.link);
                         }}
@@ -397,7 +402,7 @@ const ModContainer = ({ mods }) => {
                       <button
                         className="linkButton"
                         key={modIndex}
-                        title={mod.link}
+                        title={`${mod.link} (New tab)`}
                         onClick={function(){
                           window.open(mod.link);
                         }}

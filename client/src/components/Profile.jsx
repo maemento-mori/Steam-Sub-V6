@@ -3,15 +3,13 @@ import "../styles/profile.css";
 
 const Profile = ({ userData, profileData }) => {
   const [showProfile, setShowProfile] = useState(false);
+  const [showBadge, setShowBadge] = useState(false);
   const [showStyle, setShowStyle] = useState(false);
   useEffect(() => {
-    // console.log(userData)
-    // console.log(userData !== undefined && userData !== null)
-    setShowProfile(Object.keys(userData).length !== 0);
-    // console.log(profileData)
-    // console.log(Object.keys(profileData).length !== 0)
 
+    setShowProfile(Object.keys(userData).length !== 0);
     setShowStyle(Object.keys(profileData).length !== 0);
+    setShowBadge(profileData.favBadgeIcon !== undefined)
 
     // Update the visibility of totalsContainer based on the totals prop
   }, [userData, profileData]);
@@ -27,13 +25,13 @@ const Profile = ({ userData, profileData }) => {
               : { background: "#fff" }
           }
         >
-          <a href={userData.profileUrl} className="avatar-holder">
+          <a href={userData.profileUrl} className="avatar-holder" title="Player avatar">
             <img src={profileData.avatarFrame} className="avatar-frame"></img>
             <img src={profileData.avatar} className="avatar"></img>
           </a>
           <div className="player-text">
             <h1 className="header-title">
-              <a href={userData.profileUrl} className="player-name">
+              <a href={userData.profileUrl} className="player-name" title={`${profileData.userName}'s Steam profile`}>
                 {profileData?.userName}
               </a>
             </h1>
@@ -60,24 +58,34 @@ const Profile = ({ userData, profileData }) => {
                 </span>
               </li>
               <li>
-                <button className="friendPlayerProfileLink">
+                <button 
+                className="friendPlayerProfileLink"
+                title="Open creator's profile (New tab)"
+                target="_blank"
+                onClick={function(){
+                  window.open(userData.profileUrl);
+                }}
+                >
                   Go to Profile
                 </button>
               </li>
             </ul>
           </div>
-          <div className="favorite_badge">
-            <div className="favorite_badge_icon">
-              <img
-                className="badge_icon small"
-                src={profileData.favBadgeIcon}
-              ></img>
+          {showBadge && (
+            <div className="favorite_badge">
+              <div className="favorite_badge_icon">
+                {console.log(profileData.favBadgeIcon)}
+                <img
+                  className="badge_icon small"
+                  src={profileData.favBadgeIcon}
+                ></img>
+              </div>
+              <div className="favorite_badge_description">
+                <div className="name">{profileData.favBadgeName}</div>
+                <div className="xp">{profileData.favBadgeXP}</div>
+              </div>
             </div>
-            <div className="favorite_badge_description">
-              <div className="name">{profileData.favBadgeName}</div>
-              <div className="xp">{profileData.favBadgeXP}</div>
-            </div>
-          </div>
+          )}
         </div>
       )}
     </>

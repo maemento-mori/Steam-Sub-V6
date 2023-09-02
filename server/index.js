@@ -227,6 +227,10 @@ app.get("/search/:name", async (req, res) => {
 
       let imageLink = $$("#previewImageMain").attr("src");
 
+      if (!imageLink){
+        imageLink = $$("#previewImage").attr("src");
+      }
+
       let numStars = $$(".fileRatingDetails").find("img").attr("src");
       let numStarsLink = numStars;
 
@@ -287,7 +291,7 @@ app.get("/search/:name", async (req, res) => {
         fileSize,
         uploadDate,
         updateDate,
-        workshopTags,
+        workshopTags
       };
     });
 
@@ -310,8 +314,9 @@ app.get("/search/:name", async (req, res) => {
         fileSize: modData.fileSize,
         uploadDate: modData.uploadDate,
         updateDate: modData.updateDate,
-        workshopTags: modData.workshopTags,
+        workshopTags: modData.workshopTags
       };
+      console.log(newMod.hightlightScreenshots)
       return newMod;
     });
 

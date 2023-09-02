@@ -242,5 +242,41 @@
 .buttonHolder button:hover{
   background: #457d2b;
   background-color: #457d2b;
-  border: 1px solid rgb(58, 118, 28);
+  border: none
 }
+
+
+.buttonHolder button {
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  overflow: hidden;
+  border-radius: 5px;
+  border: none;
+}
+.buttonHolder button.linkButton:hover,
+.buttonHolder button.statsButton:hover {
+  border-radius: 5px;
+  padding-right: 24px;
+  padding-left:8px;
+}
+.buttonHolder button.linkButton:hover:after,
+.buttonHolder button.statsButton:hover:after {
+  opacity: 1;
+  right: 7px;
+}
+.buttonHolder button.linkButton:after,
+.buttonHolder button.statsButton:after {
+  content: "\00BB";
+  position: absolute;
+  opacity: 0;
+  font-size: 22px;
+  top: 0;
+  right: -20px;
+  transition: 0.4s;
+}
+
+
