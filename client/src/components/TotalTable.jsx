@@ -49,7 +49,7 @@ const TotalTable = function ({ totals, userData }) {
     }, [totals, userData, source]);
 
     // () Return the current difference and previous value
-    return [difference, prevValue];
+    return [difference];
   };
 
   // () Use the custom hook to track differences for various statistics

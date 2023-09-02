@@ -196,8 +196,6 @@ const ModContainer = ({ mods }) => {
       const ratingDifference = ratingsDifferences[modIndex];
 
       const handleShareButtonClick = (event) => {
-        let buttonText = $(event.target).closest('span');
-        // $(buttonText).html('Copied Link')
         navigator.clipboard.writeText(mod.link);
 
         $('#shareButtonText').fadeOut(300, function () {
@@ -214,13 +212,13 @@ const ModContainer = ({ mods }) => {
         <>
           <div className="mod" key={modIndex}>
             <div className="modImageContainer">
-              <a name="ModImageLink" className="modImageLink" href={mod.link} target="_blank">
+              <a name="ModImageLink" className="modImageLink" href={mod.link} target="_blank" rel="noreferrer">
                 <span className="sr-only">Link to mod page</span>
                 <img className="modImage" src={mod.image} alt="Mod preview" title={mod.name}></img>
               </a>
             </div>
             <h3 className="smallTitle">
-              <a href={mod.link} title={mod.name} target="_blank">
+              <a href={mod.link} title={mod.name} target="_blank" rel="noreferrer">
                 {mod.name}
               </a>
             </h3>

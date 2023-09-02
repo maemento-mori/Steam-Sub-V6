@@ -22,7 +22,7 @@ const Profile = ({ userData, profileData }) => {
         >
           <a href={userData.profileUrl} className="avatar-holder" title="Player avatar">
             <img src={profileData.avatarFrame} className="avatar-frame" alt="Avatar Frame"></img>
-            <img src={profileData.avatar} className="avatar" alt="Player avatar image"></img>
+            <img src={profileData.avatar} className="avatar" alt="Player avatar"></img>
           </a>
           <div className="player-text">
             <h1 className="header-title">
@@ -62,7 +62,7 @@ const Profile = ({ userData, profileData }) => {
             <div className="favorite_badge">
               <div className="favorite_badge_icon">
                 {console.log(profileData.favBadgeIcon)}
-                <img className="badge_icon small" src={profileData.favBadgeIcon} alt="Favorite badge icon"></img>
+                <img className="badge_icon small" src={profileData.favBadgeIcon} alt="Favorite badge"></img>
               </div>
               <div className="favorite_badge_description">
                 <div className="name">{profileData.favBadgeName}</div>
