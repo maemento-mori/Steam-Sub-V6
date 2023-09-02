@@ -1,39 +1,45 @@
-import React, { useState, useEffect } from 'react' // Import useState
+import React from 'react'
 
-function SortButtons({ mods = {}, sortBy, sortOrder, handleSortButtonClick }) {
-  const [showSortButtons, setShowSortButtons] = useState(false)
-
-  useEffect(() => {
-    setShowSortButtons(Object.keys(mods).length !== 0)
-  }, [mods])
-
-  // Define an array of sorting options
-  const sortingOptions = [
-    { key: 'subscribers', label: 'Subscribers' },
-    { key: 'awards', label: 'Awards' },
-    { key: 'comments', label: 'Comments' },
-    { key: 'stars', label: 'Rating' },
-    { key: 'gameName', label: 'Game' },
-  ]
-
+const SortButtons = ({ sortBy, sortOrder, handleSortButtonClick }) => {
   return (
     <div className="sortButtonsContainer">
-      {showSortButtons && (
-        <div>
-          <p>Sort : </p>
-          {sortingOptions.map((option) => (
-            <button
-              key={option.key}
-              className={`sortBy-${option.key} ${sortBy === option.key ? 'active' : ''}`}
-              onClick={() => handleSortButtonClick(option.key)}
-              title={`Sort by ${option.label}`}
-            >
-              {option.label}
-              {sortBy === option.key ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
-            </button>
-          ))}
-        </div>
-      )}
+      <p>Sort : </p>
+      <button
+        className={`sortBy-subs ${sortBy === 'subscribers' ? 'active' : ''}`}
+        onClick={() => handleSortButtonClick('subscribers')}
+        title="Sort by subscribers"
+      >
+        Subscribers
+        {sortBy === 'subscribers' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+      </button>
+      <button
+        className={`sortBy-awards ${sortBy === 'awards' ? 'active' : ''}`}
+        onClick={() => handleSortButtonClick('awards')}
+        title="Sort by awards"
+      >
+        Awards {sortBy === 'awards' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+      </button>
+      <button
+        className={`sortBy-comments ${sortBy === 'comments' ? 'active' : ''}`}
+        onClick={() => handleSortButtonClick('comments')}
+        title="Sort by comments"
+      >
+        Comments {sortBy === 'comments' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+      </button>
+      <button
+        className={`sortBy-ratings ${sortBy === 'stars' ? 'active' : ''}`}
+        onClick={() => handleSortButtonClick('stars')}
+        title="Sort by ratings"
+      >
+        Rating {sortBy === 'stars' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+      </button>
+      <button
+        onClick={() => handleSortButtonClick('gameName')}
+        className={`sortBy-game ${sortBy === 'gameName' ? 'active' : ''}`}
+        title="Sort by game"
+      >
+        Game
+      </button>
     </div>
   )
 }

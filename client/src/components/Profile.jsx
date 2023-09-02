@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react'; // Import useState
-import '../styles/profile.css';
+import React, { useState, useEffect } from 'react' // Import useState
+import '../styles/profile.css'
 
 const Profile = ({ userData, profileData }) => {
-  const [showProfile, setShowProfile] = useState(false);
-  const [showBadge, setShowBadge] = useState(false);
-  const [showStyle, setShowStyle] = useState(false);
+  const [showProfile, setShowProfile] = useState(false)
+  const [showBadge, setShowBadge] = useState(false)
+  const [showStyle, setShowStyle] = useState(false)
   useEffect(() => {
-    setShowProfile(Object.keys(userData).length !== 0);
-    setShowStyle(Object.keys(profileData).length !== 0);
-    setShowBadge(profileData.favBadgeIcon !== undefined);
+    setShowProfile(Object.keys(userData).length !== 0)
+    setShowStyle(Object.keys(profileData).length !== 0)
+    setShowBadge(profileData.favBadgeIcon !== undefined)
 
     // Update the visibility of totalsContainer based on the totals prop
-  }, [userData, profileData]);
+  }, [userData, profileData])
 
   return (
     <>
@@ -50,7 +50,7 @@ const Profile = ({ userData, profileData }) => {
                   title={`${profileData.userName}'s Steam profile`}
                   target="_blank"
                   onClick={function () {
-                    window.open(userData.profileUrl);
+                    window.open(userData.profileUrl)
                   }}
                 >
                   Go to Profile
@@ -61,7 +61,6 @@ const Profile = ({ userData, profileData }) => {
           {showBadge && (
             <div className="favorite_badge">
               <div className="favorite_badge_icon">
-                {console.log(profileData.favBadgeIcon)}
                 <img className="badge_icon small" src={profileData.favBadgeIcon} alt="Favorite badge"></img>
               </div>
               <div className="favorite_badge_description">
@@ -73,7 +72,7 @@ const Profile = ({ userData, profileData }) => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

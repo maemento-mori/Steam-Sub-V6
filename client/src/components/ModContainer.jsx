@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/modContainer.css'
 import $ from 'jquery'
+import SortButtons from './SortButtons' // Import the SortButtons component
 
 const ModContainer = ({ mods }) => {
   // const [prevSubscribers, setPrevSubscribers] = useState({});
@@ -62,6 +63,7 @@ const ModContainer = ({ mods }) => {
     const newCommentsDifferences = {}
     const newRatingsDifferences = {}
 
+    console.log(Object.keys(mods).length)
     setShowMods(Object.keys(mods).length > 1)
 
     Object.keys(mods).forEach((modIndex) => {
@@ -540,6 +542,9 @@ const ModContainer = ({ mods }) => {
       <div>
         {showMods && (
           <>
+            {/* Use the SortButtons component */}
+            <SortButtons sortBy={sortBy} sortOrder={sortOrder} handleSortButtonClick={handleSortButtonClick} />
+
             <div className="modContainer">{arrayModItems}</div>
           </>
         )}

@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import '../styles/form.css';
+import React, { Component } from 'react'
+import '../styles/form.css'
 
 class Form extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       searchQuery: '',
       formErrors: { searchQuery: '' },
@@ -15,40 +15,40 @@ class Form extends Component {
       showLoading: false,
       loadingText: 'Loading',
       fetchDataIntervalId: null,
-    };
+    }
   }
 
   handleUserInput = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     this.setState({ [name]: value }, () => {
-      this.validateField(name, value);
-    });
-  };
+      this.validateField(name, value)
+    })
+  }
 
   validateField(fieldName, value) {
-    const { formErrors } = this.state;
-    let searchValid = false;
-    let userName = '';
+    const { formErrors } = this.state
+    let searchValid = false
+    let userName = ''
 
     if (fieldName === 'searchQuery') {
-      const usernameRegex = /^[a-zA-Z0-9_-]+$/;
+      const usernameRegex = /^[a-zA-Z0-9_-]+$/
       const userLinkRegex =
-        /^(https?:\/\/)?(www\.)?steamcommunity\.com\/id\/(\w+)(\/myworkshopfiles(\/\?appid=\d+)?)?\/?$/;
+        /^(https?:\/\/)?(www\.)?steamcommunity\.com\/id\/(\w+)(\/myworkshopfiles(\/\?appid=\d+)?)?\/?$/
 
-      const matchLink = value.match(userLinkRegex);
-      const matchUserName = value.match(usernameRegex);
+      const matchLink = value.match(userLinkRegex)
+      const matchUserName = value.match(usernameRegex)
 
-      searchValid = userLinkRegex.test(value) || usernameRegex.test(value);
+      searchValid = userLinkRegex.test(value) || usernameRegex.test(value)
 
-      formErrors.searchQuery = searchValid || value === '' ? '' : ' is invalid';
+      formErrors.searchQuery = searchValid || value === '' ? '' : ' is invalid'
 
       if (matchLink) {
-        userName = matchLink[3];
+        userName = matchLink[3]
       } else if (matchUserName) {
-        userName = matchUserName[0];
+        userName = matchUserName[0]
       }
 
-      console.log(userName);
+      console.log(userName)
     }
 
     this.setState(
@@ -58,7 +58,7 @@ class Form extends Component {
         userName: userName,
       },
       this.validateForm
-    );
+    )
   }
 
   validateForm() {
@@ -66,19 +66,19 @@ class Form extends Component {
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (this.state.fetchDataIntervalId) {
-      clearInterval(this.state.fetchDataIntervalId);
+      clearInterval(this.state.fetchDataIntervalId)
     }
 
     this.setState({
       showLoading: true,
-    });
-    this.props.mods({});
-    this.props.totalStats({});
-    this.props.userData({});
-    this.props.profileData({});
+    })
+    this.props.mods({})
+    this.props.totalStats({})
+    this.props.userData({})
+    this.props.profileData({})
 
     //alert(ref.current.value);
     fetch('/search/' + this.state.userName)
@@ -86,50 +86,50 @@ class Form extends Component {
       .then((data) => {
         this.setState({
           showLoading: false,
-        });
-        this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
-        this.props.userData(data.userData);
-        this.props.totalStats(data.totalStats);
-        console.log(data.profileData);
-        this.props.profileData(data.profileData);
+        })
+        this.props.mods(data.modList) // Assuming `data.modList` is the data you want to update
+        this.props.userData(data.userData)
+        this.props.totalStats(data.totalStats)
+        // console.log(data.profileData);
+        this.props.profileData(data.profileData)
         //console.log(data.modList)
-      });
+      })
 
     const fetchDataIntervalId = setInterval(() => {
       fetch('/search/' + this.state.searchQuery)
         .then((res) => res.json())
         .then((data) => {
-          this.props.mods(data.modList); // Assuming `data.modList` is the data you want to update
-          this.props.userData(data.userData);
-          this.props.totalStats(data.totalStats);
-          this.props.profileData(data.profileData);
+          this.props.mods(data.modList) // Assuming `data.modList` is the data you want to update
+          this.props.userData(data.userData)
+          this.props.totalStats(data.totalStats)
+          this.props.profileData(data.profileData)
           //console.log(data.modList)
-        });
-    }, 30000);
+        })
+    }, 30000)
 
-    this.setState({ fetchDataIntervalId });
-  };
+    this.setState({ fetchDataIntervalId })
+  }
 
   componentDidMount() {
     this.loadingTextInterval = setInterval(() => {
       this.setState((prevState) => {
-        const loadingTextVariations = ['Loading', 'Loading.', 'Loading..', 'Loading...'];
-        const currentIndex = (loadingTextVariations.indexOf(prevState.loadingText) + 1) % loadingTextVariations.length;
-        return { loadingText: loadingTextVariations[currentIndex] };
-      });
-    }, 500);
+        const loadingTextVariations = ['Loading', 'Loading.', 'Loading..', 'Loading...']
+        const currentIndex = (loadingTextVariations.indexOf(prevState.loadingText) + 1) % loadingTextVariations.length
+        return { loadingText: loadingTextVariations[currentIndex] }
+      })
+    }, 500)
   }
 
   componentWillUnmount() {
-    clearInterval(this.loadingTextInterval);
+    clearInterval(this.loadingTextInterval)
   }
 
   errorClass(error) {
-    return error.length === 0 ? '' : 'has-error';
+    return error.length === 0 ? '' : 'has-error'
   }
 
   renderFormErrors() {
-    const { formErrors } = this.state;
+    const { formErrors } = this.state
 
     return (
       <div className="formErrors">
@@ -141,16 +141,16 @@ class Form extends Component {
                   ? 'Please enter a valid steam ID, profile link, or workshop URL'
                   : `${fieldName} ${formErrors[fieldName]}`}
               </p>
-            );
+            )
           }
-          return null;
+          return null
         })}
       </div>
-    );
+    )
   }
 
   render() {
-    const { searchQuery, formErrors, formValid, showLoading } = this.state;
+    const { searchQuery, formErrors, formValid, showLoading } = this.state
 
     return (
       <>
@@ -186,8 +186,8 @@ class Form extends Component {
           </div>
         </div>
       </>
-    );
+    )
   }
 }
 
-export default Form;
+export default Form
