@@ -192,6 +192,20 @@ app.get("/search/:name", async (req, res) => {
 
       const $$ = cheerio.load(axiosResponse.data);
 
+
+      const gameName = $$("#ig_bottom .breadcrumbs").find("a:first-child").text();
+
+      const gameHubLink = $$("#ig_bottom .breadcrumbs").find("a:first-child").attr('href')
+
+      const axiosResponseHub = await axios.request({
+        method: "GET",
+        url: gameHubLink,
+      });
+
+      const $$$ = cheerio.load(axiosResponseHub.data);
+
+      const gameImage = $$$(".apphub_StoreAppLogo").attr('src');
+
       const subCountText = $$(
         ".stats_table tr:nth-child(2) td:first-child"
       ).text();
@@ -258,6 +272,9 @@ app.get("/search/:name", async (req, res) => {
         });
 
       return {
+        gameName,
+        gameHubLink,
+        gameImage,
         itemTitle,
         subCount,
         modAwards,
@@ -278,6 +295,9 @@ app.get("/search/:name", async (req, res) => {
 
     const modList = modDataArray.map((modData) => {
       const newMod = {
+        gameName: modData.gameName,
+        gameHubLink: modData.gameHubLink,
+        gameImage: modData.gameImage,
         name: modData.itemTitle,
         subscribers: modData.subCount,
         awards: modData.modAwards,
@@ -329,7 +349,6 @@ app.get("/search/:name", async (req, res) => {
     let featuredMod = modList[0];
     //console.log(featuredMod)
     totalStats = {
-      name: "Total Stats",
       total: totalSubsNumber,
       awards: totalAwardsNumber,
       ratings: totalRatingsNumber,

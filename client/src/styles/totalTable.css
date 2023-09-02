@@ -28,7 +28,12 @@
 }
 
 .totalsTable td:nth-child(2) {
-  padding-right: 3em;
+  padding-right: 1em;
+}
+
+.totalsTable td:nth-child(3) {
+  padding-right: 0.5em;
+  color:var(--body-color)
 }
 
 .totalsHeader {
@@ -75,8 +80,9 @@
 .fade {
   opacity: 1;
   transition: opacity 1s ease-in-out; /* Adjust the duration and easing as needed */
-  padding-left: 10px;
-  position: absolute;
+  font-weight: bold;
+  /* padding-left: 10px;
+  position: absolute; */
 }
 
 /* Fade Out Animation */
@@ -102,4 +108,9 @@
 .totalsUserName a:hover,
 .totalsUserName a:focus {
   text-decoration: underline;
+}
+
+
+.invis{
+  visibility: hidden;
 }

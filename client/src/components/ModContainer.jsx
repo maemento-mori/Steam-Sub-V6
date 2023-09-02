@@ -140,6 +140,7 @@ const ModContainer = ({ mods }) => {
                   className="modImage"
                   src={mod.image}
                   alt="Mod preview"
+                  title={mod.name}
                 ></img>
               </a>
             </div>
@@ -195,6 +196,7 @@ const ModContainer = ({ mods }) => {
                 </div>
               </div>
               <div className="front">
+
                 <table className="smallModStatistics">
                   <tbody>
                     <tr>
@@ -204,7 +206,6 @@ const ModContainer = ({ mods }) => {
                           /(.)(?=(\d{3})+$)/g,
                           "$1,"
                         )}
-                        {/* {console.log(prevSubscribers[modIndex])} */}
                       </td>
                       {prevSubscribers[modIndex] !== undefined &&
                       difference !== 0 ? (
@@ -255,6 +256,7 @@ const ModContainer = ({ mods }) => {
                     <tr></tr>
                   </tbody>
                 </table>
+
                 <div className="statsButtonContainer">
                   <button
                     onClick={handleStatsButtonClick}
@@ -264,8 +266,17 @@ const ModContainer = ({ mods }) => {
                     More Stats
                   </button>
                 </div>
+
+                <div className="gameTitle">
+                  <a href={mod.gameHubLink}>
+                    <img className="gameImage" title={mod.gameName} src={mod.gameImage} alt="Game the mod is from"></img>
+                  </a>
+                </div>
+
+                
               </div>
               <div className="frontInvis">
+
                 <table className="smallModStatistics">
                   <tbody>
                     <tr>
@@ -321,16 +332,24 @@ const ModContainer = ({ mods }) => {
                         <img src={mod.starsLink} alt="Mod stars rating"></img>
                       </td>
                     </tr>
-                    <tr></tr>
                   </tbody>
                 </table>
-                <button
-                  onClick={handleStatsButtonClick}
-                  className="statsButton"
-                  key={modIndex}
-                >
-                  More Stats
-                </button>
+
+                <div className="statsButtonContainer">
+                  <button
+                    onClick={handleStatsButtonClick}
+                    className="statsButton"
+                    key={modIndex}
+                  >
+                    More Stats
+                  </button>
+                </div>
+
+                <div className="gameTitle">
+                  <img className="gameImage" title={mod.gameName} src={mod.gameImage} alt="Game the mod is from"></img>
+                </div>
+
+                
               </div>
             </div>
           </div>

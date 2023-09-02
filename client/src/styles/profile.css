@@ -401,7 +401,7 @@
   border-bottom-right-radius: calc(0.1 * 100px); */
   border-radius: 3px;
   cursor: pointer;
-  box-shadow: 0px 10px 14px -7px #3e7327;
+  box-shadow: 0px 7px 7px -7px #3e7327;
   background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
   background-color: #77b55a;
   border: 1px solid #4b8f29;
