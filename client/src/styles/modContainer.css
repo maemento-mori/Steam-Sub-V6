@@ -231,7 +231,7 @@
   font-size: 13px;
   padding: 6px 12px;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #5b8a3c;
+  text-shadow: 0.05em 0.05em #000;
   transition: 0.3s;
   transition-timing-function: ease-in-out;
 }
@@ -299,7 +299,7 @@
   font-size: 1.125em;
   padding: 6px 12px;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #5b8a3c;
+  text-shadow: 0.04em 0.04em #000;
   transition: 0.3s;
   transition-timing-function: ease-in-out;
   font-weight: bold;

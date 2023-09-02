@@ -47,7 +47,7 @@ const Profile = ({ userData, profileData }) => {
               <li>
                 <button
                   className="friendPlayerProfileLink"
-                  title="Open creator's profile (New tab)"
+                  title={`${profileData.userName}'s Steam profile`}
                   target="_blank"
                   onClick={function () {
                     window.open(userData.profileUrl);
@@ -62,7 +62,7 @@ const Profile = ({ userData, profileData }) => {
             <div className="favorite_badge">
               <div className="favorite_badge_icon">
                 {console.log(profileData.favBadgeIcon)}
-                <img className="badge_icon small" src={profileData.favBadgeIcon}></img>
+                <img className="badge_icon small" src={profileData.favBadgeIcon} alt="Favorite badge icon"></img>
               </div>
               <div className="favorite_badge_description">
                 <div className="name">{profileData.favBadgeName}</div>

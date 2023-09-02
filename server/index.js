@@ -305,7 +305,8 @@ app.get('/search/:name', async (req, res) => {
 
     const starAverage = Math.round(totalStarsNumber / totalStars.length);
 
-    modList.sort(function (a, b) {
+    modListFeatured = modList;
+    modListFeatured.sort(function (a, b) {
       let x = Number(a.subscribers);
       let y = Number(b.subscribers);
       if (x < y) {
@@ -317,7 +318,7 @@ app.get('/search/:name', async (req, res) => {
       return 0;
     });
 
-    let featuredMod = modList[0];
+    let featuredMod = modListFeatured[0];
     //console.log(featuredMod)
     totalStats = {
       total: totalSubsNumber,

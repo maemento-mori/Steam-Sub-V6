@@ -544,6 +544,7 @@ const ModContainer = ({ mods }) => {
           <button
             className={`sortBy-subs ${sortBy === 'subscribers' ? 'active' : ''}`}
             onClick={() => handleSortButtonClick('subscribers')}
+            title="Sort by subscribers"
           >
             Subscribers
             {sortBy === 'subscribers' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
@@ -551,20 +552,23 @@ const ModContainer = ({ mods }) => {
           <button
             className={`sortBy-awards ${sortBy === 'awards' ? 'active' : ''}`}
             onClick={() => handleSortButtonClick('awards')}
+            title="Sort by awards"
           >
             Awards {sortBy === 'awards' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
           </button>
           <button
             className={`sortBy-comments ${sortBy === 'comments' ? 'active' : ''}`}
             onClick={() => handleSortButtonClick('comments')}
+            title="Sort by comments"
           >
             Comments {sortBy === 'comments' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
           </button>
           <button
-            className={`sortBy-stars ${sortBy === 'stars' ? 'active' : ''}`}
+            className={`sortBy-ratings ${sortBy === 'stars' ? 'active' : ''}`}
             onClick={() => handleSortButtonClick('stars')}
+            title="Sort by ratings"
           >
-            Stars {sortBy === 'stars' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+            Rating {sortBy === 'stars' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
           </button>
         </div>
       </>
@@ -573,8 +577,12 @@ const ModContainer = ({ mods }) => {
   return (
     <>
       <div>
-        {sortButtons()}
-        {showMods && <div className="modContainer">{arrayModItems}</div>}
+        {showMods && (
+          <>
+            <div>{sortButtons()}</div>
+            <div className="modContainer">{arrayModItems}</div>
+          </>
+        )}
       </div>
     </>
   );

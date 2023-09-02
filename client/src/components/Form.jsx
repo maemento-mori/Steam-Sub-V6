@@ -170,7 +170,12 @@ class Form extends Component {
                   className="input-text"
                   value={searchQuery}
                 />
-                <button type="submit" className="input-submit" disabled={!formValid || showLoading}>
+                <button
+                  type="submit"
+                  className="input-submit"
+                  disabled={!formValid || showLoading}
+                  title={!formValid || showLoading ? 'Please enter a valid search query' : 'Click to search'}
+                >
                   Search
                 </button>
               </form>
@@ -181,7 +186,6 @@ class Form extends Component {
           </div>
         </div>
       </>
-      // disabled={!formValid}
     );
   }
 }
