@@ -321,3 +321,10 @@
   align-items: center;
   margin-bottom: 20px;
 }
+
+.sortButtonsContainer button:not(.active) {
+  background: rgba(69, 125, 43, 0.75);
+  background-color: rgba(69, 125, 43, 0.75);
+  border: none;
+  color: rgba(221, 221, 221, 0.85);
+}

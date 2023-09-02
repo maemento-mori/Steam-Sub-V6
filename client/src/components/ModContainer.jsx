@@ -1,212 +1,216 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/modContainer.css';
-import $ from 'jquery';
+import React, { useState, useEffect } from 'react'
+import '../styles/modContainer.css'
+import $ from 'jquery'
 
 const ModContainer = ({ mods }) => {
   // const [prevSubscribers, setPrevSubscribers] = useState({});
-  const [differences, setDifferences] = useState({});
-  const [showMods, setShowMods] = useState(false);
+  const [differences, setDifferences] = useState({})
+  const [showMods, setShowMods] = useState(false)
 
-  const [prevSubscribers, setPrevSubscribers] = useState({});
-  const [prevAwards, setPrevAwards] = useState({});
-  const [prevComments, setPrevComments] = useState({});
-  const [prevRatings, setPrevRatings] = useState({});
+  const [prevSubscribers, setPrevSubscribers] = useState({})
+  const [prevAwards, setPrevAwards] = useState({})
+  const [prevComments, setPrevComments] = useState({})
+  const [prevRatings, setPrevRatings] = useState({})
 
-  const [subscribersDifferences, setSubscribersDifferences] = useState({});
-  const [awardsDifferences, setAwardsDifferences] = useState({});
-  const [commentsDifferences, setCommentsDifferences] = useState({});
-  const [ratingsDifferences, setRatingsDifferences] = useState({});
+  const [subscribersDifferences, setSubscribersDifferences] = useState({})
+  const [awardsDifferences, setAwardsDifferences] = useState({})
+  const [commentsDifferences, setCommentsDifferences] = useState({})
+  const [ratingsDifferences, setRatingsDifferences] = useState({})
 
-  const [fade, setFade] = useState(false);
+  const [fade, setFade] = useState(false)
 
-  const [sortOrder, setSortOrder] = useState('desc'); // State for sorting order
-  const [sortBy, setSortBy] = useState('subscribers'); // State for sorting criteria
+  const [sortOrder, setSortOrder] = useState('desc') // State for sorting order
+  const [sortBy, setSortBy] = useState('subscribers') // State for sorting criteria
 
   const updateDifferences = (modIndex, newValue, oldValue, valueKey) => {
     if (oldValue !== undefined) {
       if (newValue !== oldValue) {
         // Calculate the difference when the value changes
-        return newValue - oldValue;
+        return newValue - oldValue
       }
     }
-    return valueKey ? differences[modIndex] || 0 : 0;
-  };
+    return valueKey ? differences[modIndex] || 0 : 0
+  }
 
   const updateSubscribersDifference = (modIndex, newSubscribers, modName) => {
-    const oldValue = prevSubscribers[modIndex];
-    return updateDifferences(modIndex, newSubscribers, oldValue, 'subscribers');
-  };
+    const oldValue = prevSubscribers[modIndex]
+    return updateDifferences(modIndex, newSubscribers, oldValue, 'subscribers')
+  }
 
   const updateAwardsDifference = (modIndex, newAwards, modName) => {
-    const oldValue = prevAwards[modIndex];
-    return updateDifferences(modIndex, newAwards, oldValue, 'awards');
-  };
+    const oldValue = prevAwards[modIndex]
+    return updateDifferences(modIndex, newAwards, oldValue, 'awards')
+  }
 
   const updateCommentsDifference = (modIndex, newComments, modName) => {
-    const oldValue = prevComments[modIndex];
-    return updateDifferences(modIndex, newComments, oldValue, 'comments');
-  };
+    const oldValue = prevComments[modIndex]
+    return updateDifferences(modIndex, newComments, oldValue, 'comments')
+  }
 
   const updateRatingsDifference = (modIndex, newRatings, modName) => {
-    const oldValue = prevRatings[modIndex];
-    return updateDifferences(modIndex, newRatings, oldValue, 'ratings');
-  };
+    const oldValue = prevRatings[modIndex]
+    return updateDifferences(modIndex, newRatings, oldValue, 'ratings')
+  }
 
   useEffect(() => {
-    const newSubscribers = {};
-    const newAwards = {};
-    const newComments = {};
-    const newRatings = {};
-    const newSubscribersDifferences = {};
-    const newAwardsDifferences = {};
-    const newCommentsDifferences = {};
-    const newRatingsDifferences = {};
+    const newSubscribers = {}
+    const newAwards = {}
+    const newComments = {}
+    const newRatings = {}
+    const newSubscribersDifferences = {}
+    const newAwardsDifferences = {}
+    const newCommentsDifferences = {}
+    const newRatingsDifferences = {}
 
-    setShowMods(Object.keys(mods).length > 1);
+    setShowMods(Object.keys(mods).length > 1)
 
     Object.keys(mods).forEach((modIndex) => {
-      newSubscribers[modIndex] = mods[modIndex].subscribers;
-      newAwards[modIndex] = mods[modIndex].awards;
-      newComments[modIndex] = mods[modIndex].comments;
-      newRatings[modIndex] = mods[modIndex].ratings;
+      newSubscribers[modIndex] = mods[modIndex].subscribers
+      newAwards[modIndex] = mods[modIndex].awards
+      newComments[modIndex] = mods[modIndex].comments
+      newRatings[modIndex] = mods[modIndex].ratings
 
-      newSubscribersDifferences[modIndex] = updateSubscribersDifference(modIndex, mods[modIndex].subscribers);
-      newAwardsDifferences[modIndex] = updateAwardsDifference(modIndex, mods[modIndex].awards);
-      newCommentsDifferences[modIndex] = updateCommentsDifference(modIndex, mods[modIndex].comments);
-      newRatingsDifferences[modIndex] = updateRatingsDifference(modIndex, mods[modIndex].ratings);
-    });
+      newSubscribersDifferences[modIndex] = updateSubscribersDifference(modIndex, mods[modIndex].subscribers)
+      newAwardsDifferences[modIndex] = updateAwardsDifference(modIndex, mods[modIndex].awards)
+      newCommentsDifferences[modIndex] = updateCommentsDifference(modIndex, mods[modIndex].comments)
+      newRatingsDifferences[modIndex] = updateRatingsDifference(modIndex, mods[modIndex].ratings)
+    })
 
-    setPrevSubscribers(newSubscribers);
-    setPrevAwards(newAwards);
-    setPrevComments(newComments);
-    setPrevRatings(newRatings);
+    setPrevSubscribers(newSubscribers)
+    setPrevAwards(newAwards)
+    setPrevComments(newComments)
+    setPrevRatings(newRatings)
 
-    setSubscribersDifferences(newSubscribersDifferences);
-    setAwardsDifferences(newAwardsDifferences);
-    setCommentsDifferences(newCommentsDifferences);
-    setRatingsDifferences(newRatingsDifferences);
-
-    setTimeout(() => {
-      setFade(false);
-    }, 100);
+    setSubscribersDifferences(newSubscribersDifferences)
+    setAwardsDifferences(newAwardsDifferences)
+    setCommentsDifferences(newCommentsDifferences)
+    setRatingsDifferences(newRatingsDifferences)
 
     setTimeout(() => {
-      setFade(true);
-    }, 4000);
-  }, [mods]);
+      setFade(false)
+    }, 100)
 
+    setTimeout(() => {
+      setFade(true)
+    }, 4000)
+  }, [mods])
+
+  // () stats button click
   const handleStatsButtonClick = (event) => {
-    let ogHeight = $('.front').outerHeight();
-    let newHeight = $('.back').outerHeight();
+    let ogHeight = $('.front').outerHeight()
+    let newHeight = $('.back').outerHeight()
 
-    let difference = newHeight - ogHeight;
-    const closestMod = event.currentTarget.closest('.mod');
-    const flipper = closestMod.querySelector('.flip3D');
+    let difference = newHeight - ogHeight
+    const closestMod = event.currentTarget.closest('.mod')
+    const flipper = closestMod.querySelector('.flip3D')
 
     if (difference > 1) {
-      flip(flipper, closestMod, difference);
+      flip(flipper, closestMod, difference)
     } else {
-      flip(flipper, closestMod, -Math.abs(difference));
+      flip(flipper, closestMod, -Math.abs(difference))
     }
-  };
+  }
 
+  // () flip to back
   const flip = (el, closestModAvail, difference) => {
     if (el.getAttribute('flipped') === 'true') {
-      el.children[0].style.transform = 'perspective(600px) rotateY(180deg)';
-      el.children[1].style.transform = 'perspective(600px) rotateY(0deg)';
-      el.setAttribute('flipped', 'false');
-      $(closestModAvail).animate({ height: '-=' + difference });
+      el.children[0].style.transform = 'perspective(600px) rotateY(180deg)'
+      el.children[1].style.transform = 'perspective(600px) rotateY(0deg)'
+      el.setAttribute('flipped', 'false')
+      $(closestModAvail).animate({ height: '-=' + difference })
     } else {
-      el.children[0].style.transform = 'perspective(600px) rotateY(0deg)';
-      el.children[1].style.transform = 'perspective(600px) rotateY(-180deg)';
-      el.setAttribute('flipped', 'true');
-      $(closestModAvail).animate({ height: '+=' + difference });
+      el.children[0].style.transform = 'perspective(600px) rotateY(0deg)'
+      el.children[1].style.transform = 'perspective(600px) rotateY(-180deg)'
+      el.setAttribute('flipped', 'true')
+      $(closestModAvail).animate({ height: '+=' + difference })
     }
-  };
+  }
 
+  // () flip to front
   const flip2 = (el, closestModAvail, difference) => {
     if (el.getAttribute('flipped') === 'true') {
-      el.children[0].style.transform = 'perspective(600px) rotateY(180deg)';
-      el.children[1].style.transform = 'perspective(600px) rotateY(0deg)';
-      el.setAttribute('flipped', 'false');
-      $(closestModAvail).animate({ height: '-=' + difference });
+      el.children[0].style.transform = 'perspective(600px) rotateY(180deg)'
+      el.children[1].style.transform = 'perspective(600px) rotateY(0deg)'
+      el.setAttribute('flipped', 'false')
+      $(closestModAvail).animate({ height: '-=' + difference })
     } else {
-      el.children[0].style.transform = 'perspective(600px) rotateY(0deg)';
-      el.children[1].style.transform = 'perspective(600px) rotateY(-180deg)';
-      el.setAttribute('flipped', 'true');
-      $(closestModAvail).animate({ height: '+=' + difference });
+      el.children[0].style.transform = 'perspective(600px) rotateY(0deg)'
+      el.children[1].style.transform = 'perspective(600px) rotateY(-180deg)'
+      el.setAttribute('flipped', 'true')
+      $(closestModAvail).animate({ height: '+=' + difference })
     }
-  };
+  }
 
+  // () close button function
   const handleCloseButtonClick = (event) => {
-    let ogHeight = $('.front').outerHeight();
-    let newHeight = $('.back').outerHeight();
+    let ogHeight = $('.front').outerHeight()
+    let newHeight = $('.back').outerHeight()
 
-    let difference = newHeight - ogHeight;
-    const closestMod = event.currentTarget.closest('.mod');
-    const flipper = closestMod.querySelector('.flip3D');
+    let difference = newHeight - ogHeight
+    const closestMod = event.currentTarget.closest('.mod')
+    const flipper = closestMod.querySelector('.flip3D')
     if (difference > 1) {
-      flip2(flipper, closestMod, difference);
+      flip2(flipper, closestMod, difference)
     } else {
-      flip2(flipper, closestMod, -Math.abs(difference));
+      flip2(flipper, closestMod, -Math.abs(difference))
     }
-  };
+  }
 
-  // Function to sort mods based on the selected criteria
+  // () Function to sort mods based on the selected criteria
   const sortMods = (criteria) => {
-    const modsArray = Object.values(mods);
+    const modsArray = Object.values(mods)
     modsArray.sort((modA, modB) => {
-      const valueA = modA[criteria];
-      const valueB = modB[criteria];
+      const valueA = modA[criteria]
+      const valueB = modB[criteria]
       if (sortOrder === 'asc') {
-        return valueA - valueB;
+        return valueA - valueB
       } else {
-        return valueB - valueA;
+        return valueB - valueA
       }
-    });
-    return modsArray;
-  };
+    })
+    return modsArray
+  }
 
   // Handle click on the sort button for different criteria
   const handleSortButtonClick = (criteria) => {
     // Toggle the sorting order if the same criteria is clicked again
     if (sortBy === criteria) {
-      const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
-      setSortOrder(newSortOrder);
+      const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc'
+      setSortOrder(newSortOrder)
     } else {
       // Set the new sorting criteria and default to ascending order
-      setSortBy(criteria);
-      setSortOrder('desc');
+      setSortBy(criteria)
+      setSortOrder('desc')
     }
-  };
+  }
 
   // Get the sorted mod items based on the selected criteria
-  const sortedMods = sortMods(sortBy);
+  const sortedMods = sortMods(sortBy)
 
-  let arrayModItems;
+  let arrayModItems
 
   if (Object.keys(mods).length > 0) {
     arrayModItems = Object.keys(sortedMods).map((modIndex) => {
-      const mod = sortedMods[modIndex];
+      const mod = sortedMods[modIndex]
       // >> const difference = differences[modIndex]; // Use differences from state
 
-      const subscriberDifference = subscribersDifferences[modIndex];
-      const awardDifference = awardsDifferences[modIndex];
-      const commentDifference = commentsDifferences[modIndex];
-      const ratingDifference = ratingsDifferences[modIndex];
+      const subscriberDifference = subscribersDifferences[modIndex]
+      const awardDifference = awardsDifferences[modIndex]
+      const commentDifference = commentsDifferences[modIndex]
+      const ratingDifference = ratingsDifferences[modIndex]
 
       const handleShareButtonClick = (event) => {
-        navigator.clipboard.writeText(mod.link);
+        navigator.clipboard.writeText(mod.link)
 
         $('#shareButtonText').fadeOut(300, function () {
-          $(this).html('Link Copied').fadeIn(300);
+          $(this).html('Link Copied').fadeIn(300)
           setTimeout(() => {
             $('#shareButtonText').fadeOut(400, function () {
-              $(this).html('Share').fadeIn(400);
-            });
-          }, 2300);
-        });
-      };
+              $(this).html('Share').fadeIn(400)
+            })
+          }, 2300)
+        })
+      }
 
       return (
         <>
@@ -362,7 +366,7 @@ const ModContainer = ({ mods }) => {
                       key={modIndex}
                       title={`${mod.link} (New tab)`}
                       onClick={function () {
-                        window.open(mod.link);
+                        window.open(mod.link)
                       }}
                     >
                       <span>Go to Mod</span>
@@ -494,7 +498,7 @@ const ModContainer = ({ mods }) => {
                       key={modIndex}
                       title={`${mod.link} (New tab)`}
                       onClick={function () {
-                        window.open(mod.link);
+                        window.open(mod.link)
                       }}
                     >
                       <span>Go to Mod</span>
@@ -527,11 +531,11 @@ const ModContainer = ({ mods }) => {
             </div>
           </div>
         </>
-      );
-    });
+      )
+    })
   }
 
-  let sortButtons;
+  let sortButtons
 
   sortButtons = () => {
     return (
@@ -567,10 +571,17 @@ const ModContainer = ({ mods }) => {
           >
             Rating {sortBy === 'stars' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
           </button>
+          <button
+            onClick={() => handleSortButtonClick('gameName')}
+            className={`sortBy-game ${sortBy === 'gameName' ? 'active' : ''}`}
+            title="Sort by game"
+          >
+            Game
+          </button>
         </div>
       </>
-    );
-  };
+    )
+  }
   return (
     <>
       <div>
@@ -582,6 +593,6 @@ const ModContainer = ({ mods }) => {
         )}
       </div>
     </>
-  );
-};
-export default ModContainer;
+  )
+}
+export default ModContainer
