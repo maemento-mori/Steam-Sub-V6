@@ -1,69 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/totalTable.css';
-import starImage from '../images/star.png';
+import React, { useState, useEffect } from 'react'
+import '../styles/totalTable.css'
+import starImage from '../images/star.png'
 
 // !! Define the TotalTable component
 const TotalTable = function ({ totals, userData }) {
   // Define state variables using the useState hook
-  const [showTotals, setShowTotals] = useState(false);
-  const [fade, setFade] = useState(false);
+  const [showTotals, setShowTotals] = useState(false)
+  const [fade, setFade] = useState(false)
 
   // () Custom hook for tracking differences in values
   const useDifferenceState = (initialValue, source = 'totals') => {
     // Initialize state variables for previous value and difference
-    const [prevValue, setPrevValue] = useState(null);
-    const [difference, setDifference] = useState(initialValue);
+    const [prevValue, setPrevValue] = useState(null)
+    const [difference, setDifference] = useState(initialValue)
 
     // () useEffect hook to handle changes in values and differences
     useEffect(() => {
       // Check if there's a previous value to calculate the difference
       if (prevValue !== null) {
-        let newDifference = 0;
+        let newDifference = 0
 
         // # Determine the source of the value (totals or userData)
         if (source === 'userData') {
-          newDifference = userData[initialValue] - prevValue;
+          newDifference = userData[initialValue] - prevValue
         } else {
-          newDifference = totals[initialValue] - prevValue;
+          newDifference = totals[initialValue] - prevValue
         }
 
         // Update the difference state
-        setDifference(newDifference);
+        setDifference(newDifference)
 
         // Set a timeout to control the fade effect
         setTimeout(() => {
-          setFade(false);
-        }, 100);
+          setFade(false)
+        }, 100)
 
         setTimeout(() => {
-          setFade(true);
-        }, 4000);
+          setFade(true)
+        }, 4000)
       }
 
       // # Set the previous value based on the source
       if (source === 'userData') {
-        setPrevValue(userData[initialValue]);
+        setPrevValue(userData[initialValue])
       } else {
-        setPrevValue(totals[initialValue]);
+        setPrevValue(totals[initialValue])
       }
-    }, [totals, userData, source]);
+    }, [totals, userData, source])
 
     // () Return the current difference and previous value
-    return [difference];
-  };
+    return [difference]
+  }
 
   // () Use the custom hook to track differences for various statistics
-  const [totalDifferenceMods, prevTotalMods] = useDifferenceState('numMods');
-  const [totalDifference, prevTotal] = useDifferenceState('total');
-  const [totalDifferenceAwards, prevTotalAwards] = useDifferenceState('awards');
-  const [totalDifferenceRatings, prevTotalRatings] = useDifferenceState('ratings');
-  const [totalDifferenceComments, prevTotalComments] = useDifferenceState('comments');
-  const [totalDifferenceFollowers, prevTotalFollowers] = useDifferenceState('followers', 'userData');
+  const [totalDifferenceMods, prevTotalMods] = useDifferenceState('numMods')
+  const [totalDifference, prevTotal] = useDifferenceState('total')
+  const [totalDifferenceAwards, prevTotalAwards] = useDifferenceState('awards')
+  const [totalDifferenceRatings, prevTotalRatings] = useDifferenceState('ratings')
+  const [totalDifferenceComments, prevTotalComments] = useDifferenceState('comments')
+  const [totalDifferenceFollowers, prevTotalFollowers] = useDifferenceState('followers', 'userData')
 
   // () useEffect hook to update the visibility of the totalsContainer
   useEffect(() => {
-    setShowTotals(totals.numMods !== null && totals.numMods !== undefined);
-  }, [totals]);
+    setShowTotals(totals.numMods !== null && totals.numMods !== undefined)
+  }, [totals])
 
   // () Helper function to render table rows
   const renderTableRow = (label, value, differenceValue) => {
@@ -81,11 +81,11 @@ const TotalTable = function ({ totals, userData }) {
           <span className="invis">{differenceValue ? '' : '+0'}</span>
         </td>
       </tr>
-    );
-  };
+    )
+  }
 
   // () Helper function to check if a value is really NaN
-  const isReallyNaN = (value) => typeof value === 'number' && isNaN(value);
+  const isReallyNaN = (value) => typeof value === 'number' && isNaN(value)
 
   // () Render the component's UI
   return (
@@ -106,7 +106,7 @@ const TotalTable = function ({ totals, userData }) {
               </tr>
               {/* Render rows for different statistics */}
               {renderTableRow('Mods Released', totals.numMods, totalDifferenceMods)}
-              {renderTableRow('Downloads', totals.total, totalDifference)}
+              {renderTableRow('Subscribers', totals.total, totalDifference)}
               {renderTableRow('Awards', totals.awards, totalDifferenceAwards)}
               {renderTableRow('Ratings', totals.ratings, totalDifferenceRatings)}
               <tr>
@@ -123,7 +123,7 @@ const TotalTable = function ({ totals, userData }) {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default TotalTable;
+export default TotalTable

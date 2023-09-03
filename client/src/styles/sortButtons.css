@@ -1,0 +1,186 @@
+.dropDownList {
+  position: absolute;
+  right: 0;
+  list-style-type: none;
+  left: auto;
+  box-shadow: 0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16);
+  font-size: 0.875rem;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  list-style: none;
+  background-color: #fff;
+  border-radius: 0 0 4px 4px;
+}
+
+.dropDownList li {
+  position: relative;
+  font-size: 14px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+}
+
+.gameTable {
+  border-collapse: collapse;
+  border: none;
+}
+
+.gameTable td {
+  background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+  background-color: #77b55a;
+}
+
+.sortButtonsContainer p {
+  display: inline-block;
+  color: var(--body-color);
+  font-weight: bold;
+  font-size: 1.125em;
+  margin: 0;
+}
+
+.sortButtonsContainer button {
+  border-radius: 0;
+  cursor: pointer;
+
+  background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+  background-color: #77b55a;
+  display: inline-block;
+  color: #ffffff;
+  font-size: 1.125em;
+  padding: 6px 12px;
+  text-decoration: none;
+  text-shadow: 0.04em 0.04em #000;
+  transition: all 0.3s ease, color 0s;
+  transition-timing-function: ease-in-out;
+  font-weight: bold;
+  border: none;
+  height: 58px;
+}
+
+.sortButtonsContainer button.active {
+  box-shadow: 0px 7px 7px -7px #3e7327;
+}
+
+.sortButtonsContainer button:hover:not(.dropDownButton.active) {
+  background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+  background-color: #77b55a;
+  border: none;
+  color: #fff;
+}
+
+.sortButtonsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5em;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.sortButtonsContainer button:not(.active) {
+  background: rgba(69, 125, 43, 0.75);
+  background-color: rgba(69, 125, 43, 0.75);
+  border: none;
+  color: rgba(221, 221, 221, 0.85);
+}
+
+.gameTable {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0 auto;
+  height: 58px;
+}
+
+.gameTable li {
+  position: relative;
+  font-size: 14px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+}
+
+.gameTable li button {
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+}
+
+.gameTable li > ul {
+  position: absolute;
+  right: 0;
+  top: 46px;
+  left: auto;
+  font-size: 0.875rem;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  list-style: none;
+  border-radius: 0 0 4px 4px;
+}
+
+.gameButtonContainer {
+  height: 58px;
+}
+
+.gameButtonContainer > ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0 auto;
+  height: 58px;
+  color: #212529;
+}
+
+.gameButtonContainer li {
+  position: relative;
+  cursor: pointer;
+  height: 100%;
+}
+
+.gameButtonContainer li button {
+  border: none;
+  cursor: pointer;
+  height: 100%;
+}
+
+.gameButtonContainer li > ul {
+  position: absolute;
+  right: 0;
+  top: 58px;
+  left: auto;
+  box-shadow: 0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16);
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  list-style: none;
+  background: #3a6428;
+  border-top: 1px solid var(--dark-back);
+  border-radius: 0 0 4px 4px;
+  z-index: 100;
+}
+
+.sortBy-game {
+  min-width: 7.95rem;
+}
+
+.gameButtonContainer li > ul li {
+  padding: 0.5em 0;
+  padding-left: 1em;
+  color: var(--body-color);
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.gameButtonContainer li > ul li:first-child {
+  text-align: center;
+  padding-left: 0;
+}
+
+.gameButtonContainer li > ul li:not(:first-child):hover {
+  padding-left: 1.25em;
+}
+
+.gameButtonContainer li > ul li:hover {
+  background: linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+  background-color: #77b55a;
+  text-shadow: 0.04em 0.04em #000;
+}

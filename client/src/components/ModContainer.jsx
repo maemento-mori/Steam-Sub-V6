@@ -22,6 +22,7 @@ const ModContainer = ({ mods }) => {
 
   const [sortOrder, setSortOrder] = useState('desc') // State for sorting order
   const [sortBy, setSortBy] = useState('subscribers') // State for sorting criteria
+  const [selectedGame, setSelectedGame] = useState(null) // State to store the selected game
 
   const updateDifferences = (modIndex, newValue, oldValue, valueKey) => {
     if (oldValue !== undefined) {
@@ -63,7 +64,6 @@ const ModContainer = ({ mods }) => {
     const newCommentsDifferences = {}
     const newRatingsDifferences = {}
 
-    console.log(Object.keys(mods).length)
     setShowMods(Object.keys(mods).length > 1)
 
     Object.keys(mods).forEach((modIndex) => {
@@ -161,15 +161,36 @@ const ModContainer = ({ mods }) => {
   // () Function to sort mods based on the selected criteria
   const sortMods = (criteria) => {
     const modsArray = Object.values(mods)
-    modsArray.sort((modA, modB) => {
-      const valueA = modA[criteria]
-      const valueB = modB[criteria]
-      if (sortOrder === 'asc') {
-        return valueA - valueB
-      } else {
-        return valueB - valueA
-      }
-    })
+
+    if (criteria === 'gameName') {
+      // Sort by gameName, and then by the specified criteria (e.g., subscribers)
+      modsArray.sort((modA, modB) => {
+        const gameNameA = modA.gameName
+        const gameNameB = modB.gameName
+        if (gameNameA < gameNameB) return sortOrder === 'asc' ? -1 : 1
+        if (gameNameA > gameNameB) return sortOrder === 'asc' ? 1 : -1
+        // If gameName is the same, use the specified criteria for secondary sorting
+        const valueA = modA[sortBy]
+        const valueB = modB[sortBy]
+        if (sortOrder === 'asc') {
+          return valueA - valueB
+        } else {
+          return valueB - valueA
+        }
+      })
+    } else {
+      // Sort by the specified criteria
+      modsArray.sort((modA, modB) => {
+        const valueA = modA[criteria]
+        const valueB = modB[criteria]
+        if (sortOrder === 'asc') {
+          return valueA - valueB
+        } else {
+          return valueB - valueA
+        }
+      })
+    }
+
     return modsArray
   }
 
@@ -191,7 +212,360 @@ const ModContainer = ({ mods }) => {
 
   let arrayModItems
 
-  if (Object.keys(mods).length > 0) {
+  if (selectedGame) {
+    // Filter mods based on the selected game
+    arrayModItems = Object.keys(mods)
+      .filter((modIndex) => mods[modIndex].gameName === selectedGame)
+      .map((modIndex) => {
+        const mod = mods[modIndex]
+        // >> const difference = differences[modIndex]; // Use differences from state
+
+        const subscriberDifference = subscribersDifferences[modIndex]
+        const awardDifference = awardsDifferences[modIndex]
+        const commentDifference = commentsDifferences[modIndex]
+        const ratingDifference = ratingsDifferences[modIndex]
+
+        const handleShareButtonClick = () => {
+          navigator.clipboard.writeText(mod.link)
+
+          $('#shareButtonText').fadeOut(300, function () {
+            $(this).html('Link Copied').fadeIn(300)
+            setTimeout(() => {
+              $('#shareButtonText').fadeOut(400, function () {
+                $(this).html('Share').fadeIn(400)
+              })
+            }, 2300)
+          })
+        }
+
+        return (
+          <>
+            <div className="mod" key={modIndex}>
+              <div className="modImageContainer">
+                <a name="ModImageLink" className="modImageLink" href={mod.link} target="_blank" rel="noreferrer">
+                  <span className="sr-only">Link to mod page</span>
+                  <img className="modImage" src={mod.image} alt="Mod preview" title={mod.name}></img>
+                </a>
+              </div>
+              <h3 className="smallTitle">
+                <a href={mod.link} title={mod.name} target="_blank" rel="noreferrer">
+                  {mod.name}
+                </a>
+              </h3>
+              <div className={'flip3D'} flipped="false">
+                <div className="back">
+                  <div className="closeButtonContainer">
+                    <span className="closeButton" onClick={handleCloseButtonClick} title="Close extra mod statistics">
+                      &#9747;
+                    </span>
+                  </div>
+                  <table className="smallModStatistics">
+                    <tbody>
+                      <tr>
+                        <td className="smallTableLabel backTable">Uploaded</td>
+                        <td className="smallTableValue backTable">{mod.uploadDate}</td>
+                      </tr>
+
+                      <tr>
+                        <td className="smallTableLabel backTable">Updated</td>
+                        <td className="smallTableValue backTable">{mod.updateDate}</td>
+                      </tr>
+
+                      <tr className="filesizeRow">
+                        <td className="smallTableLabel backTable">Filesize</td>
+                        <td className="smallTableValue backTable">{mod.fileSize}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="tagsContainer">
+                    <div className="tagsRow">
+                      {mod.workshopTags ? (
+                        mod.workshopTags.map((tag, tagIndex) => (
+                          <span key={tagIndex} className="tag" title={tag}>
+                            {tag}
+                          </span>
+                        ))
+                      ) : (
+                        <span>No tags available.</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="front">
+                  <table className="smallModStatistics">
+                    <tbody>
+                      <tr>
+                        <td className="smallTableLabel">Subscribers</td>
+                        <td className="smallTableValue">
+                          {String(mod.subscribers).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
+                        </td>
+                        <td>
+                          {subscriberDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                subscriberDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {subscriberDifference > 0 ? '+' : ''}
+                              {subscriberDifference}
+                            </span>
+                          ) : (
+                            <span className="invis">{subscriberDifference ? '' : '+0'}</span>
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="smallTableLabel">Awards</td>
+                        <td className="smallTableValue">{String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                        <td>
+                          {awardDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                awardDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {awardDifference > 0 ? '+' : ''}
+                              {awardDifference}
+                            </span>
+                          ) : (
+                            <span className="invis">{awardDifference ? '' : '+0'}</span>
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="smallTableLabel">Comments</td>
+                        <td className="smallTableValue">{String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                        <td>
+                          {commentDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                commentDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {commentDifference > 0 ? '+' : ''}
+                              {commentDifference}
+                            </span>
+                          ) : (
+                            <span className="invis">{commentDifference ? '' : '+0'}</span>
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="smallTableLabel">Ratings</td>
+                        <td className="smallTableValue">{String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                        <td>
+                          {ratingDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                ratingDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {ratingDifference > 0 ? '+' : ''}
+                              {ratingDifference}
+                            </span>
+                          ) : (
+                            <span className="invis">{ratingDifference ? '' : '+0'}</span>
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3} className="modstars" title="Mod rating">
+                          <img src={mod.starsLink} alt="Mod stars rating"></img>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div className="buttonHolder">
+                    <div className="statsButtonContainer">
+                      <button
+                        onClick={handleStatsButtonClick}
+                        className="statsButton"
+                        key={modIndex}
+                        title="Show mod statistics"
+                      >
+                        <span>Stats</span>
+                      </button>
+                    </div>
+
+                    <div className="modLinkButtonContainer">
+                      <button
+                        className="linkButton"
+                        key={modIndex}
+                        title={`${mod.link} (New tab)`}
+                        onClick={function () {
+                          window.open(mod.link)
+                        }}
+                      >
+                        <span>Go to Mod</span>
+                      </button>
+                    </div>
+
+                    <div className="shareButtonContainer">
+                      <button
+                        onClick={handleShareButtonClick}
+                        className="shareButton"
+                        title="Copy link to clipboard"
+                        key={modIndex}
+                      >
+                        <span id="shareButtonText">Share</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="gameTitle">
+                    <a href={mod.gameHubLink}>
+                      <img
+                        className="gameImage"
+                        title={mod.gameName}
+                        src={mod.gameImage}
+                        alt="Game the mod is from"
+                      ></img>
+                    </a>
+                  </div>
+                </div>
+                <div className="frontInvis">
+                  <table className="smallModStatistics">
+                    <tbody>
+                      <tr>
+                        <td className="smallTableLabel">Subscribers</td>
+                        <td className="smallTableValue">
+                          {String(mod.subscribers).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
+                        </td>
+                        <td>
+                          {subscriberDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                subscriberDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {subscriberDifference > 0 ? '+' : ''}
+                              {subscriberDifference}
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="smallTableLabel">Awards</td>
+                        <td className="smallTableValue">{String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                        <td>
+                          {awardDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                awardDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {awardDifference > 0 ? '+' : ''}
+                              {awardDifference}
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="smallTableLabel">Comments</td>
+                        <td className="smallTableValue">{String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                        <td>
+                          {commentDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                commentDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {commentDifference > 0 ? '+' : ''}
+                              {commentDifference}
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="smallTableLabel">Ratings</td>
+                        <td className="smallTableValue">{String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                        <td>
+                          {ratingDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                ratingDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {ratingDifference > 0 ? '+' : ''}
+                              {ratingDifference}
+                            </span>
+                          ) : (
+                            ''
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colSpan={3} className="modstars" title="Mod rating">
+                          <img src={mod.starsLink} alt="Mod stars rating"></img>
+                        </td>
+                      </tr>
+                      <tr></tr>
+                    </tbody>
+                  </table>
+
+                  <div className="buttonHolder">
+                    <div className="statsButtonContainer">
+                      <button
+                        onClick={handleStatsButtonClick}
+                        className="statsButton"
+                        key={modIndex}
+                        title="Show mod statistics"
+                      >
+                        <span>Stats</span>
+                      </button>
+                    </div>
+
+                    <div className="modLinkButtonContainer">
+                      <button
+                        className="linkButton"
+                        key={modIndex}
+                        title={`${mod.link} (New tab)`}
+                        onClick={function () {
+                          window.open(mod.link)
+                        }}
+                      >
+                        <span>Go to Mod</span>
+                      </button>
+                    </div>
+
+                    <div className="shareButtonContainer">
+                      <button
+                        onClick={handleShareButtonClick}
+                        className="shareButton"
+                        title="Copy link to clipboard"
+                        key={modIndex}
+                      >
+                        <span id="shareButtonText">Share</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="gameTitle">
+                    <a href={mod.gameHubLink}>
+                      <img
+                        className="gameImage"
+                        title={mod.gameName}
+                        src={mod.gameImage}
+                        alt="Game the mod is from"
+                      ></img>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )
+        // ...
+      })
+  } else if (Object.keys(mods).length > 0) {
+    // Use all mods if no filter is applied
     arrayModItems = Object.keys(sortedMods).map((modIndex) => {
       const mod = sortedMods[modIndex]
       // >> const difference = differences[modIndex]; // Use differences from state
@@ -542,8 +916,15 @@ const ModContainer = ({ mods }) => {
       <div>
         {showMods && (
           <>
-            {/* Use the SortButtons component */}
-            <SortButtons sortBy={sortBy} sortOrder={sortOrder} handleSortButtonClick={handleSortButtonClick} />
+            {/* Use the SortButtons component and pass handleGameSelect */}
+            <SortButtons
+              mods={mods}
+              sortBy={sortBy}
+              sortOrder={sortOrder}
+              handleSortButtonClick={handleSortButtonClick}
+              setSelectedGame={setSelectedGame} // Pass the function
+              selectedGame={selectedGame}
+            />
 
             <div className="modContainer">{arrayModItems}</div>
           </>
@@ -552,4 +933,5 @@ const ModContainer = ({ mods }) => {
     </>
   )
 }
+
 export default ModContainer
