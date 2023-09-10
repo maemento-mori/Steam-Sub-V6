@@ -15,14 +15,27 @@ const Featured = ({ totals }) => {
         <div className="featuredModContainer">
           <h2 className="featuredTitle">Featured Mod</h2>
           <div className="featureModInner">
-            <div className="featureImageContainer">
-              <a href={totals.featured?.link}>
-                <img
-                  src={totals.featured?.image}
-                  alt="Featured mod"
-                  className="featuredModImage"
-                ></img>
-              </a>
+            <div className="featuredLeft">
+              <div className="featureImageContainer">
+                <a href={totals.featured?.link}>
+                  <img
+                    src={totals.featured?.image}
+                    alt="Featured mod"
+                    className="featuredModImage"
+                  ></img>
+                </a>
+              </div>
+              <div className="featuredLinkHolder">
+                <button 
+                className="featuredLink"
+                onClick={function () {
+                  window.open(totals.featured.link)
+                }}
+                title={`Open ${totals.featured?.name}'s mod page on Steam`}
+                >
+                  See on steam
+                </button>
+              </div>
             </div>
             <div className="featuredStatsTableContainer">
               <table className="featuredTable">

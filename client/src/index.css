@@ -29,3 +29,14 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+
+.topStats{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width:90%;
+  gap:10%;
+  justify-content: center;
+  align-items: center;
+}

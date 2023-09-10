@@ -65,6 +65,7 @@
   background-color: #77b55a;
   border: none;
   color: #fff;
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.4), inset 3px 3px 15px rgba(42, 81, 22, 0.75)!important;
 }
 
 .sortButtonsContainer {

@@ -16,6 +16,7 @@
   padding-bottom: 20px;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4), inset 3px 3px 6px rgba(255, 255, 255, 0.1);
   background-color: var(--dark-back);
+  max-width: 600px;
 }
 
 .totalsTable td {
