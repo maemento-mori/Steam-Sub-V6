@@ -29,7 +29,6 @@ const SortButtons = ({ mods, sortBy, sortOrder, handleSortButtonClick, setSelect
 
   arrayModItems.unshift(
     <li
-      gameName="All"
       key="All"
       onClick={() => {
         setSelectedGame(null) // Pass null to show mods of all game names

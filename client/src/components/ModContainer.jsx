@@ -196,6 +196,8 @@ const ModContainer = ({ mods }) => {
 
   // Handle click on the sort button for different criteria
   const handleSortButtonClick = (criteria) => {
+    console.log(selectedGame)
+    console.log(criteria)
     // Toggle the sorting order if the same criteria is clicked again
     if (sortBy === criteria) {
       const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc'
@@ -214,10 +216,10 @@ const ModContainer = ({ mods }) => {
 
   if (selectedGame) {
     // Filter mods based on the selected game
-    arrayModItems = Object.keys(mods)
-      .filter((modIndex) => mods[modIndex].gameName === selectedGame)
+    arrayModItems = Object.keys(sortedMods)
+      .filter((modIndex) => sortedMods[modIndex].gameName === selectedGame)
       .map((modIndex) => {
-        const mod = mods[modIndex]
+        const mod = sortedMods[modIndex]
         // >> const difference = differences[modIndex]; // Use differences from state
 
         const subscriberDifference = subscribersDifferences[modIndex]

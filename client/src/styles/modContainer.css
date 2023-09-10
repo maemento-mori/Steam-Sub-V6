@@ -25,7 +25,12 @@
   margin: 0.5em 0;
   color: var(--body-color);
   text-shadow: 0.04em 0.04em #000;
+  min-height: 2.25em;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
+
 
 .tableValue,
 .smallTableValue {

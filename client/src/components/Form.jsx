@@ -122,6 +122,7 @@ class Form extends Component {
 
   componentWillUnmount() {
     clearInterval(this.loadingTextInterval)
+    clearInterval(this.state.fetchDataIntervalId)
   }
 
   errorClass(error) {
