@@ -193,6 +193,16 @@ app.get('/search/:name', async (req, res) => {
       const subCountText = $$('.stats_table tr:nth-child(2) td:first-child').text();
       const subCount = Number(subCountText.replace(/[^0-9]/g, ''));
 
+      const uniqueVisitors = $$('.stats_table tr:nth-child(1) td:first-child').text();
+      const uniqueVisitorsCount = Number(uniqueVisitors.replace(/[^0-9]/g, ''));
+
+      const favCount = $$('.stats_table tr:nth-child(3) td:first-child').text();
+      const favorites = Number(favCount.replace(/[^0-9]/g, ''));
+
+      const collectionsCount = $$(".parentCollectionsNumOthers a").text();
+      const collections = Number(collectionsCount.replace(/[^0-9]/g, ''));
+
+
       var itemTitle = $$('.workshopItemTitle').text();
       let numRatings = $$('.numRatings').text();
       let itemUrl = pageLink;
@@ -268,6 +278,9 @@ app.get('/search/:name', async (req, res) => {
         uploadDate,
         updateDate,
         workshopTags,
+        uniqueVisitorsCount,
+        favorites,
+        collections,
       };
     });
 
@@ -291,8 +304,12 @@ app.get('/search/:name', async (req, res) => {
         uploadDate: modData.uploadDate,
         updateDate: modData.updateDate,
         workshopTags: modData.workshopTags,
+        uniqueVisitorsCount:modData.uniqueVisitorsCount,
+        favorites:modData.favorites,
+        collections:modData.collections,
       };
       return newMod;
+      
     });
 
     const calculateTotal = (arr) => arr.reduce((total, currentValue) => total + Number(currentValue), 0);
@@ -301,6 +318,9 @@ app.get('/search/:name', async (req, res) => {
     const totalAwardsNumber = calculateTotal(modDataArray.map((data) => data.modAwards));
     const totalRatingsNumber = calculateTotal(modDataArray.map((data) => data.numRatings));
     const totalCommentsNumber = calculateTotal(modDataArray.map((data) => data.numComments));
+    const totalFavoritesNumber = calculateTotal(modDataArray.map((data) => data.favorites));
+    const totalUniqueVisitorsNumber = calculateTotal(modDataArray.map((data) => data.uniqueVisitorsCount));
+    const totalCollectionsNumber = calculateTotal(modDataArray.map((data) => data.collections));
     const totalStarsNumber = calculateTotal(totalStars);
 
     const starAverage = Math.round(totalStarsNumber / totalStars.length);
@@ -328,8 +348,11 @@ app.get('/search/:name', async (req, res) => {
       featured: featuredMod,
       avgStar: starAverage,
       numMods: modList.length,
+      favorites: totalFavoritesNumber,
+      uniqueVisitors: totalUniqueVisitorsNumber,
+      collections: totalCollectionsNumber,
     };
-    console.log(`\n`);
+    // console.log(`\n`);
     return { totalStats, modList };
   } // !! End getIndividualMods
 

@@ -62,6 +62,20 @@ const SortButtons = ({ mods, sortBy, sortOrder, handleSortButtonClick, setSelect
         Subscribers
         {sortBy === 'subscribers' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
       </button>
+
+
+      <button
+        className={`sortBy-views ${sortBy === 'uniqueVisitorsCount' ? 'active' : ''}`}
+        onClick={() => handleSortButtonClick('uniqueVisitorsCount')}
+        title="Sort by Views"
+      >
+        Views
+        {sortBy === 'uniqueVisitorsCount' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+      </button>
+
+
+
+
       <button
         className={`sortBy-awards ${sortBy === 'awards' ? 'active' : ''}`}
         onClick={() => handleSortButtonClick('awards')}
@@ -69,6 +83,20 @@ const SortButtons = ({ mods, sortBy, sortOrder, handleSortButtonClick, setSelect
       >
         Awards {sortBy === 'awards' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
       </button>
+
+      <button
+        className={`sortBy-favs ${sortBy === 'favorites' ? 'active' : ''}`}
+        onClick={() => handleSortButtonClick('favorites')}
+        title="Sort by Favorites"
+      >
+        Favorites
+        {sortBy === 'favorites' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+      </button>
+
+
+
+
+
       <button
         className={`sortBy-comments ${sortBy === 'comments' ? 'active' : ''}`}
         onClick={() => handleSortButtonClick('comments')}

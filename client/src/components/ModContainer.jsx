@@ -3,6 +3,19 @@ import '../styles/modContainer.css'
 import $ from 'jquery'
 import SortButtons from './SortButtons' // Import the SortButtons component
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { faEye } from '@fortawesome/free-solid-svg-icons'
+import { faFolderOpen } from '@fortawesome/free-solid-svg-icons'
+import { faChartSimple } from '@fortawesome/free-solid-svg-icons'
+import { faComments } from '@fortawesome/free-solid-svg-icons'
+import { faComment } from '@fortawesome/free-solid-svg-icons'
+
+// const element =
+
 const ModContainer = ({ mods }) => {
   // const [prevSubscribers, setPrevSubscribers] = useState({});
   const [differences, setDifferences] = useState({})
@@ -12,11 +25,17 @@ const ModContainer = ({ mods }) => {
   const [prevAwards, setPrevAwards] = useState({})
   const [prevComments, setPrevComments] = useState({})
   const [prevRatings, setPrevRatings] = useState({})
+  const [prevFavorites, setPrevFavorites] = useState({})
+  const [prevUniqueVisitorsCount, setPrevUniqueVisitorsCount] = useState({})
+  const [prevCollections, setPrevCollections] = useState({})
 
   const [subscribersDifferences, setSubscribersDifferences] = useState({})
   const [awardsDifferences, setAwardsDifferences] = useState({})
   const [commentsDifferences, setCommentsDifferences] = useState({})
   const [ratingsDifferences, setRatingsDifferences] = useState({})
+  const [favoritesDifferences, setFavoritesDifferences] = useState({})
+  const [uniqueVisitorsCountDifferences, setUniqueVisitorsCountDifferences] = useState({})
+  const [collectionsDifferences, setCollectionsDifferences] = useState({})
 
   const [fade, setFade] = useState(false)
 
@@ -54,15 +73,37 @@ const ModContainer = ({ mods }) => {
     return updateDifferences(modIndex, newRatings, oldValue, 'ratings')
   }
 
+  const updateFavoritesDifference = (modIndex, newFavorites, modName) => {
+    const oldValue = prevFavorites[modIndex]
+    return updateDifferences(modIndex, newFavorites, oldValue, 'favorites')
+  }
+
+  const updateUniqueVisitorsCountDifference = (modIndex, newFavorites, modName) => {
+    const oldValue = prevUniqueVisitorsCount[modIndex]
+    return updateDifferences(modIndex, newFavorites, oldValue, 'uniqueVisitorsCount')
+  }
+
+  const updateCollectionsDifference = (modIndex, newFavorites, modName) => {
+    const oldValue = prevCollections[modIndex]
+    return updateDifferences(modIndex, newFavorites, oldValue, 'collections')
+  }
+
   useEffect(() => {
     const newSubscribers = {}
     const newAwards = {}
     const newComments = {}
     const newRatings = {}
+    const newFavorites = {}
+    const newUniqueVisitorsCount = {}
+    const newCollections = {}
+
     const newSubscribersDifferences = {}
     const newAwardsDifferences = {}
     const newCommentsDifferences = {}
     const newRatingsDifferences = {}
+    const newFavoritesDifferences = {}
+    const newUniqueVisitorsCountDifferences = {}
+    const newCollectionsDifferences = {}
 
     setShowMods(Object.keys(mods).length > 1)
 
@@ -71,22 +112,37 @@ const ModContainer = ({ mods }) => {
       newAwards[modIndex] = mods[modIndex].awards
       newComments[modIndex] = mods[modIndex].comments
       newRatings[modIndex] = mods[modIndex].ratings
+      newFavorites[modIndex] = mods[modIndex].favorites
+      newUniqueVisitorsCount[modIndex] = mods[modIndex].uniqueVisitorsCount
+      newCollections[modIndex] = mods[modIndex].fCollections
 
       newSubscribersDifferences[modIndex] = updateSubscribersDifference(modIndex, mods[modIndex].subscribers)
       newAwardsDifferences[modIndex] = updateAwardsDifference(modIndex, mods[modIndex].awards)
       newCommentsDifferences[modIndex] = updateCommentsDifference(modIndex, mods[modIndex].comments)
       newRatingsDifferences[modIndex] = updateRatingsDifference(modIndex, mods[modIndex].ratings)
+      newFavoritesDifferences[modIndex] = updateFavoritesDifference(modIndex, mods[modIndex].favorites)
+      newUniqueVisitorsCountDifferences[modIndex] = updateUniqueVisitorsCountDifference(
+        modIndex,
+        mods[modIndex].uniqueVisitorsCount
+      )
+      newCollectionsDifferences[modIndex] = updateCollectionsDifference(modIndex, mods[modIndex].collections)
     })
 
     setPrevSubscribers(newSubscribers)
     setPrevAwards(newAwards)
     setPrevComments(newComments)
     setPrevRatings(newRatings)
+    setPrevFavorites(newFavorites)
+    setPrevUniqueVisitorsCount(newUniqueVisitorsCount)
+    setPrevCollections(newCollections)
 
     setSubscribersDifferences(newSubscribersDifferences)
     setAwardsDifferences(newAwardsDifferences)
     setCommentsDifferences(newCommentsDifferences)
     setRatingsDifferences(newRatingsDifferences)
+    setFavoritesDifferences(newFavoritesDifferences)
+    setUniqueVisitorsCountDifferences(newUniqueVisitorsCountDifferences)
+    setCollectionsDifferences(newCollectionsDifferences)
 
     setTimeout(() => {
       setFade(false)
@@ -119,12 +175,16 @@ const ModContainer = ({ mods }) => {
       el.children[0].style.transform = 'perspective(600px) rotateY(180deg)'
       el.children[1].style.transform = 'perspective(600px) rotateY(0deg)'
       el.setAttribute('flipped', 'false')
-      $(closestModAvail).animate({ height: '-=' + difference })
+      let frontHeight = $(".frontInvis").outerHeight()
+      $(closestModAvail).find(".flip3D").animate({ height: frontHeight })
+      // $(closestModAvail).animate({ height: '-=' + difference })
     } else {
       el.children[0].style.transform = 'perspective(600px) rotateY(0deg)'
       el.children[1].style.transform = 'perspective(600px) rotateY(-180deg)'
       el.setAttribute('flipped', 'true')
-      $(closestModAvail).animate({ height: '+=' + difference })
+      let backHeight = $(".back").outerHeight()
+      $(closestModAvail).find(".flip3D").animate({ height: backHeight })
+      // $(closestModAvail).animate({ height: '+=' + difference })
     }
   }
 
@@ -134,12 +194,16 @@ const ModContainer = ({ mods }) => {
       el.children[0].style.transform = 'perspective(600px) rotateY(180deg)'
       el.children[1].style.transform = 'perspective(600px) rotateY(0deg)'
       el.setAttribute('flipped', 'false')
-      $(closestModAvail).animate({ height: '-=' + difference })
+      let frontHeight = $(".frontInvis").outerHeight()
+      $(closestModAvail).find(".flip3D").animate({ height: frontHeight })
+      // $(closestModAvail).animate({ height: '-=' + difference })
     } else {
       el.children[0].style.transform = 'perspective(600px) rotateY(0deg)'
       el.children[1].style.transform = 'perspective(600px) rotateY(-180deg)'
       el.setAttribute('flipped', 'true')
-      $(closestModAvail).animate({ height: '+=' + difference })
+      let backHeight = $(".back").outerHeight()
+      $(closestModAvail).find(".flip3D").animate({ height: backHeight })
+      // $(closestModAvail).animate({ height: '+=' + difference })
     }
   }
 
@@ -157,6 +221,18 @@ const ModContainer = ({ mods }) => {
       flip2(flipper, closestMod, -Math.abs(difference))
     }
   }
+
+  // const handleHideGamesButtonClick = (event) => {
+  //   $('.gameTitle').fadeOut('slow', () => {
+  //     $('.displayGameImages').fadeIn('fast')
+  //   })
+  // }
+
+  // const handleShowGamesButtonClick = (event) => {
+  //   $('.displayGameImages').fadeOut('slow', () => {
+  //     $('.gameTitle').fadeIn('fast')
+  //   })
+  // }
 
   // () Function to sort mods based on the selected criteria
   const sortMods = (criteria) => {
@@ -226,6 +302,9 @@ const ModContainer = ({ mods }) => {
         const awardDifference = awardsDifferences[modIndex]
         const commentDifference = commentsDifferences[modIndex]
         const ratingDifference = ratingsDifferences[modIndex]
+        const favoritesDifference = favoritesDifferences[modIndex]
+        const uniqueVisitorsDifference = uniqueVisitorsCountDifferences[modIndex]
+        const collectionsDifference = collectionsDifferences[modIndex]
 
         const handleShareButtonClick = () => {
           navigator.clipboard.writeText(mod.link)
@@ -277,6 +356,26 @@ const ModContainer = ({ mods }) => {
                         <td className="smallTableLabel backTable">Filesize</td>
                         <td className="smallTableValue backTable">{mod.fileSize}</td>
                       </tr>
+                      <tr>
+                        <td className="smallTableLabel">Collections</td>
+                        <td className="smallTableValue">
+                          {String(mod.collections).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
+                        </td>
+                        <td>
+                          {collectionsDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                collectionsDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {collectionsDifference > 0 ? '+' : ''}
+                              {collectionsDifference}
+                            </span>
+                          ) : (
+                            <span className="invis">{collectionsDifference ? '' : '+0'}</span>
+                          )}
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                   <div className="tagsContainer">
@@ -296,6 +395,29 @@ const ModContainer = ({ mods }) => {
                 <div className="front">
                   <table className="smallModStatistics">
                     <tbody>
+                      <tr>
+                        <td>
+                          <FontAwesomeIcon icon={faEye} className="fa viewsIcon" />
+                        </td>
+                        <td className="smallTableLabel">Views</td>
+                        <td className="smallTableValue">
+                          {String(mod.uniqueVisitorsCount).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
+                        </td>
+                        <td>
+                          {uniqueVisitorsDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                uniqueVisitorsDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {uniqueVisitorsDifference > 0 ? '+' : ''}
+                              {uniqueVisitorsDifference}
+                            </span>
+                          ) : (
+                            <span className="invis">{uniqueVisitorsDifference ? '' : '+0'}</span>
+                          )}
+                        </td>
+                      </tr>
                       <tr>
                         <td className="smallTableLabel">Subscribers</td>
                         <td className="smallTableValue">
@@ -353,6 +475,24 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
+                        <td className="smallTableLabel">Favorites</td>
+                        <td className="smallTableValue">{String(mod.favorites).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                        <td>
+                          {favoritesDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                favoritesDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {favoritesDifference > 0 ? '+' : ''}
+                              {favoritesDifference}
+                            </span>
+                          ) : (
+                            <span className="invis">{favoritesDifference ? '' : '+0'}</span>
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
                         <td className="smallTableLabel">Ratings</td>
                         <td className="smallTableValue">{String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -371,7 +511,7 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
-                        <td colSpan={3} className="modstars" title="Mod rating">
+                        <td colSpan={4} className="modstars" title="Mod rating">
                           <img src={mod.starsLink} alt="Mod stars rating"></img>
                         </td>
                       </tr>
@@ -430,6 +570,32 @@ const ModContainer = ({ mods }) => {
                   <table className="smallModStatistics">
                     <tbody>
                       <tr>
+                      <td>
+                        <FontAwesomeIcon icon={faEye} className="faM viewsIconM" />
+                      </td>
+                        <td className="smallTableLabel">Views</td>
+                        <td className="smallTableValue">
+                          {String(mod.uniqueVisitorsCount).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
+                        </td>
+                        <td>
+                          {uniqueVisitorsDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                uniqueVisitorsDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {uniqueVisitorsDifference > 0 ? '+' : ''}
+                              {uniqueVisitorsDifference}
+                            </span>
+                          ) : (
+                            <span className="invis">{uniqueVisitorsDifference ? '' : '+0'}</span>
+                          )}
+                        </td>
+                      </tr>
+                      <td>
+                        <FontAwesomeIcon icon={faUser} className="faM subsIconM" />
+                      </td>
+                      <tr>
                         <td className="smallTableLabel">Subscribers</td>
                         <td className="smallTableValue">
                           {String(mod.subscribers).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
@@ -450,6 +616,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
+                      <td>
+                        <FontAwesomeIcon icon={faStar} className="faM AwardsIconM" />
+                      </td>
                         <td className="smallTableLabel">Awards</td>
                         <td className="smallTableValue">{String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -468,6 +637,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
+                      <td>
+                      <FontAwesomeIcon icon={faComment} className='faM commentsIconM'/>
+                      </td>
                         <td className="smallTableLabel">Comments</td>
                         <td className="smallTableValue">{String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -486,6 +658,30 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
+                      <td>
+                      <FontAwesomeIcon icon={faHeart} className='faM favsIconM'/>
+                      </td>
+                        <td className="smallTableLabel">Favorites</td>
+                        <td className="smallTableValue">{String(mod.favorites).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                        <td>
+                          {favoritesDifference !== 0 ? (
+                            <span
+                              className={`fade ${fade ? 'fade-out' : ''} ${
+                                favoritesDifference > 0 ? 'increase' : 'decrease'
+                              }`}
+                            >
+                              {favoritesDifference > 0 ? '+' : ''}
+                              {favoritesDifference}
+                            </span>
+                          ) : (
+                            <span className="invis">{favoritesDifference ? '' : '+0'}</span>
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                      <td>
+                      <FontAwesomeIcon icon={faChartSimple} className='faM ratingsIconM'/>
+                    </td>
                         <td className="smallTableLabel">Ratings</td>
                         <td className="smallTableValue">{String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -504,7 +700,7 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
-                        <td colSpan={3} className="modstars" title="Mod rating">
+                        <td colSpan={4} className="modstars" title="Mod rating">
                           <img src={mod.starsLink} alt="Mod stars rating"></img>
                         </td>
                       </tr>
@@ -576,6 +772,9 @@ const ModContainer = ({ mods }) => {
       const awardDifference = awardsDifferences[modIndex]
       const commentDifference = commentsDifferences[modIndex]
       const ratingDifference = ratingsDifferences[modIndex]
+      const favoritesDifference = favoritesDifferences[modIndex]
+      const uniqueVisitorsDifference = uniqueVisitorsCountDifferences[modIndex]
+      const collectionsDifference = collectionsDifferences[modIndex]
 
       const handleShareButtonClick = (event) => {
         navigator.clipboard.writeText(mod.link)
@@ -627,6 +826,10 @@ const ModContainer = ({ mods }) => {
                       <td className="smallTableLabel backTable">Filesize</td>
                       <td className="smallTableValue backTable">{mod.fileSize}</td>
                     </tr>
+                    <tr>
+                      <td className="smallTableLabel">Collections</td>
+                      <td className="smallTableValue">{String(mod.collections).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                    </tr>
                   </tbody>
                 </table>
                 <div className="tagsContainer">
@@ -647,6 +850,32 @@ const ModContainer = ({ mods }) => {
                 <table className="smallModStatistics">
                   <tbody>
                     <tr>
+                      <td>
+                        <FontAwesomeIcon icon={faEye} className="faM viewsIconM" />
+                      </td>
+                      <td className="smallTableLabel">Views</td>
+                      <td className="smallTableValue">
+                        {String(mod.uniqueVisitorsCount).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
+                      </td>
+                      <td>
+                        {uniqueVisitorsDifference !== 0 ? (
+                          <span
+                            className={`fade ${fade ? 'fade-out' : ''} ${
+                              uniqueVisitorsDifference > 0 ? 'increase' : 'decrease'
+                            }`}
+                          >
+                            {uniqueVisitorsDifference > 0 ? '+' : ''}
+                            {uniqueVisitorsDifference}
+                          </span>
+                        ) : (
+                          <span className="invis">{uniqueVisitorsDifference ? '' : '+0'}</span>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <FontAwesomeIcon icon={faUser} className="faM subsIconM" />
+                      </td>
                       <td className="smallTableLabel">Subscribers</td>
                       <td className="smallTableValue">{String(mod.subscribers).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                       <td>
@@ -665,6 +894,9 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
+                    <td>
+                        <FontAwesomeIcon icon={faStar} className="faM AwardsIconM" />
+                      </td>
                       <td className="smallTableLabel">Awards</td>
                       <td className="smallTableValue">{String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                       <td>
@@ -683,6 +915,9 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
+                      <td>
+                      <FontAwesomeIcon icon={faComment} className='faM commentsIconM'/>
+                      </td>
                       <td className="smallTableLabel">Comments</td>
                       <td className="smallTableValue">{String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                       <td>
@@ -701,6 +936,30 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
+                      <td>
+                      <FontAwesomeIcon icon={faHeart} className='faM favsIconM'/>
+                      </td>
+                      <td className="smallTableLabel">Favorites</td>
+                      <td className="smallTableValue">{String(mod.favorites).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                      <td>
+                        {favoritesDifference !== 0 ? (
+                          <span
+                            className={`fade ${fade ? 'fade-out' : ''} ${
+                              favoritesDifference > 0 ? 'increase' : 'decrease'
+                            }`}
+                          >
+                            {favoritesDifference > 0 ? '+' : ''}
+                            {favoritesDifference}
+                          </span>
+                        ) : (
+                          <span className="invis">{favoritesDifference ? '' : '+0'}</span>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                    <td>
+                      <FontAwesomeIcon icon={faChartSimple} className='faM ratingsIconM'/>
+                    </td>
                       <td className="smallTableLabel">Ratings</td>
                       <td className="smallTableValue">{String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                       <td>
@@ -719,7 +978,7 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td colSpan={3} className="modstars" title="Mod rating">
+                      <td colSpan={4} className="modstars" title="Mod rating">
                         <img src={mod.starsLink} alt="Mod stars rating"></img>
                       </td>
                     </tr>
@@ -763,21 +1022,44 @@ const ModContainer = ({ mods }) => {
                   </div>
                 </div>
 
-                <div className="gameTitle">
-                  <a href={mod.gameHubLink}>
-                    <img
-                      className="gameImage"
-                      title={mod.gameName}
-                      src={mod.gameImage}
-                      alt="Game the mod is from"
-                    ></img>
-                  </a>
+                <div className="gameHolder">
+                  <div className="gameTitle">
+                    <a href={mod.gameHubLink}>
+                      <img className="gameImage" title={mod.gameName} src={mod.gameImage} alt={mod.gameName}></img>
+                    </a>
+                  </div>
                 </div>
               </div>
               <div className="frontInvis">
                 <table className="smallModStatistics">
                   <tbody>
                     <tr>
+                    <td>
+                        <FontAwesomeIcon icon={faEye} className="faM viewsIconM" />
+                      </td>
+                      <td className="smallTableLabel">Views</td>
+                      <td className="smallTableValue">
+                        {String(mod.uniqueVisitorsCount).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
+                      </td>
+                      <td>
+                        {uniqueVisitorsDifference !== 0 ? (
+                          <span
+                            className={`fade ${fade ? 'fade-out' : ''} ${
+                              uniqueVisitorsDifference > 0 ? 'increase' : 'decrease'
+                            }`}
+                          >
+                            {uniqueVisitorsDifference > 0 ? '+' : ''}
+                            {uniqueVisitorsDifference}
+                          </span>
+                        ) : (
+                          <span className="invis">{uniqueVisitorsDifference ? '' : '+0'}</span>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                    <td>
+                        <FontAwesomeIcon icon={faUser} className="faM subsIconM" />
+                      </td>
                       <td className="smallTableLabel">Subscribers</td>
                       <td className="smallTableValue">{String(mod.subscribers).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                       <td>
@@ -796,6 +1078,9 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
+                    <td>
+                        <FontAwesomeIcon icon={faStar} className="faM AwardsIconM" />
+                      </td>
                       <td className="smallTableLabel">Awards</td>
                       <td className="smallTableValue">{String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                       <td>
@@ -814,6 +1099,9 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
+                    <td>
+                      <FontAwesomeIcon icon={faComment} className='faM commentsIconM'/>
+                      </td>
                       <td className="smallTableLabel">Comments</td>
                       <td className="smallTableValue">{String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                       <td>
@@ -832,6 +1120,30 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
+                    <td>
+                      <FontAwesomeIcon icon={faHeart} className='faM favsIconM'/>
+                      </td>
+                      <td className="smallTableLabel">Favorites</td>
+                      <td className="smallTableValue">{String(mod.favorites).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                      <td>
+                        {favoritesDifference !== 0 ? (
+                          <span
+                            className={`fade ${fade ? 'fade-out' : ''} ${
+                              favoritesDifference > 0 ? 'increase' : 'decrease'
+                            }`}
+                          >
+                            {favoritesDifference > 0 ? '+' : ''}
+                            {favoritesDifference}
+                          </span>
+                        ) : (
+                          <span className="invis">{favoritesDifference ? '' : '+0'}</span>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                    <td>
+                      <FontAwesomeIcon icon={faChartSimple} className='faM ratingsIconM'/>
+                    </td>
                       <td className="smallTableLabel">Ratings</td>
                       <td className="smallTableValue">{String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                       <td>
@@ -850,7 +1162,7 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
-                      <td colSpan={3} className="modstars" title="Mod rating">
+                      <td colSpan={4} className="modstars" title="Mod rating">
                         <img src={mod.starsLink} alt="Mod stars rating"></img>
                       </td>
                     </tr>
@@ -895,15 +1207,13 @@ const ModContainer = ({ mods }) => {
                   </div>
                 </div>
 
-                <div className="gameTitle">
-                  <a href={mod.gameHubLink}>
-                    <img
-                      className="gameImage"
-                      title={mod.gameName}
-                      src={mod.gameImage}
-                      alt="Game the mod is from"
-                    ></img>
-                  </a>
+                <div className="gameHolder">
+                  <div className="gameTitle">
+                    <a href={mod.gameHubLink}>
+                      <img className="gameImage" title={mod.gameName} src={mod.gameImage} alt={mod.gameName}></img>
+                    </a>
+                  </div>
+                  <button className="displayGameImages">Show Mod Images</button>
                 </div>
               </div>
             </div>

@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react'
 import '../styles/totalTable.css'
 import starImage from '../images/star.png'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { faStar} from '@fortawesome/free-solid-svg-icons'
+import { faEye} from '@fortawesome/free-solid-svg-icons'
+import { faFolderOpen} from '@fortawesome/free-solid-svg-icons'
+import { faChartSimple} from '@fortawesome/free-solid-svg-icons'
+import { faComments} from '@fortawesome/free-solid-svg-icons'
+
+
 // !! Define the TotalTable component
 const TotalTable = function ({ totals, userData }) {
   // Define state variables using the useState hook
@@ -59,6 +70,9 @@ const TotalTable = function ({ totals, userData }) {
   const [totalDifferenceRatings, prevTotalRatings] = useDifferenceState('ratings')
   const [totalDifferenceComments, prevTotalComments] = useDifferenceState('comments')
   const [totalDifferenceFollowers, prevTotalFollowers] = useDifferenceState('followers', 'userData')
+  const [totalDifferenceFavorites, prevTotalFavorites] = useDifferenceState('favorites')
+  const [totalDifferenceUniqueVisitors, prevTotalUniqueVisitors] = useDifferenceState('uniqueVisitors')
+  const [totalDifferenceCollections, prevTotalCollections] = useDifferenceState('favorites')
 
   // () useEffect hook to update the visibility of the totalsContainer
   useEffect(() => {
@@ -66,9 +80,13 @@ const TotalTable = function ({ totals, userData }) {
   }, [totals])
 
   // () Helper function to render table rows
-  const renderTableRow = (label, value, differenceValue) => {
+  const renderTableRow = (label, value, differenceValue,icon) => {
+    console.log()
     return (
       <tr>
+        <td>
+          {icon}
+        </td>
         <td className="tableLabel">{label}</td>
         <td className="tableValue">{String(value).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
         <td>
@@ -95,29 +113,35 @@ const TotalTable = function ({ totals, userData }) {
           <table className="totalsTable">
             <tbody>
               <tr>
-                <th className="totalsHeader" colSpan={3}>
+                <th className="totalsHeader" colSpan={4}>
                   Total Stats
                 </th>
               </tr>
               <tr>
-                <th className="totalsUserName" colSpan={3}>
+                <th className="totalsUserName" colSpan={4}>
                   <a href={userData.profileUrl}>{userData.username}</a>
                 </th>
               </tr>
               {/* Render rows for different statistics */}
-              {renderTableRow('Mods Released', totals.numMods, totalDifferenceMods)}
-              {renderTableRow('Subscribers', totals.total, totalDifference)}
-              {renderTableRow('Awards', totals.awards, totalDifferenceAwards)}
-              {renderTableRow('Ratings', totals.ratings, totalDifferenceRatings)}
+              {renderTableRow('Mods Released', totals.numMods, totalDifferenceMods,<FontAwesomeIcon icon={faArrowUp} className='fa modsUploadedIcon'/>)}
+              {renderTableRow('Visitors', totals.uniqueVisitors, totalDifferenceUniqueVisitors,<FontAwesomeIcon icon={faEye} className='fa viewsIcon'/>)}
+              {renderTableRow('Subscribers', totals.total, totalDifference,<FontAwesomeIcon icon={faUser} className='fa subsIcon'/>)}
+              {renderTableRow('Awards', totals.awards, totalDifferenceAwards,<FontAwesomeIcon icon={faStar} className='fa awardsIcon'/>)}
+              {renderTableRow('Favorites', totals.favorites, totalDifferenceFavorites,<FontAwesomeIcon icon={faHeart} className='fa favsIcon'/>)}
+              {renderTableRow('Collections', totals.collections, totalDifferenceCollections,<FontAwesomeIcon icon={faFolderOpen} className='fa collectionsIcon'/>)}
+              {renderTableRow('Ratings', totals.ratings, totalDifferenceRatings,<FontAwesomeIcon icon={faStar} className='fa ratingsIcon'/>)}
               <tr>
+                <td>
+                <FontAwesomeIcon icon={faChartSimple} className='fa ratingsIcon'/>
+                </td>
                 <td className="tableLabel">Avg Rating</td>
                 <td className="tableValue avgTd">
                   <span className="starAverage">{totals.avgStar}</span>
                   <img src={starImage} className="averageStarImage" alt="Star" />
                 </td>
               </tr>
-              {renderTableRow('Comments', totals.comments, totalDifferenceComments)}
-              {renderTableRow('Followers', userData.followers, totalDifferenceFollowers)}
+              {renderTableRow('Comments', totals.comments, totalDifferenceComments,<FontAwesomeIcon icon={faComments} className='fa commentsIcon'/>)}
+              {renderTableRow('Followers', userData.followers, totalDifferenceFollowers,<FontAwesomeIcon icon={faUser} className='fa subsIcon'/>)}
             </tbody>
           </table>
         </div>
