@@ -19,8 +19,6 @@
   max-width: 600px;
 }
 
-
-
 .totalsHeader {
   padding: 1em 0;
   border-bottom: 1px solid #000;
@@ -99,58 +97,59 @@
   visibility: hidden;
 }
 
-
-.test{
-  color:#fff
+.test {
+  color: #fff;
 }
 
-.fa{
+.fa {
   color: var(--body-color);
-  font-size:1.15em;
+  font-size: 1.15em;
   filter: drop-shadow(2px 2px 0 #000000);
   vertical-align: middle;
 }
 
 .modsUploadedIcon,
-.subsIcon{
-  color:var(--light-green);
+.subsIcon {
+  color: var(--light-green);
   filter: drop-shadow(2px 2px 0 #000000);
 }
 
-.ratingsIcon{
-  color:var(--light-green);
+.ratingsIcon {
+  color: var(--light-green);
   filter: drop-shadow(2px 2px 0 #000000);
 }
 
-.awardsIcon{
+.awardsIcon {
   color: #fff700;
   filter: drop-shadow(2px 2px 0 #000000);
 }
 
-.totalsTable td{
+.totalsTable td {
   height: 2.25em;
+  transition: all 0.2s ease;
 }
 
+.totalsTable tr:hover td:not(:nth-child(4)) {
+  background: #29294e;
+}
 
-
-.favsIcon{
-  color: #fb3737
+.favsIcon {
+  color: #fb3737;
 }
 
 .totalsTable td {
   padding: 0.25em;
 }
 
-.totalsTable td:first-child{
-  padding-left: .75em;
-  max-width:35px;
+.totalsTable td:first-child {
+  padding-left: 0.75em;
+  max-width: 35px;
   text-align: center;
 }
 
 .totalsTable td:nth-child(2) {
-  padding-left: .45em;
+  padding-left: 0.45em;
 }
-
 
 .totalsTable td:nth-child(3) {
   padding-right: 1em;
@@ -161,6 +160,5 @@
   color: var(--body-color);
 }
 
-.fa{
-  
+.fa {
 }
