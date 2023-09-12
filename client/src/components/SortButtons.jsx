@@ -1,9 +1,22 @@
 import { useState, useEffect, useRef } from 'react'
 import '../styles/sortButtons.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGear } from '@fortawesome/free-solid-svg-icons'
 
-const SortButtons = ({ mods, sortBy, sortOrder, handleSortButtonClick, setSelectedGame, selectedGame }) => {
+const SortButtons = ({
+  mods,
+  sortBy,
+  sortOrder,
+  handleSortButtonClick,
+  setSelectedGame,
+  selectedGame,
+  showModImages,
+  setShowModImages,
+}) => {
   const [dropdown, setDropdown] = useState(false)
   const [showGameButton, setShowGameButton] = useState(false)
+  const [dropDownGear, setDropDownGear] = useState(false)
+  const [showImages, setShowImages] = useState(true)
   const ref = useRef()
   let uniqueGameNames = new Set() // Use a Set to store unique game names
 
@@ -63,7 +76,6 @@ const SortButtons = ({ mods, sortBy, sortOrder, handleSortButtonClick, setSelect
         {sortBy === 'subscribers' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
       </button>
 
-
       <button
         className={`sortBy-views ${sortBy === 'uniqueVisitorsCount' ? 'active' : ''}`}
         onClick={() => handleSortButtonClick('uniqueVisitorsCount')}
@@ -72,9 +84,6 @@ const SortButtons = ({ mods, sortBy, sortOrder, handleSortButtonClick, setSelect
         Views
         {sortBy === 'uniqueVisitorsCount' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
       </button>
-
-
-
 
       <button
         className={`sortBy-awards ${sortBy === 'awards' ? 'active' : ''}`}
@@ -92,10 +101,6 @@ const SortButtons = ({ mods, sortBy, sortOrder, handleSortButtonClick, setSelect
         Favorites
         {sortBy === 'favorites' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
       </button>
-
-
-
-
 
       <button
         className={`sortBy-comments ${sortBy === 'comments' ? 'active' : ''}`}
@@ -136,6 +141,27 @@ const SortButtons = ({ mods, sortBy, sortOrder, handleSortButtonClick, setSelect
           </ul>
         </div>
       )}
+      <div className="settingsHolder">
+        <button
+          className={`settingsButton ${showModImages === true ? 'active' : ''}`}
+          onClick={() => {
+            setDropDownGear((prev) => !prev)
+          }}
+          title="Settings"
+        >
+          <FontAwesomeIcon icon={faGear} className="fa gearIcon" />
+        </button>
+        {dropDownGear && (
+          <ul>
+            <li
+              onClick={() => {
+                setShowImages((prev) => !prev)
+                setShowModImages(!showModImages)
+              }}
+            >{`${showImages === true ? 'Hide Mod Images' : 'Show Mod Images'}`}</li>
+          </ul>
+        )}
+      </div>
     </div>
   )
 }

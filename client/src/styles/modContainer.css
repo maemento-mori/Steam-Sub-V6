@@ -12,9 +12,8 @@
   border-radius: calc(0.1 * 100px);
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4), inset 3px 3px 6px rgba(255, 255, 255, 0.1),
     inset 0 0 22px rgba(23, 23, 23, 0.85);
-    height:fit-content;
+  height: fit-content;
 }
-
 
 .modImage {
   height: 200px;
@@ -33,7 +32,6 @@
   justify-content: center;
 }
 
-
 .tableValue,
 .smallTableValue {
   text-align: right;
@@ -42,18 +40,17 @@
 .flip3D {
   position: relative;
   width: 100%;
-  
 }
 
-.flip3D  > .front{
-height:fit-content!important;
+.flip3D > .front {
+  height: fit-content !important;
 }
 
 .flip3D > .front {
   position: absolute;
   transform: perspective(600px) rotateY(0deg);
   backface-visibility: hidden;
-  transition: transform 0.5s linear 0s;
+  transition: transform 0.3s linear 0s;
   width: 100%;
 }
 
@@ -61,7 +58,7 @@ height:fit-content!important;
   position: absolute;
   transform: perspective(600px) rotateY(180deg);
   backface-visibility: hidden;
-  transition: transform 0.5s linear 0s;
+  transition: transform 0.3s linear 0s;
   width: 100%;
 }
 
@@ -151,8 +148,6 @@ height:fit-content!important;
 .smallTableValue.backTable {
   white-space: nowrap;
 }
-
-
 
 .modContainer {
   display: flex;
@@ -280,65 +275,63 @@ height:fit-content!important;
   min-width: 20px;
 }
 
-
-.hideGames{
+.hideGames {
   color: #fff;
   font-weight: bold;
   font-size: 2em;
   position: absolute;
   top: 0;
   right: 0.65em;
-  line-height: .75em;
+  line-height: 0.75em;
   text-shadow: 0.04em 0.04em #000, -0.015em -0.015em #000;
   letter-spacing: -2px;
   background: transparent;
-  border:none;
+  border: none;
 }
 
-.hideGames:hover{
+.hideGames:hover {
   cursor: pointer;
 }
 
-.gameTitle{
+.gameTitle {
   z-index: 100;
   position: relative;
 }
 
-.displayGameImages{
+.displayGameImages {
   z-index: 1;
   display: none;
-  margin-bottom:7.5px;
-  padding: .5em 1em;
-  border-radius: calc(.1 * 50px);
-  background-color: rgba( 0, 0, 0, 0.4 );
-  color:#939393;
-  font-weight:bold;
-  transition: all .3s ease;
+  margin-bottom: 7.5px;
+  padding: 0.5em 1em;
+  border-radius: calc(0.1 * 50px);
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #939393;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
-.displayGameImages:hover{
+.displayGameImages:hover {
   cursor: pointer;
   background-color: var(--light-green);
   color: #fff;
-  box-shadow: 3px 3px 6px rgba( 0, 0, 0, 0.4 );
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
   text-shadow: 0.05em 0.05em #000;
 }
 
-.gameHolder{
+.gameHolder {
   display: flex;
   justify-content: center;
 }
 
-.smallModStatistics td:first-child .faM{
-  padding-left:3.5px;
+.smallModStatistics td:first-child .faM {
+  padding-left: 3.5px;
 }
 
-.smallModStatistics td:first-child{
+.smallModStatistics td:first-child {
   max-width: 20px;
   text-align: center;
   vertical-align: middle;
-  padding-left:5px;
-  
+  padding-left: 5px;
 }
 
 .smallTableValue {
@@ -346,52 +339,67 @@ height:fit-content!important;
   color: var(--light-green);
   font-weight: bold;
   text-shadow: 0.04em 0.04em #000;
-  font-size:.9em;
+  font-size: 0.9em;
 }
 
 .smallTableLabel {
-  padding-left: .65em;
+  padding-left: 0.65em;
   color: var(--body-color);
   text-shadow: 0.04em 0.04em #000;
   height: 1.35em;
-  font-size:.9em;
+  font-size: 0.9em;
 }
 
-.modstars{
-  padding-left: 0!important;
+.modstars {
+  padding-left: 0 !important;
 }
 
-.faM{
+.faM {
   filter: drop-shadow(2px 2px 0 #000000);
 }
 
 .viewsIconM,
-.commentsIconM{
-  color: var(--body-color)
+.commentsIconM {
+  color: var(--body-color);
 }
 
 .subsIconM,
-.ratingsIconM{
-  color: var(--light-green)
+.ratingsIconM {
+  color: var(--light-green);
 }
 
-.AwardsIconM{
+.AwardsIconM {
   color: #fff700;
   filter: drop-shadow(2px 2px 0 #000000);
 }
 
-.smallModStatistics td{
-  height:1.5em;
+.smallModStatistics td {
+  height: 1.5em;
 }
-.favsIconM{
-  color: #fb3737
+.favsIconM {
+  color: #fb3737;
 }
 
-.smallModStatistics tr:hover td:not(:last-child){
+.smallModStatistics tr:hover td:not(:last-child) {
   background: var(--dark-back);
-  border-color:var(--dark-back);
+  border-color: var(--dark-back);
   border-right: 3px solid;
   border-color: var(--dark-back);
-  border-collapse: collapse!important;
+  border-collapse: collapse !important;
 }
-
+.settingsHolder {
+  position: relative;
+}
+.settingsHolder ul {
+  position: absolute;
+  right: 0;
+  top: 58px;
+  left: auto;
+  box-shadow: 0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16);
+  font-size: 0.875rem;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  list-style: none;
+  background-color: #fff;
+  border-radius: 0 0 4px 4px;
+}

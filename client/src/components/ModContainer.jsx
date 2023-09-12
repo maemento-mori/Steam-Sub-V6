@@ -43,6 +43,8 @@ const ModContainer = ({ mods }) => {
   const [sortBy, setSortBy] = useState('subscribers') // State for sorting criteria
   const [selectedGame, setSelectedGame] = useState(null) // State to store the selected game
 
+  const [showModImages, setShowModImages] = useState(true)
+
   const updateDifferences = (modIndex, newValue, oldValue, valueKey) => {
     if (oldValue !== undefined) {
       if (newValue !== oldValue) {
@@ -175,16 +177,22 @@ const ModContainer = ({ mods }) => {
       el.children[0].style.transform = 'perspective(600px) rotateY(180deg)'
       el.children[1].style.transform = 'perspective(600px) rotateY(0deg)'
       el.setAttribute('flipped', 'false')
-      let frontHeight = $(".frontInvis").outerHeight()
-      $(closestModAvail).find(".flip3D").animate({ height: frontHeight })
-      // $(closestModAvail).animate({ height: '-=' + difference })
+      $(closestModAvail).find('.frontInvis').css('position', 'relative')
+      $(closestModAvail).find('.front').css('position', 'absolute')
+      $(closestModAvail).find('.back').css('position', 'absolute')
+      // let frontHeight = $(".frontInvis").outerHeight()
+      // $(closestModAvail).find(".flip3D").animate({ height: frontHeight })
+      // // $(closestModAvail).animate({ height: '-=' + difference })
     } else {
       el.children[0].style.transform = 'perspective(600px) rotateY(0deg)'
       el.children[1].style.transform = 'perspective(600px) rotateY(-180deg)'
       el.setAttribute('flipped', 'true')
-      let backHeight = $(".back").outerHeight()
-      $(closestModAvail).find(".flip3D").animate({ height: backHeight })
-      // $(closestModAvail).animate({ height: '+=' + difference })
+      $(closestModAvail).find('.back').css('position', 'relative')
+      $(closestModAvail).find('.frontInvis').css('position', 'absolute')
+      $(closestModAvail).find('.front').css('position', 'absolute')
+      // let backHeight = $(".back").outerHeight()
+      // $(closestModAvail).find(".flip3D").animate({ height: backHeight })
+      // // $(closestModAvail).animate({ height: '+=' + difference })
     }
   }
 
@@ -194,16 +202,22 @@ const ModContainer = ({ mods }) => {
       el.children[0].style.transform = 'perspective(600px) rotateY(180deg)'
       el.children[1].style.transform = 'perspective(600px) rotateY(0deg)'
       el.setAttribute('flipped', 'false')
-      let frontHeight = $(".frontInvis").outerHeight()
-      $(closestModAvail).find(".flip3D").animate({ height: frontHeight })
-      // $(closestModAvail).animate({ height: '-=' + difference })
+      $(closestModAvail).find('.frontInvis').css('position', 'relative')
+      $(closestModAvail).find('.front').css('position', 'absolute')
+      $(closestModAvail).find('.back').css('position', 'absolute')
+      // let frontHeight = $(".frontInvis").outerHeight()
+      // $(closestModAvail).find(".flip3D").animate({ height: frontHeight })
+      // // $(closestModAvail).animate({ height: '-=' + difference })
     } else {
       el.children[0].style.transform = 'perspective(600px) rotateY(0deg)'
       el.children[1].style.transform = 'perspective(600px) rotateY(-180deg)'
       el.setAttribute('flipped', 'true')
-      let backHeight = $(".back").outerHeight()
-      $(closestModAvail).find(".flip3D").animate({ height: backHeight })
-      // $(closestModAvail).animate({ height: '+=' + difference })
+      $(closestModAvail).find('.back').css('position', 'relative')
+      $(closestModAvail).find('.frontInvis').css('position', 'absolute')
+      $(closestModAvail).find('.front').css('position', 'absolute')
+      // let backHeight = $(".back").outerHeight()
+      // $(closestModAvail).find(".flip3D").animate({ height: backHeight })
+      // // $(closestModAvail).animate({ height: '+=' + difference })
     }
   }
 
@@ -555,24 +569,26 @@ const ModContainer = ({ mods }) => {
                     </div>
                   </div>
 
-                  <div className="gameTitle">
-                    <a href={mod.gameHubLink}>
-                      <img
-                        className="gameImage"
-                        title={mod.gameName}
-                        src={mod.gameImage}
-                        alt="Game the mod is from"
-                      ></img>
-                    </a>
-                  </div>
+                  {showModImages && (
+                    <div className="gameTitle">
+                      <a href={mod.gameHubLink}>
+                        <img
+                          className="gameImage"
+                          title={mod.gameName}
+                          src={mod.gameImage}
+                          alt="Game the mod is from"
+                        ></img>
+                      </a>
+                    </div>
+                  )}
                 </div>
                 <div className="frontInvis">
                   <table className="smallModStatistics">
                     <tbody>
                       <tr>
-                      <td>
-                        <FontAwesomeIcon icon={faEye} className="faM viewsIconM" />
-                      </td>
+                        <td>
+                          <FontAwesomeIcon icon={faEye} className="faM viewsIconM" />
+                        </td>
                         <td className="smallTableLabel">Views</td>
                         <td className="smallTableValue">
                           {String(mod.uniqueVisitorsCount).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
@@ -616,9 +632,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
-                      <td>
-                        <FontAwesomeIcon icon={faStar} className="faM AwardsIconM" />
-                      </td>
+                        <td>
+                          <FontAwesomeIcon icon={faStar} className="faM AwardsIconM" />
+                        </td>
                         <td className="smallTableLabel">Awards</td>
                         <td className="smallTableValue">{String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -637,9 +653,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
-                      <td>
-                      <FontAwesomeIcon icon={faComment} className='faM commentsIconM'/>
-                      </td>
+                        <td>
+                          <FontAwesomeIcon icon={faComment} className="faM commentsIconM" />
+                        </td>
                         <td className="smallTableLabel">Comments</td>
                         <td className="smallTableValue">{String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -658,9 +674,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
-                      <td>
-                      <FontAwesomeIcon icon={faHeart} className='faM favsIconM'/>
-                      </td>
+                        <td>
+                          <FontAwesomeIcon icon={faHeart} className="faM favsIconM" />
+                        </td>
                         <td className="smallTableLabel">Favorites</td>
                         <td className="smallTableValue">{String(mod.favorites).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -679,9 +695,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
-                      <td>
-                      <FontAwesomeIcon icon={faChartSimple} className='faM ratingsIconM'/>
-                    </td>
+                        <td>
+                          <FontAwesomeIcon icon={faChartSimple} className="faM ratingsIconM" />
+                        </td>
                         <td className="smallTableLabel">Ratings</td>
                         <td className="smallTableValue">{String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -745,16 +761,18 @@ const ModContainer = ({ mods }) => {
                     </div>
                   </div>
 
-                  <div className="gameTitle">
-                    <a href={mod.gameHubLink}>
-                      <img
-                        className="gameImage"
-                        title={mod.gameName}
-                        src={mod.gameImage}
-                        alt="Game the mod is from"
-                      ></img>
-                    </a>
-                  </div>
+                  {showModImages && (
+                    <div className="gameTitle">
+                      <a href={mod.gameHubLink}>
+                        <img
+                          className="gameImage"
+                          title={mod.gameName}
+                          src={mod.gameImage}
+                          alt="Game the mod is from"
+                        ></img>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -894,7 +912,7 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
-                    <td>
+                      <td>
                         <FontAwesomeIcon icon={faStar} className="faM AwardsIconM" />
                       </td>
                       <td className="smallTableLabel">Awards</td>
@@ -916,7 +934,7 @@ const ModContainer = ({ mods }) => {
                     </tr>
                     <tr>
                       <td>
-                      <FontAwesomeIcon icon={faComment} className='faM commentsIconM'/>
+                        <FontAwesomeIcon icon={faComment} className="faM commentsIconM" />
                       </td>
                       <td className="smallTableLabel">Comments</td>
                       <td className="smallTableValue">{String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
@@ -937,7 +955,7 @@ const ModContainer = ({ mods }) => {
                     </tr>
                     <tr>
                       <td>
-                      <FontAwesomeIcon icon={faHeart} className='faM favsIconM'/>
+                        <FontAwesomeIcon icon={faHeart} className="faM favsIconM" />
                       </td>
                       <td className="smallTableLabel">Favorites</td>
                       <td className="smallTableValue">{String(mod.favorites).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
@@ -957,9 +975,9 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
-                    <td>
-                      <FontAwesomeIcon icon={faChartSimple} className='faM ratingsIconM'/>
-                    </td>
+                      <td>
+                        <FontAwesomeIcon icon={faChartSimple} className="faM ratingsIconM" />
+                      </td>
                       <td className="smallTableLabel">Ratings</td>
                       <td className="smallTableValue">{String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                       <td>
@@ -1022,19 +1040,24 @@ const ModContainer = ({ mods }) => {
                   </div>
                 </div>
 
-                <div className="gameHolder">
+                {showModImages && (
                   <div className="gameTitle">
                     <a href={mod.gameHubLink}>
-                      <img className="gameImage" title={mod.gameName} src={mod.gameImage} alt={mod.gameName}></img>
+                      <img
+                        className="gameImage"
+                        title={mod.gameName}
+                        src={mod.gameImage}
+                        alt="Game the mod is from"
+                      ></img>
                     </a>
                   </div>
-                </div>
+                )}
               </div>
               <div className="frontInvis">
                 <table className="smallModStatistics">
                   <tbody>
                     <tr>
-                    <td>
+                      <td>
                         <FontAwesomeIcon icon={faEye} className="faM viewsIconM" />
                       </td>
                       <td className="smallTableLabel">Views</td>
@@ -1057,7 +1080,7 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
-                    <td>
+                      <td>
                         <FontAwesomeIcon icon={faUser} className="faM subsIconM" />
                       </td>
                       <td className="smallTableLabel">Subscribers</td>
@@ -1078,7 +1101,7 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
-                    <td>
+                      <td>
                         <FontAwesomeIcon icon={faStar} className="faM AwardsIconM" />
                       </td>
                       <td className="smallTableLabel">Awards</td>
@@ -1099,8 +1122,8 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
-                    <td>
-                      <FontAwesomeIcon icon={faComment} className='faM commentsIconM'/>
+                      <td>
+                        <FontAwesomeIcon icon={faComment} className="faM commentsIconM" />
                       </td>
                       <td className="smallTableLabel">Comments</td>
                       <td className="smallTableValue">{String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
@@ -1120,8 +1143,8 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
-                    <td>
-                      <FontAwesomeIcon icon={faHeart} className='faM favsIconM'/>
+                      <td>
+                        <FontAwesomeIcon icon={faHeart} className="faM favsIconM" />
                       </td>
                       <td className="smallTableLabel">Favorites</td>
                       <td className="smallTableValue">{String(mod.favorites).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
@@ -1141,9 +1164,9 @@ const ModContainer = ({ mods }) => {
                       </td>
                     </tr>
                     <tr>
-                    <td>
-                      <FontAwesomeIcon icon={faChartSimple} className='faM ratingsIconM'/>
-                    </td>
+                      <td>
+                        <FontAwesomeIcon icon={faChartSimple} className="faM ratingsIconM" />
+                      </td>
                       <td className="smallTableLabel">Ratings</td>
                       <td className="smallTableValue">{String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                       <td>
@@ -1207,14 +1230,18 @@ const ModContainer = ({ mods }) => {
                   </div>
                 </div>
 
-                <div className="gameHolder">
+                {showModImages && (
                   <div className="gameTitle">
                     <a href={mod.gameHubLink}>
-                      <img className="gameImage" title={mod.gameName} src={mod.gameImage} alt={mod.gameName}></img>
+                      <img
+                        className="gameImage"
+                        title={mod.gameName}
+                        src={mod.gameImage}
+                        alt="Game the mod is from"
+                      ></img>
                     </a>
                   </div>
-                  <button className="displayGameImages">Show Mod Images</button>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -1236,6 +1263,8 @@ const ModContainer = ({ mods }) => {
               handleSortButtonClick={handleSortButtonClick}
               setSelectedGame={setSelectedGame} // Pass the function
               selectedGame={selectedGame}
+              showModImages={showModImages}
+              setShowModImages={setShowModImages}
             />
 
             <div className="modContainer">{arrayModItems}</div>

@@ -65,7 +65,7 @@
   background-color: #77b55a;
   border: none;
   color: #fff;
-  box-shadow: 3px 3px 6px rgba(0,0,0,0.4), inset 3px 3px 15px rgba(42, 81, 22, 0.75)!important;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4), inset 3px 3px 15px rgba(42, 81, 22, 0.75) !important;
 }
 
 .sortButtonsContainer {
@@ -186,3 +186,30 @@
   text-shadow: 0.04em 0.04em #000;
 }
 
+.settingsHolder {
+  position: relative;
+}
+.settingsHolder ul {
+  position: absolute;
+  right: 0;
+  top: 58px;
+  left: auto;
+  box-shadow: 0 10px 15px -3px rgba(46, 41, 51, 0.08), 0 4px 6px -2px rgba(71, 63, 79, 0.16);
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  list-style: none;
+  background: #3a6428;
+  border-top: 1px solid var(--dark-back);
+  border-radius: 0 0 4px 4px;
+  z-index: 100;
+}
+
+.settingsHolder ul li {
+  padding: 0.5em 0;
+  padding-left: 1em;
+  color: var(--body-color);
+  font-weight: bold;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  cursor: pointer;
+}
