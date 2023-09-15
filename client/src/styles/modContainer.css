@@ -156,6 +156,10 @@
   text-align: left !important;
 }
 
+.smallTableIcon.backTable {
+  width: 100%;
+}
+
 .smallModStatistics tr:hover td.backTable {
   background: var(--dark-back);
   border-color: var(--dark-back);
@@ -342,7 +346,7 @@
   padding-left: 3.5px;
 }
 
-.smallModStatistics td:first-child {
+.smallModStatistics tr td:first-child {
   max-width: 20px;
   text-align: center;
   vertical-align: middle;
@@ -405,4 +409,32 @@
 
 .shareButtonText {
   pointer-events: none;
+}
+
+.faB.cloudArrowUpB {
+  color: #fff;
+}
+
+.faB.squareArrowUpRightB {
+  color: var(--light-green);
+  font-size: 1.25em;
+}
+
+.faB.fileLinesB {
+  color: #fff;
+  font-size: 1.1em;
+}
+
+.faB.FolderOpenB {
+  font-size: 1.15em;
+  color: #fff;
+}
+
+.faB {
+  filter: drop-shadow(2px 2px 0 #000000);
+}
+
+.player-text {
+  background-color: rgba(0, 0, 0, 0.45);
+  border-radius: calc(0.1 * 100px);
 }

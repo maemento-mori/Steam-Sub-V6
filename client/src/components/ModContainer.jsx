@@ -13,6 +13,9 @@ import { faFolderOpen } from '@fortawesome/free-solid-svg-icons'
 import { faChartSimple } from '@fortawesome/free-solid-svg-icons'
 import { faComments } from '@fortawesome/free-solid-svg-icons'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
+import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { faSquareArrowUpRight } from '@fortawesome/free-solid-svg-icons'
+import { faFileLines } from '@fortawesome/free-solid-svg-icons'
 
 // const element =
 
@@ -93,6 +96,7 @@ const ModContainer = ({ mods, submit, setSubmit }) => {
   useEffect(() => {
     if (submit === true) {
       setSelectedGame(null)
+      setSortBy('subscribers')
       setSubmit(false)
     }
     const newSubscribers = {}
@@ -354,20 +358,38 @@ const ModContainer = ({ mods, submit, setSubmit }) => {
                   <table className="smallModStatistics">
                     <tbody>
                       <tr>
+                        <td>
+                          <FontAwesomeIcon
+                            icon={faCloudArrowUp}
+                            className="faB cloudArrowUpB smallTableIcon backTable"
+                          />
+                        </td>
                         <td className="smallTableLabel backTable">Uploaded</td>
                         <td className="smallTableValue backTable">{mod.uploadDate}</td>
                       </tr>
 
                       <tr>
+                        <td>
+                          <FontAwesomeIcon
+                            icon={faSquareArrowUpRight}
+                            className="faB squareArrowUpRightB smallTableIcon backTable"
+                          />
+                        </td>
                         <td className="smallTableLabel backTable">Updated</td>
                         <td className="smallTableValue backTable">{mod.updateDate}</td>
                       </tr>
 
                       <tr className="filesizeRow">
+                        <td>
+                          <FontAwesomeIcon icon={faFileLines} className="faB fileLinesB smallTableIcon backTable" />
+                        </td>
                         <td className="smallTableLabel backTable">Filesize</td>
                         <td className="smallTableValue backTable">{mod.fileSize}</td>
                       </tr>
                       <tr>
+                        <td>
+                          <FontAwesomeIcon icon={faFolderOpen} className="faB FolderOpenB smallTableIcon backTable" />
+                        </td>
                         <td className="smallTableLabel backTable">Collections</td>
                         <td className="smallTableValue backTable">
                           {String(mod.collections).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
@@ -831,20 +853,35 @@ const ModContainer = ({ mods, submit, setSubmit }) => {
                 <table className="smallModStatistics">
                   <tbody>
                     <tr>
+                      <td>
+                        <FontAwesomeIcon icon={faCloudArrowUp} className="faB cloudArrowUpB smallTableIcon backTable" />
+                      </td>
                       <td className="smallTableLabel backTable">Uploaded</td>
                       <td className="smallTableValue backTable">{mod.uploadDate}</td>
                     </tr>
 
                     <tr>
+                      <td>
+                        <FontAwesomeIcon
+                          icon={faSquareArrowUpRight}
+                          className="faB squareArrowUpRightB smallTableIcon backTable"
+                        />
+                      </td>
                       <td className="smallTableLabel backTable">Updated</td>
                       <td className="smallTableValue backTable">{mod.updateDate}</td>
                     </tr>
 
                     <tr className="filesizeRow">
+                      <td>
+                        <FontAwesomeIcon icon={faFileLines} className="faB fileLinesB smallTableIcon backTable" />
+                      </td>
                       <td className="smallTableLabel backTable">Filesize</td>
                       <td className="smallTableValue backTable">{mod.fileSize}</td>
                     </tr>
                     <tr>
+                      <td>
+                        <FontAwesomeIcon icon={faFolderOpen} className="faB FolderOpenB smallTableIcon backTable" />
+                      </td>
                       <td className="smallTableLabel backTable">Collections</td>
                       <td className="smallTableValue backTable">
                         {String(mod.collections).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
