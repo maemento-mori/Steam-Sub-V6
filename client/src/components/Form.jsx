@@ -15,6 +15,7 @@ class Form extends Component {
       showLoading: false,
       loadingText: 'Loading',
       fetchDataIntervalId: null,
+      setSelectedGameReset: false,
     }
   }
 
@@ -67,6 +68,8 @@ class Form extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+
+    this.props.submit(true)
 
     if (this.state.fetchDataIntervalId) {
       clearInterval(this.state.fetchDataIntervalId)

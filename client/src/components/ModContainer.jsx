@@ -16,7 +16,7 @@ import { faComment } from '@fortawesome/free-solid-svg-icons'
 
 // const element =
 
-const ModContainer = ({ mods }) => {
+const ModContainer = ({ mods, submit, setSubmit }) => {
   // const [prevSubscribers, setPrevSubscribers] = useState({});
   const [differences, setDifferences] = useState({})
   const [showMods, setShowMods] = useState(false)
@@ -91,6 +91,10 @@ const ModContainer = ({ mods }) => {
   }
 
   useEffect(() => {
+    if (submit === true) {
+      setSelectedGame(null)
+      setSubmit(false)
+    }
     const newSubscribers = {}
     const newAwards = {}
     const newComments = {}

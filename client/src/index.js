@@ -17,20 +17,26 @@ function App() {
   const [userData, setUserData] = useState({})
   const [totalStats, setTotalStats] = useState({})
   const [profileData, setProfileData] = useState({})
-
+  const [submit, setSubmit] = useState(false)
   // ...
 
   return (
     <>
-      <Form mods={setModList} userData={setUserData} totalStats={setTotalStats} profileData={setProfileData} />
+      <Form
+        mods={setModList}
+        userData={setUserData}
+        totalStats={setTotalStats}
+        profileData={setProfileData}
+        submit={setSubmit}
+      />
       <div className="topContainer">
         <Profile userData={userData} profileData={profileData} />
-        <div className='topStats'>
+        <div className="topStats">
           <Featured totals={totalStats} />
           <TotalTable totals={totalStats} userData={userData} />
         </div>
       </div>
-      <ModContainer mods={modList} />
+      <ModContainer mods={modList} submit={submit} setSubmit={setSubmit} />
     </>
   )
 }
