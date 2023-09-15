@@ -212,4 +212,15 @@
   transition: all 0.3s ease;
   font-size: 1rem;
   cursor: pointer;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.settingsHolder ul li span:first-child {
+  padding-left: 0.5em;
+  margin-right: 0.75em;
+}
+
+.settingsHolder ul li span:nth-child(2) {
+  padding-right: 1.25em;
 }

@@ -147,6 +147,21 @@
 
 .smallTableValue.backTable {
   white-space: nowrap;
+  max-width: 60%;
+}
+
+.smallTableLabel.backTable {
+  white-space: nowrap;
+  width: 40%;
+  text-align: left !important;
+}
+
+.smallModStatistics tr:hover td.backTable {
+  background: var(--dark-back);
+  border-color: var(--dark-back);
+  border-right: 3px solid;
+  border-color: var(--dark-back);
+  border-collapse: collapse !important;
 }
 
 .modContainer {
@@ -386,4 +401,8 @@
   border-right: 3px solid;
   border-color: var(--dark-back);
   border-collapse: collapse !important;
+}
+
+.shareButtonText {
+  pointer-events: none;
 }

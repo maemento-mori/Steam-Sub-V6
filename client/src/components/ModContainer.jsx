@@ -236,21 +236,10 @@ const ModContainer = ({ mods }) => {
     }
   }
 
-  // const handleHideGamesButtonClick = (event) => {
-  //   $('.gameTitle').fadeOut('slow', () => {
-  //     $('.displayGameImages').fadeIn('fast')
-  //   })
-  // }
-
-  // const handleShowGamesButtonClick = (event) => {
-  //   $('.displayGameImages').fadeOut('slow', () => {
-  //     $('.gameTitle').fadeIn('fast')
-  //   })
-  // }
-
   // () Function to sort mods based on the selected criteria
   const sortMods = (criteria) => {
     const modsArray = Object.values(mods)
+    // console.log(criteria)
 
     if (criteria === 'gameName') {
       // Sort by gameName, and then by the specified criteria (e.g., subscribers)
@@ -272,7 +261,9 @@ const ModContainer = ({ mods }) => {
       // Sort by the specified criteria
       modsArray.sort((modA, modB) => {
         const valueA = modA[criteria]
+        console.log(valueA)
         const valueB = modB[criteria]
+        console.log(valueB)
         if (sortOrder === 'asc') {
           return valueA - valueB
         } else {
@@ -286,8 +277,8 @@ const ModContainer = ({ mods }) => {
 
   // Handle click on the sort button for different criteria
   const handleSortButtonClick = (criteria) => {
-    console.log(selectedGame)
-    console.log(criteria)
+    // console.log(selectedGame)
+    // console.log(criteria)
     // Toggle the sorting order if the same criteria is clicked again
     if (sortBy === criteria) {
       const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc'
@@ -320,14 +311,16 @@ const ModContainer = ({ mods }) => {
         const uniqueVisitorsDifference = uniqueVisitorsCountDifferences[modIndex]
         const collectionsDifference = collectionsDifferences[modIndex]
 
-        const handleShareButtonClick = () => {
+        const handleShareButtonClick = (event) => {
           navigator.clipboard.writeText(mod.link)
 
-          $('#shareButtonText').fadeOut(300, function () {
-            $(this).html('Link Copied').fadeIn(300)
+          const buttonText = $(event.target).find('.shareButtonText')
+
+          $(buttonText).fadeOut(300, function () {
+            $(buttonText).html('Link Copied').fadeIn(300)
             setTimeout(() => {
-              $('#shareButtonText').fadeOut(400, function () {
-                $(this).html('Share').fadeIn(400)
+              $(buttonText).fadeOut(400, function () {
+                $(buttonText).html('Share').fadeIn(400)
               })
             }, 2300)
           })
@@ -371,23 +364,9 @@ const ModContainer = ({ mods }) => {
                         <td className="smallTableValue backTable">{mod.fileSize}</td>
                       </tr>
                       <tr>
-                        <td className="smallTableLabel">Collections</td>
-                        <td className="smallTableValue">
+                        <td className="smallTableLabel backTable">Collections</td>
+                        <td className="smallTableValue backTable">
                           {String(mod.collections).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
-                        </td>
-                        <td>
-                          {collectionsDifference !== 0 ? (
-                            <span
-                              className={`fade ${fade ? 'fade-out' : ''} ${
-                                collectionsDifference > 0 ? 'increase' : 'decrease'
-                              }`}
-                            >
-                              {collectionsDifference > 0 ? '+' : ''}
-                              {collectionsDifference}
-                            </span>
-                          ) : (
-                            <span className="invis">{collectionsDifference ? '' : '+0'}</span>
-                          )}
                         </td>
                       </tr>
                     </tbody>
@@ -411,7 +390,7 @@ const ModContainer = ({ mods }) => {
                     <tbody>
                       <tr>
                         <td>
-                          <FontAwesomeIcon icon={faEye} className="fa viewsIcon" />
+                          <FontAwesomeIcon icon={faEye} className="faM viewsIconM" />
                         </td>
                         <td className="smallTableLabel">Views</td>
                         <td className="smallTableValue">
@@ -433,6 +412,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
+                        <td>
+                          <FontAwesomeIcon icon={faUser} className="faM subsIconM" />
+                        </td>
                         <td className="smallTableLabel">Subscribers</td>
                         <td className="smallTableValue">
                           {String(mod.subscribers).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
@@ -453,6 +435,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
+                        <td>
+                          <FontAwesomeIcon icon={faStar} className="faM AwardsIconM" />
+                        </td>
                         <td className="smallTableLabel">Awards</td>
                         <td className="smallTableValue">{String(mod.awards).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -471,6 +456,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
+                        <td>
+                          <FontAwesomeIcon icon={faComment} className="faM commentsIconM" />
+                        </td>
                         <td className="smallTableLabel">Comments</td>
                         <td className="smallTableValue">{String(mod.comments).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -489,6 +477,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
+                        <td>
+                          <FontAwesomeIcon icon={faHeart} className="faM favsIconM" />
+                        </td>
                         <td className="smallTableLabel">Favorites</td>
                         <td className="smallTableValue">{String(mod.favorites).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -507,6 +498,9 @@ const ModContainer = ({ mods }) => {
                         </td>
                       </tr>
                       <tr>
+                        <td>
+                          <FontAwesomeIcon icon={faChartSimple} className="faM ratingsIconM" />
+                        </td>
                         <td className="smallTableLabel">Ratings</td>
                         <td className="smallTableValue">{String(mod.ratings).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
                         <td>
@@ -564,7 +558,7 @@ const ModContainer = ({ mods }) => {
                         title="Copy link to clipboard"
                         key={modIndex}
                       >
-                        <span id="shareButtonText">Share</span>
+                        <span className="shareButtonText">Share</span>
                       </button>
                     </div>
                   </div>
@@ -608,10 +602,10 @@ const ModContainer = ({ mods }) => {
                           )}
                         </td>
                       </tr>
-                      <td>
-                        <FontAwesomeIcon icon={faUser} className="faM subsIconM" />
-                      </td>
                       <tr>
+                        <td>
+                          <FontAwesomeIcon icon={faUser} className="faM subsIconM" />
+                        </td>
                         <td className="smallTableLabel">Subscribers</td>
                         <td className="smallTableValue">
                           {String(mod.subscribers).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
@@ -756,7 +750,7 @@ const ModContainer = ({ mods }) => {
                         title="Copy link to clipboard"
                         key={modIndex}
                       >
-                        <span id="shareButtonText">Share</span>
+                        <span className="shareButtonText">Share</span>
                       </button>
                     </div>
                   </div>
@@ -797,11 +791,13 @@ const ModContainer = ({ mods }) => {
       const handleShareButtonClick = (event) => {
         navigator.clipboard.writeText(mod.link)
 
-        $('#shareButtonText').fadeOut(300, function () {
-          $(this).html('Link Copied').fadeIn(300)
+        const buttonText = $(event.target).find('.shareButtonText')
+
+        $(buttonText).fadeOut(300, function () {
+          $(buttonText).html('Link Copied').fadeIn(300)
           setTimeout(() => {
-            $('#shareButtonText').fadeOut(400, function () {
-              $(this).html('Share').fadeIn(400)
+            $(buttonText).fadeOut(400, function () {
+              $(buttonText).html('Share').fadeIn(400)
             })
           }, 2300)
         })
@@ -845,8 +841,10 @@ const ModContainer = ({ mods }) => {
                       <td className="smallTableValue backTable">{mod.fileSize}</td>
                     </tr>
                     <tr>
-                      <td className="smallTableLabel">Collections</td>
-                      <td className="smallTableValue">{String(mod.collections).replace(/(.)(?=(\d{3})+$)/g, '$1,')}</td>
+                      <td className="smallTableLabel backTable">Collections</td>
+                      <td className="smallTableValue backTable">
+                        {String(mod.collections).replace(/(.)(?=(\d{3})+$)/g, '$1,')}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -1035,7 +1033,7 @@ const ModContainer = ({ mods }) => {
                       title="Copy link to clipboard"
                       key={modIndex}
                     >
-                      <span id="shareButtonText">Share</span>
+                      <span className="shareButtonText">Share</span>
                     </button>
                   </div>
                 </div>
@@ -1225,7 +1223,7 @@ const ModContainer = ({ mods }) => {
                       title="Copy link to clipboard"
                       key={modIndex}
                     >
-                      <span id="shareButtonText">Share</span>
+                      <span className="shareButtonText">Share</span>
                     </button>
                   </div>
                 </div>

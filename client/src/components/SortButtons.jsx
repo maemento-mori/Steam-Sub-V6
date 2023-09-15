@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import '../styles/sortButtons.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear } from '@fortawesome/free-solid-svg-icons'
+import { faImage } from '@fortawesome/free-solid-svg-icons'
 
 const SortButtons = ({
   mods,
@@ -18,6 +19,7 @@ const SortButtons = ({
   const [dropDownGear, setDropDownGear] = useState(false)
   const [showImages, setShowImages] = useState(true)
   const ref = useRef()
+
   let uniqueGameNames = new Set() // Use a Set to store unique game names
 
   if (Object.keys(mods).length > 0) {
@@ -74,6 +76,15 @@ const SortButtons = ({
       >
         Subscribers
         {sortBy === 'subscribers' ? (sortOrder === 'desc' ? ' (Desc)' : ' (Asc)') : ''}
+      </button>
+
+      <button
+        className={`sortBy-upload ${sortBy === 'uploadDateID' ? 'active' : ''}`}
+        onClick={() => handleSortButtonClick('uploadDateID')}
+        title="Sort by Upload Date"
+      >
+        Upload Date
+        {sortBy === 'uploadDateID' ? (sortOrder === 'desc' ? ' (Newest)' : ' (Oldest)') : ''}
       </button>
 
       <button
@@ -158,7 +169,12 @@ const SortButtons = ({
                 setShowImages((prev) => !prev)
                 setShowModImages(!showModImages)
               }}
-            >{`${showImages === true ? 'Hide Mod Images' : 'Show Mod Images'}`}</li>
+            >
+              <span>
+                <FontAwesomeIcon icon={faImage} className="fa viewsIcon" />
+              </span>
+              <span>{`${showImages === true ? 'Hide Mod Images' : 'Show Mod Images'}`}</span>
+            </li>
           </ul>
         )}
       </div>
