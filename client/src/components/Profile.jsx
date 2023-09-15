@@ -25,11 +25,14 @@ const Profile = ({ userData, profileData }) => {
             <img src={profileData.avatar} className="avatar" alt="Player avatar"></img>
           </a>
           <div className="player-text">
-            <h1 className="header-title">
-              <a href={userData.profileUrl} className="player-name" title={`${profileData.userName}'s Steam profile`}>
-                {profileData?.userName}
-              </a>
-            </h1>
+            <div className="header-title-container">
+              <h1 className="header-title">
+                <a href={userData.profileUrl} className="player-name" title={`${profileData.userName}'s Steam profile`}>
+                  {profileData?.userName}
+                </a>
+              </h1>
+            </div>
+
             <ul className="player-info">
               <li>
                 <span className="playerLevelLabel">{profileData.playerLevel ? 'Level ' : ''}</span>
@@ -57,6 +60,9 @@ const Profile = ({ userData, profileData }) => {
                 </button>
               </li>
             </ul>
+            <div className="playerDescContainer">
+              <div className="playerDesc">{profileData.profileDesc}</div>
+            </div>
           </div>
           {showBadge && (
             <div className="favorite_badge">

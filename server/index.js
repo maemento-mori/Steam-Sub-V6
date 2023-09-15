@@ -40,7 +40,7 @@ app.get('/search/:name', async (req, res) => {
     const matches = playerLevelClasses.match(/lvl_\d+/)
     const playerLevelClass = matches[0]
 
-    const realName = $('.header_real_name ellipsis bdi').text()
+    const realName = $('.header_real_name bdi').text()
     const profileDesc = $('.profile_summary').text()
     const favBadgeIcon = $('.favorite_badge_icon').find('img').attr('src')
     const favBadgeDesc = $('.favorite_badge_description')
